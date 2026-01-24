@@ -68,11 +68,14 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0.75rem;
   z-index: 1001;
   transition: opacity 0.2s;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0.3);
+  touch-action: manipulation;
 
-  &:hover {
+  &:hover,
+  &:active {
     opacity: 0.8;
   }
 
@@ -122,11 +125,14 @@
   right: -100%;
   width: 280px;
   height: 100vh;
+  height: 100dvh; // Use dynamic viewport height for mobile browsers
   background-color: $primary-dark;
   transition: right 0.3s ease;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch; // Smooth scrolling on iOS
   padding-top: 80px;
   box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000; // Above the overlay (999)
 
   &.mobile-open {
     right: 0;
@@ -140,6 +146,7 @@
     background-color: transparent;
     padding-top: 0;
     box-shadow: none;
+    z-index: auto;
   }
 }
 
@@ -177,13 +184,15 @@
   text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease;
   position: relative;
   background: none;
   border: none;
   cursor: pointer;
   width: 100%;
   text-align: left;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0.2);
+  touch-action: manipulation; // Improves touch responsiveness
 
   @include tablet {
     padding: 0.75rem 1rem;
@@ -272,7 +281,9 @@
     color: white;
     text-decoration: none;
     font-size: 0.9375rem;
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.2);
+    touch-action: manipulation;
 
     @include tablet {
       color: $text-color;
