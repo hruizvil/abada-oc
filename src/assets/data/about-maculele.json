@@ -1,0 +1,39 @@
+{
+  "title": "MACULELÊ",
+  "heroImage": "/assets/images/about/maculele.jpg",
+  "introduction": "Maculelê is a traditional Afro-Brazilian cultural dance, which has its origin in Africa. It was brought to Brazil by Africans who were brought to Brazil to become slaves.",
+  "sections": [
+    {
+      "id": "origin",
+      "title": "Macuas a lele",
+      "content": "The African tribe Macuas created the Maculelê. Usually the Macuas would attack their enemies in ambushes using just the LELE as weapons."
+    },
+    {
+      "id": "macuas",
+      "title": "Macuas",
+      "content": "Macuas: African Bantu tribe of origin. Originating in the Democratic Republic of Congo and currently located in southern Africa is the largest ethnic group of Mozambique."
+    },
+    {
+      "id": "lele",
+      "title": "Lele",
+      "content": "Lele are sticks used as weapons in battles by the Macuas."
+    },
+    {
+      "id": "brazil",
+      "title": "Maculelê in Brazil",
+      "content": "Coming to Brazil already with the name of Maculelê, it was transformed into a dance by Brazilian Indians along with African remnants, popularized in the state of Bahia by Mestre Popó of Maculelê (Paulino Almeida Andrade) and his folkloric group (Conjunto de Maculele de Santo Amaro da Purificacao)."
+    },
+    {
+      "id": "capoeira",
+      "title": "Connection to Capoeira",
+      "content": "Among capoeiristas the main figure responsible for the dissemination and introduction of maculele was Mestre Bimba."
+    }
+  ],
+  "highlights": [
+    "Traditional Afro-Brazilian cultural dance",
+    "Originated from the African Macuas tribe",
+    "Uses sticks (lele) as ceremonial weapons",
+    "Popularized in Bahia, Brazil",
+    "Integrated into Capoeira by Mestre Bimba"
+  ]
+}

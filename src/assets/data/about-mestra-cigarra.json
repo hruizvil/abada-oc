@@ -1,0 +1,41 @@
+{
+  "title": "MESTRA MARCIA CIGARRA",
+  "fullName": "Márcia Treidler",
+  "nickname": "Cigarra (Dragonfly)",
+  "heroImage": "/assets/images/about/mestra-cigarra.jpg",
+  "role": "Founder of ABADÁ-Capoeira San Francisco",
+  "sections": [
+    {
+      "id": "introduction",
+      "content": "Mestra Márcia \"Cigarra\", born Márcia Treidler, is the founder of ABADÁ-Capoeira San Francisco (\"ACSF\"). In 1982, Mestra Cigarra began studying capoeira under Mestre Camisa in Rio de Janeiro, successfully developing into Mestre Camisa's top female student. There she was given her capoeira nickname of \"Cigarra,\" or \"Dragonfly\" in Portuguese."
+    },
+    {
+      "id": "early-teaching",
+      "title": "Early Teaching",
+      "content": "In 1987, she began to conduct classes for street children, youth, and adults in Rio de Janeiro."
+    },
+    {
+      "id": "usa",
+      "title": "Coming to the United States",
+      "content": "In 1991, Mestra Cigarra moved to the United States to teach capoeira. In 1997, she was granted permanent residency in the United States as an \"Alien with Extraordinary Abilities.\" That same year, Mestra Cigarra founded the ACSF Brazilian Arts Center in San Francisco."
+    },
+    {
+      "id": "achievements",
+      "title": "Achievements",
+      "content": "Mestra Cigarra is one of the top seven capoeiristas out of over 40,000 international ABADÁ-Capoeira members. She is the first female student of Mestre Camisa to be awarded the rank \"Mestra.\" She has gained many honors and international recognition for her work with ACSF. Her achievements have cleared the path for other women to excel in capoeira, which was a male-dominated martial art form for over 300 years."
+    },
+    {
+      "id": "today",
+      "title": "Today",
+      "content": "Her outstanding achievements make her a highly sought-after teacher, an inspirational leader, and an important role model. Today, she continues to oversee and direct all ACSF programs. She also continues to teach internationally across the globe, while remaining as lead instructor for all ACSF adult and teen capoeira classes."
+    }
+  ],
+  "highlights": [
+    "Top 7 capoeirista among 40,000+ ABADÁ members",
+    "First female student to achieve 'Mestra' rank under Mestre Camisa",
+    "Founded ABADÁ-Capoeira San Francisco in 1997",
+    "Granted US residency as 'Alien with Extraordinary Abilities'",
+    "Pioneer for women in Capoeira",
+    "Teaches internationally while leading ACSF programs"
+  ]
+}

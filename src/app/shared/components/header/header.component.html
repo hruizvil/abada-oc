@@ -1,0 +1,84 @@
+<header class="header">
+  <div class="header-container">
+    <!-- Logo -->
+    <div class="header-logo">
+      <a routerLink="/" class="logo-link" (click)="closeMobileMenu()">
+        @if (navigationData(); as nav) {
+          <div class="logo-text">
+            <h1>{{ nav.brand.name }}</h1>
+            <span class="tagline">{{ nav.brand.tagline }}</span>
+          </div>
+        }
+      </a>
+    </div>
+
+    <!-- Mobile Menu Toggle -->
+    <button
+      class="mobile-menu-toggle"
+      (click)="toggleMobileMenu()"
+      [attr.aria-expanded]="isMobileMenuOpen()"
+      [attr.aria-label]="isMobileMenuOpen() ? 'Close menu' : 'Open menu'">
+      <span class="hamburger-icon" [class.open]="isMobileMenuOpen()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+    </button>
+
+    <!-- Navigation -->
+    <nav class="nav-menu" [class.mobile-open]="isMobileMenuOpen()">
+      @if (navigationData(); as nav) {
+        <ul class="nav-list">
+          @for (item of nav.mainMenu; track item.id) {
+            <li
+              class="nav-item"
+              [class.has-dropdown]="item.hasDropdown"
+              (mouseenter)="onMouseEnter(item)"
+              (mouseleave)="onMouseLeave(item)">
+              @if (item.hasDropdown) {
+                <button
+                  class="nav-link dropdown-toggle"
+                  (click)="toggleDropdown(item.id, $event)"
+                  [class.active]="isDropdownOpen(item.id)">
+                  <span>{{ item.label }}</span>
+                  <svg class="dropdown-arrow" [class.open]="isDropdownOpen(item.id)" width="10" height="6" viewBox="0 0 10 6" fill="none">
+                    <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                @if (isDropdownOpen(item.id)) {
+                  <ul class="dropdown-menu">
+                    @for (child of item.children; track child.id) {
+                      <li class="dropdown-item">
+                        <a
+                          [routerLink]="child.route"
+                          routerLinkActive="active"
+                          (click)="closeMobileMenu()"
+                          class="dropdown-link">
+                          {{ child.label }}
+                        </a>
+                      </li>
+                    }
+                  </ul>
+                }
+              } @else {
+                <a
+                  [routerLink]="item.route"
+                  routerLinkActive="active"
+                  [routerLinkActiveOptions]="{exact: item.route === '/'}"
+                  (click)="closeMobileMenu()"
+                  class="nav-link">
+                  <span>{{ item.label }}</span>
+                </a>
+              }
+            </li>
+          }
+        </ul>
+      }
+    </nav>
+
+    <!-- Overlay for mobile menu -->
+    @if (isMobileMenuOpen()) {
+      <div class="menu-overlay" (click)="closeMobileMenu()"></div>
+    }
+  </div>
+</header>

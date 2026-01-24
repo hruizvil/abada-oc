@@ -1,0 +1,352 @@
+@import '../../../../assets/styles/variables';
+
+.header {
+  background-color: $primary-color;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+
+  @include tablet {
+    padding: 1rem 2rem;
+  }
+}
+
+// Logo - Mobile first
+.header-logo {
+  .logo-link {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  .logo-text {
+    h1 {
+      font-size: 1.25rem;
+      margin: 0;
+      font-weight: 700;
+      line-height: 1.2;
+
+      @include tablet {
+        font-size: 1.5rem;
+      }
+    }
+
+    .tagline {
+      display: block;
+      font-size: 0.75rem;
+      opacity: 0.95;
+      font-weight: 400;
+
+      @include tablet {
+        font-size: 0.875rem;
+      }
+    }
+  }
+}
+
+// Mobile menu toggle
+.mobile-menu-toggle {
+  display: flex;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 1001;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  @include tablet {
+    display: none;
+  }
+}
+
+.hamburger-icon {
+  width: 28px;
+  height: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+
+  span {
+    width: 100%;
+    height: 3px;
+    background-color: white;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+  }
+
+  &.open {
+    span:nth-child(1) {
+      transform: translateY(9.5px) rotate(45deg);
+    }
+
+    span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    span:nth-child(3) {
+      transform: translateY(-9.5px) rotate(-45deg);
+    }
+  }
+}
+
+// Navigation - Mobile first
+.nav-menu {
+  // Mobile: Slide-in menu
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 280px;
+  height: 100vh;
+  background-color: $primary-dark;
+  transition: right 0.3s ease;
+  overflow-y: auto;
+  padding-top: 80px;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
+
+  &.mobile-open {
+    right: 0;
+  }
+
+  // Tablet and up: Horizontal menu
+  @include tablet {
+    position: static;
+    width: auto;
+    height: auto;
+    background-color: transparent;
+    padding-top: 0;
+    box-shadow: none;
+  }
+}
+
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 1rem 0;
+
+  @include tablet {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0;
+    align-items: center;
+  }
+
+  @include desktop {
+    gap: 0.5rem;
+  }
+}
+
+.nav-item {
+  position: relative;
+
+  &.has-dropdown {
+    position: relative;
+  }
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+
+  @include tablet {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    width: auto;
+  }
+
+  @include desktop {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9375rem;
+  }
+
+  // Mobile hover/active
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+
+    @include tablet {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  &.active {
+    background-color: rgba(255, 255, 255, 0.15);
+    font-weight: 600;
+
+    @include tablet {
+      background-color: rgba(255, 255, 255, 0.2);
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 1rem;
+        right: 1rem;
+        height: 3px;
+        background-color: white;
+        border-radius: 2px 2px 0 0;
+      }
+    }
+  }
+}
+
+// Dropdown toggle
+.dropdown-toggle {
+  .dropdown-arrow {
+    transition: transform 0.2s ease;
+    margin-left: 0.25rem;
+
+    &.open {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+// Dropdown menu
+.dropdown-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  // Mobile: Accordion style
+  padding-left: 1rem;
+  background-color: rgba(0, 0, 0, 0.1);
+
+  @include tablet {
+    // Desktop: Dropdown panel
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 240px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: 0.5rem 0;
+    padding-left: 0;
+    z-index: 1000;
+    animation: dropdownFade 0.2s ease;
+  }
+}
+
+.dropdown-item {
+  .dropdown-link {
+    display: block;
+    padding: 0.875rem 1.5rem;
+    color: white;
+    text-decoration: none;
+    font-size: 0.9375rem;
+    transition: all 0.2s ease;
+
+    @include tablet {
+      color: $text-color;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.875rem;
+
+      &:hover {
+        background-color: rgba($primary-color, 0.08);
+        color: $primary-color;
+      }
+
+      &.active {
+        background-color: rgba($primary-color, 0.12);
+        color: $primary-color;
+        font-weight: 600;
+      }
+    }
+
+    // Mobile
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Menu overlay (mobile only)
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+
+  @include tablet {
+    display: none;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Accessibility
+.nav-link:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+.mobile-menu-toggle:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.dropdown-link:focus-visible {
+  outline: 2px solid $primary-color;
+  outline-offset: -2px;
+}

@@ -1,0 +1,152 @@
+@if (pageData(); as data) {
+  <div class="about-page" [class]="'about-' + pageType()">
+    <!-- Hero Section -->
+    <section class="about-hero">
+      <div class="container">
+        <h1>{{ data.title }}</h1>
+        @if (data.role) {
+          <p class="role">{{ data.role }}</p>
+        }
+        @if (data.pronunciation) {
+          <p class="pronunciation">({{ data.pronunciation }})</p>
+        }
+      </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="about-content">
+      <div class="container">
+        <!-- Introduction -->
+        @if (data.introduction) {
+          <div class="intro-section">
+            <p class="intro-text">{{ data.introduction }}</p>
+          </div>
+        }
+
+        <!-- Sections -->
+        @if (data.sections) {
+          <div class="sections">
+            @for (section of data.sections; track section.id) {
+              <div class="content-section">
+                @if (section.title) {
+                  <h2>{{ section.title }}</h2>
+                }
+                <p>{{ section.content }}</p>
+              </div>
+            }
+          </div>
+        }
+
+        <!-- Highlights/Achievements -->
+        @if (data.highlights || data.achievements) {
+          <div class="highlights-section">
+            <h2>{{ data.achievements ? 'Achievements' : 'Highlights' }}</h2>
+            <ul class="highlights-list">
+              @for (item of (data.highlights || data.achievements); track item) {
+                <li>{{ item }}</li>
+              }
+            </ul>
+          </div>
+        }
+
+        <!-- Expertise (for Professor Mosquito) -->
+        @if (data.expertise) {
+          <div class="expertise-section">
+            @if (data.expertise.teaching) {
+              <div class="expertise-card">
+                <h3>{{ data.expertise.teaching.title }}</h3>
+                <ul>
+                  @for (item of data.expertise.teaching.items; track item) {
+                    <li>{{ item }}</li>
+                  }
+                </ul>
+              </div>
+            }
+            @if (data.expertise.performance) {
+              <div class="expertise-card">
+                <h3>{{ data.expertise.performance.title }}</h3>
+                <ul>
+                  @for (item of data.expertise.performance.items; track item) {
+                    <li>{{ item }}</li>
+                  }
+                </ul>
+              </div>
+            }
+            @if (data.expertise.global) {
+              <div class="expertise-card">
+                <h3>{{ data.expertise.global.title }}</h3>
+                <ul>
+                  @for (item of data.expertise.global.items; track item) {
+                    <li>{{ item }}</li>
+                  }
+                </ul>
+              </div>
+            }
+          </div>
+          @if (data.closing) {
+            <p class="closing-text">{{ data.closing }}</p>
+          }
+        }
+
+        <!-- Cord System -->
+        @if (data.levels) {
+          <div class="cord-system">
+            @for (level of data.levels; track level.category) {
+              <div class="cord-category">
+                <h3>{{ level.category }}</h3>
+                <div class="cords">
+                  @for (cord of level.cords; track cord.name) {
+                    <div class="cord-item">
+                      <div class="cord-visual" [style.background]="cord.colorCode"></div>
+                      <div class="cord-info">
+                        <h4>{{ cord.name }}</h4>
+                        <p>{{ cord.meaning }}</p>
+                      </div>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        }
+
+        <!-- Instruments (for Samba de Roda) -->
+        @if (data.instruments) {
+          <div class="instruments-section">
+            <h2>Instruments</h2>
+            <div class="instruments-grid">
+              @for (instrument of data.instruments; track instrument) {
+                <span class="instrument-tag">{{ instrument }}</span>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- Stats (for Professor Mosquito) -->
+        @if (data.stats) {
+          <div class="stats-section">
+            @for (stat of data.stats; track stat.label) {
+              <div class="stat-item">
+                <span class="stat-value">{{ stat.value }}</span>
+                <span class="stat-label">{{ stat.label }}</span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="container">
+        <h2>Ready to Start Your Capoeira Journey?</h2>
+        <p>Join us for a free trial class</p>
+        <a routerLink="/contact" class="cta-button">Contact Us</a>
+      </div>
+    </section>
+  </div>
+} @else {
+  <div class="loading">
+    <p>Loading...</p>
+  </div>
+}

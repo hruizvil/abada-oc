@@ -1,0 +1,59 @@
+{
+  "title": "Class Schedule",
+  "subtitle": "Join us for Capoeira classes in Fountain Valley, CA",
+  "location": {
+    "address": "8552 Warner Ave",
+    "city": "Fountain Valley",
+    "state": "CA",
+    "zip": "92708",
+    "fullAddress": "8552 Warner Ave, Fountain Valley, CA 92708"
+  },
+  "classes": [
+    {
+      "id": "adults",
+      "title": "Adults Class",
+      "ageRange": "12 years old & Up",
+      "level": "All Levels Welcome",
+      "schedule": [
+        {
+          "days": "Tuesdays & Thursdays",
+          "time": "6:00 PM"
+        },
+        {
+          "days": "Wednesday",
+          "time": "7:00 PM"
+        },
+        {
+          "days": "Saturday",
+          "time": "11:00 AM"
+        }
+      ],
+      "icon": "user",
+      "color": "#0066cc"
+    },
+    {
+      "id": "kids",
+      "title": "Kids Class",
+      "ageRange": "5 to 12 years old",
+      "level": "Kids of All Levels Welcome",
+      "schedule": [
+        {
+          "days": "Tuesdays & Thursdays",
+          "time": "5:00 PM"
+        },
+        {
+          "days": "Saturday",
+          "time": "10:00 AM"
+        }
+      ],
+      "icon": "child",
+      "color": "#00b4d8"
+    }
+  ],
+  "callToAction": {
+    "title": "Ready to Start?",
+    "description": "Contact us to schedule your free trial class!",
+    "buttonText": "Contact Us",
+    "buttonRoute": "/contact"
+  }
+}

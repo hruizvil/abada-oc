@@ -1,0 +1,52 @@
+{
+  "title": "PROFESSOR MOSQUITO",
+  "fullName": "Jackson Ferreira",
+  "nickname": "Professor Mosquito",
+  "heroImage": "/assets/images/about/professor-mosquito.jpg",
+  "role": "Lead Instructor - ABADÁ-Capoeira Fountain Valley",
+  "location": "Fountain Valley, California",
+  "sections": [
+    {
+      "id": "introduction",
+      "content": "With over 35 years of Capoeira experience, Instructor Jackson Ferreira, known as Professor Mosquito, is a highly skilled and dedicated teacher in the ABADÁ-Capoeira community. His expertise spans a wide range of teaching methods, performances, and cultural education."
+    }
+  ],
+  "expertise": {
+    "teaching": {
+      "title": "Teaching Expertise",
+      "items": [
+        "Specializes in classes for youth and adults of all abilities",
+        "Has over 15 years of experience teaching children with special needs, creating inclusive and engaging learning environments",
+        "Developed and led after-school programs for over 15 years, focusing on discipline, fitness, and cultural awareness through Capoeira"
+      ]
+    },
+    "performance": {
+      "title": "Performance and Percussion",
+      "items": [
+        "Over 20 years of experience in Capoeira performances, showcasing the art's dynamic blend of martial arts, dance, and music",
+        "Expert in traditional Capoeira percussion, enriching his classes with authentic rhythms and cultural depth"
+      ]
+    },
+    "global": {
+      "title": "Global Experience",
+      "items": [
+        "Has traveled extensively around the world to both teach and learn Capoeira under the guidance of some of the most renowned ABADÁ-Capoeira masters, expanding his knowledge and refining his skills"
+      ]
+    }
+  },
+  "closing": "Professor Mosquito's dedication to Capoeira extends beyond the roda — his commitment to fostering community, empowering students, and preserving Capoeira's rich heritage makes him a respected and influential figure in the ABADÁ-Capoeira family.",
+  "stats": [
+    {
+      "value": "35+",
+      "label": "Years Experience"
+    },
+    {
+      "value": "15+",
+      "label": "Years Teaching Special Needs"
+    },
+    {
+      "value": "20+",
+      "label": "Years Performing"
+    }
+  ]
+}

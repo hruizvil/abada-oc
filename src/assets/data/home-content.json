@@ -1,0 +1,142 @@
+{
+  "hero": {
+    "announcement": "NOW OFFERING",
+    "title": "ADULTS & KIDS CLASSES IN FOUNTAIN VALLEY",
+    "subtitle": "Experience the Art of Capoeira",
+    "description": "Join ABADÁ-Capoeira OC and discover the beauty of this Afro-Brazilian martial art that combines elements of dance, acrobatics, music, and self-defense.",
+    "ctaButtons": [
+      {
+        "text": "Try a Free Class",
+        "route": "/contact",
+        "type": "primary"
+      },
+      {
+        "text": "Learn About Capoeira",
+        "route": "/about/capoeira",
+        "type": "secondary"
+      }
+    ],
+    "carouselImages": [
+      {
+        "src": "/assets/images/carousel/slide-1.jpg",
+        "alt": "Capoeira class in action"
+      },
+      {
+        "src": "/assets/images/carousel/slide-2.jpg",
+        "alt": "Capoeira students training"
+      },
+      {
+        "src": "/assets/images/carousel/slide-3.jpg",
+        "alt": "Capoeira roda performance"
+      }
+    ]
+  },
+  "whatIsCapoeira": {
+    "title": "What is Capoeira?",
+    "description": "Capoeira (pronounced ka-poo-ay-da) is a martial art developed in Brazil by enslaved Africans. It is a communal game in which two opponents play each other inside a circle, formed by the other players who create rhythm for the game by clapping, singing and playing traditional instruments.",
+    "extendedDescription": "The two \"capoeiristas\" play a game together using capoeira movements, camouflaging self-defense kicks with playful acrobatics and dance-like moves, spontaneously creating a strategy to fool the other player and perhaps catch them off guard. At the same time, the two players work together to build a beautiful, harmonic and naturally-flowing game.",
+    "highlights": [
+      "Afro-Brazilian martial art with over 500 years of history",
+      "Combines self-defense, acrobatics, dance, and music",
+      "Full-body workout for all fitness levels",
+      "Learn traditional instruments and Portuguese songs",
+      "Join a global community of practitioners"
+    ]
+  },
+  "benefits": [
+    {
+      "id": "benefit-1",
+      "icon": "dumbbell",
+      "title": "Physical Fitness",
+      "description": "Build strength, flexibility, coordination, and balance through dynamic movements and acrobatics.",
+      "order": 1
+    },
+    {
+      "id": "benefit-2",
+      "icon": "brain",
+      "title": "Mental Development",
+      "description": "Enhance focus, strategy, and quick thinking as you learn to read opponents and create movements.",
+      "order": 2
+    },
+    {
+      "id": "benefit-3",
+      "icon": "music",
+      "title": "Cultural Experience",
+      "description": "Immerse yourself in Brazilian culture through music, instruments, Portuguese language, and tradition.",
+      "order": 3
+    },
+    {
+      "id": "benefit-4",
+      "icon": "user-friends",
+      "title": "Community",
+      "description": "Join a welcoming family of Capoeiristas and make lifelong friends in a supportive environment.",
+      "order": 4
+    }
+  ],
+  "instructor": {
+    "title": "Meet Professor Mosquito",
+    "name": "Jackson Ferreira (Professor Mosquito)",
+    "location": "ABADÁ-Capoeira | Fountain Valley, California",
+    "image": "/assets/images/professor-mosquito.jpg",
+    "bio": "With over 35 years of Capoeira experience, Professor Mosquito is a highly skilled and dedicated teacher in the ABADÁ-Capoeira community. His expertise spans a wide range of teaching methods, performances, and cultural education.",
+    "highlights": [
+      "35+ years of Capoeira experience",
+      "15+ years teaching children with special needs",
+      "15+ years developing after-school programs",
+      "20+ years of performance experience",
+      "Expert in traditional Capoeira percussion",
+      "Trained under renowned ABADÁ-Capoeira masters worldwide"
+    ]
+  },
+  "classes": {
+    "title": "Classes for Everyone",
+    "description": "We offer capoeira classes for all ages and skill levels in Fountain Valley, California.",
+    "ageGroups": [
+      {
+        "name": "Kids Classes",
+        "description": "Fun, energetic classes for children. Build confidence, coordination, discipline, and learn authentic Capoeira movements in an engaging environment.",
+        "icon": "child"
+      },
+      {
+        "name": "Adult Classes",
+        "description": "Classes for adults of all abilities. Develop skills at your own pace while connecting with the rich culture and community of Capoeira.",
+        "icon": "user"
+      }
+    ]
+  },
+  "whyAbada": {
+    "title": "Why ABADÁ-Capoeira?",
+    "subtitle": "Part of a Global Family",
+    "description": "ABADÁ-Capoeira was founded in 1988 by Mestre Camisa in Rio de Janeiro. The name stands for Associação Brasileira de Apoio e Desenvolvimento da Arte-Capoeira (The Brazilian Association for the Support and Development of the Art of Capoeira).",
+    "stats": [
+      {
+        "value": "35+",
+        "label": "Years Experience"
+      },
+      {
+        "value": "40,000+",
+        "label": "Members Worldwide"
+      },
+      {
+        "value": "Since 1988",
+        "label": "Founded"
+      },
+      {
+        "value": "All Ages",
+        "label": "Welcome Here"
+      }
+    ]
+  },
+  "callToAction": {
+    "title": "Ready to Begin Your Capoeira Journey?",
+    "description": "Join us for a FREE trial class and experience the energy, culture, and community of ABADÁ-Capoeira OC",
+    "buttonText": "Try a Free Class",
+    "buttonRoute": "/contact",
+    "secondaryText": "No experience necessary • All fitness levels welcome"
+  },
+  "sponsor": {
+    "title": "Our Sponsors",
+    "image": "/assets/images/sponsor.png",
+    "alt": "Sponsor logo"
+  }
+}

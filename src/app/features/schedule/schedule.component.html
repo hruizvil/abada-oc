@@ -1,0 +1,61 @@
+@if (scheduleData(); as data) {
+  <div class="schedule-page">
+    <!-- Hero Section -->
+    <section class="schedule-hero">
+      <div class="container">
+        <h1>{{ data.title }}</h1>
+        <p class="subtitle">{{ data.subtitle }}</p>
+      </div>
+    </section>
+
+    <!-- Classes Grid -->
+    <section class="classes-section">
+      <div class="container">
+        <div class="classes-grid">
+          @for (classItem of data.classes; track classItem.id) {
+            <div class="class-card" [style.--accent-color]="classItem.color">
+              <div class="class-header">
+                <h2>{{ classItem.title }}</h2>
+                <span class="age-badge">{{ classItem.ageRange }}</span>
+              </div>
+              <p class="level">{{ classItem.level }}</p>
+              <div class="schedule-times">
+                @for (time of classItem.schedule; track time.days) {
+                  <div class="time-slot">
+                    <span class="days">{{ time.days }}</span>
+                    <span class="time">{{ time.time }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Location -->
+        <div class="location-card">
+          <div class="location-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <div class="location-info">
+            <h3>Location</h3>
+            <p>{{ data.location.fullAddress }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="container">
+        <h2>{{ data.callToAction.title }}</h2>
+        <p>{{ data.callToAction.description }}</p>
+        <a [routerLink]="data.callToAction.buttonRoute" class="cta-button">
+          {{ data.callToAction.buttonText }}
+        </a>
+      </div>
+    </section>
+  </div>
+}

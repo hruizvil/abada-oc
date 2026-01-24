@@ -1,0 +1,124 @@
+<div class="classes-page">
+  <!-- Hero Section -->
+  <section class="classes-hero">
+    <div class="container">
+      <h1>Our Programs</h1>
+      <p>Capoeira classes for all ages in Fountain Valley, CA</p>
+    </div>
+  </section>
+
+  @if (kidsProgram(); as kids) {
+    <!-- Kids Program Section -->
+    <section class="program-section kids-program">
+      <div class="container">
+        <div class="program-header">
+          <h2>{{ kids.title }}</h2>
+          <p class="program-subtitle">{{ kids.subtitle }}</p>
+        </div>
+
+        <div class="program-content">
+          <!-- Welcome -->
+          <div class="welcome-block">
+            <h3>{{ kids.introduction.welcome }}</h3>
+            <p>{{ kids.introduction.philosophy }}</p>
+          </div>
+
+          <!-- Benefits Grid -->
+          <div class="benefits-section">
+            <h3>What Your Child Will Gain</h3>
+            <div class="benefits-grid">
+              @for (benefit of kids.benefits; track benefit.id) {
+                <div class="benefit-card">
+                  <span class="benefit-title">{{ benefit.title }}</span>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Anti-Bullying Section -->
+          <div class="feature-block">
+            <h3>{{ kids.antibullying.title }}</h3>
+            <p class="stat-highlight">{{ kids.antibullying.statistic }}</p>
+            <p>{{ kids.antibullying.approach }}</p>
+          </div>
+
+          <!-- Partnership -->
+          <div class="feature-block">
+            <h3>{{ kids.partnership.title }}</h3>
+            <p>{{ kids.partnership.description }}</p>
+          </div>
+
+          <!-- Closing -->
+          <div class="closing-block">
+            <h3>{{ kids.closing.title }}</h3>
+            <p>{{ kids.closing.description }}</p>
+            <p class="cta-text">{{ kids.closing.callToAction }}</p>
+          </div>
+
+          <!-- Kids Schedule -->
+          <div class="program-schedule">
+            <h3>{{ kids.schedule.title }}</h3>
+            <p class="age-info">{{ kids.schedule.ageRange }}</p>
+            <div class="schedule-times">
+              @for (slot of kids.schedule.classes; track slot.days) {
+                <div class="time-slot">
+                  <span class="days">{{ slot.days }}</span>
+                  <span class="time">{{ slot.time }}</span>
+                </div>
+              }
+            </div>
+            <p class="location">{{ kids.schedule.location }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  }
+
+  @if (schedule(); as sched) {
+    <!-- Adults Program Section -->
+    <section class="program-section adults-program">
+      <div class="container">
+        <div class="program-header">
+          <h2>Adults Program</h2>
+          <p class="program-subtitle">Classes for adults of all levels</p>
+        </div>
+
+        <div class="program-content">
+          <p class="intro-text">
+            Our adult classes are designed for practitioners of all levels. Whether you're a complete beginner
+            or have years of experience, you'll find a welcoming environment to learn and grow in your
+            Capoeira journey.
+          </p>
+
+          @for (classItem of sched.classes; track classItem.id) {
+            @if (classItem.id === 'adults') {
+              <div class="program-schedule">
+                <h3>{{ classItem.title }}</h3>
+                <p class="age-info">{{ classItem.ageRange }}</p>
+                <p class="level-info">{{ classItem.level }}</p>
+                <div class="schedule-times">
+                  @for (slot of classItem.schedule; track slot.days) {
+                    <div class="time-slot">
+                      <span class="days">{{ slot.days }}</span>
+                      <span class="time">{{ slot.time }}</span>
+                    </div>
+                  }
+                </div>
+                <p class="location">{{ sched.location.fullAddress }}</p>
+              </div>
+            }
+          }
+        </div>
+      </div>
+    </section>
+  }
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Ready to Start?</h2>
+      <p>Sign up for a free trial class today!</p>
+      <a routerLink="/contact" class="cta-button">Contact Us</a>
+    </div>
+  </section>
+</div>
