@@ -9,7 +9,7 @@ import { HomeContent } from '../models/content.model';
 })
 export class DataService {
   private http = inject(HttpClient);
-  private readonly dataPath = '/assets/data';
+  private readonly dataPath = 'assets/data';
 
   getNavigationData(): Observable<NavigationData> {
     return this.http.get<NavigationData>(`${this.dataPath}/navigation.json`);
