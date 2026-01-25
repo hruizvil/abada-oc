@@ -1,7 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { inject } from '@angular/core';
+import { EmailService } from '../../core/services/email.service';
 
 @Component({
   selector: 'app-contact',
@@ -12,6 +12,7 @@ import { inject } from '@angular/core';
 })
 export class ContactComponent {
   private fb = inject(FormBuilder);
+  private emailService = inject(EmailService);
 
   registrationForm: FormGroup;
   isSubmitting = signal(false);
@@ -20,27 +21,30 @@ export class ContactComponent {
 
   constructor() {
     this.registrationForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: [''],
-      email: ['', [Validators.required, Validators.email]],
+      name: ['', Validators.required],
       phone: ['', Validators.required],
-      address: [''],
-      isFirstTime: ['yes'],
+      email: ['', [Validators.required, Validators.email]],
+      interestedIn: ['', Validators.required],
       comments: ['']
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.registrationForm.valid) {
       this.isSubmitting.set(true);
       this.submitError.set(null);
 
-      // Simulate form submission (replace with actual API call later)
-      setTimeout(() => {
-        this.isSubmitting.set(false);
+      try {
+        await this.emailService.sendRegistrationEmail(this.registrationForm.value);
         this.submitSuccess.set(true);
         this.registrationForm.reset();
-      }, 1000);
+      } catch (error) {
+        this.submitError.set(
+          error instanceof Error ? error.message : 'An error occurred. Please try again.'
+        );
+      } finally {
+        this.isSubmitting.set(false);
+      }
     } else {
       this.registrationForm.markAllAsTouched();
     }

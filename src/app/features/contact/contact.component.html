@@ -2,8 +2,8 @@
   <!-- Hero Section -->
   <section class="contact-hero">
     <div class="container">
-      <h1>Join Our Community</h1>
-      <p>Book your first class and experience Capoeira</p>
+      <h1>Book Your FREE Trial Class</h1>
+      <p>Experience Capoeira with no commitment</p>
     </div>
   </section>
 
@@ -12,38 +12,36 @@
       <div class="contact-layout">
         <!-- Welcome Message -->
         <div class="welcome-section">
-          <h2>Welcome to our community!</h2>
-          <p>By booking your first class, you'll experience firsthand the benefits of our program, including:</p>
+          <h2>Why Try Capoeira?</h2>
           <ul class="benefits-list">
             <li>
               <span class="benefit-icon">💪</span>
-              <span>Improved Fitness</span>
+              <span>Full-body workout that's actually fun</span>
             </li>
             <li>
-              <span class="benefit-icon">🎭</span>
-              <span>Cultural Experience</span>
+              <span class="benefit-icon">🎵</span>
+              <span>Learn music, movement & Brazilian culture</span>
+            </li>
+            <li>
+              <span class="benefit-icon">👨‍👩‍👧‍👦</span>
+              <span>Classes for all ages (3+) and skill levels</span>
             </li>
             <li>
               <span class="benefit-icon">🤝</span>
-              <span>Community Connection</span>
+              <span>Join a welcoming, supportive community</span>
             </li>
           </ul>
-          <p class="cta-text">Let's get you started!</p>
 
           <!-- Contact Info -->
           <div class="contact-info">
-            <h3>Contact Information</h3>
+            <h3>Questions? Reach out directly</h3>
             <div class="info-item">
-              <span class="info-label">Phone:</span>
+              <span class="info-label">Call/Text:</span>
               <a href="tel:1-562-340-9801">1-562-340-9801</a>
             </div>
             <div class="info-item">
               <span class="info-label">Email:</span>
               <a href="mailto:capoeiraoc@gmail.com">capoeiraoc&#64;gmail.com</a>
-            </div>
-            <div class="info-item">
-              <span class="info-label">Hours:</span>
-              <span>Monday - Friday: 9am - 5pm</span>
             </div>
           </div>
         </div>
@@ -53,47 +51,27 @@
           @if (submitSuccess()) {
             <div class="success-message">
               <div class="success-icon">✓</div>
-              <h3>Thank you for registering!</h3>
-              <p>We'll be in touch with you shortly to confirm your free class.</p>
+              <h3>You're all set!</h3>
+              <p>We'll contact you within 24 hours to schedule your free class.</p>
+              <p class="success-subtext">Check your email for confirmation.</p>
             </div>
           } @else {
             <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="registration-form">
-              <h3>New Student Registration</h3>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="firstName">First Name <span class="required">*</span></label>
-                  <input
-                    type="text"
-                    id="firstName"
-                    formControlName="firstName"
-                    [class.invalid]="isFieldInvalid('firstName')"
-                    placeholder="Enter your first name">
-                  @if (isFieldInvalid('firstName')) {
-                    <span class="error-text">First name is required</span>
-                  }
-                </div>
-
-                <div class="form-group">
-                  <label for="lastName">Last Name</label>
-                  <input
-                    type="text"
-                    id="lastName"
-                    formControlName="lastName"
-                    placeholder="Enter your last name">
-                </div>
+              <div class="form-header">
+                <h3>Get Started</h3>
+                <p class="form-subtitle">Fill out this quick form and we'll be in touch!</p>
               </div>
 
               <div class="form-group">
-                <label for="email">Email <span class="required">*</span></label>
+                <label for="name">Your Name <span class="required">*</span></label>
                 <input
-                  type="email"
-                  id="email"
-                  formControlName="email"
-                  [class.invalid]="isFieldInvalid('email')"
-                  placeholder="Enter your email">
-                @if (isFieldInvalid('email')) {
-                  <span class="error-text">Please enter a valid email</span>
+                  type="text"
+                  id="name"
+                  formControlName="name"
+                  [class.invalid]="isFieldInvalid('name')"
+                  placeholder="First name">
+                @if (isFieldInvalid('name')) {
+                  <span class="error-text">Name is required</span>
                 }
               </div>
 
@@ -104,42 +82,49 @@
                   id="phone"
                   formControlName="phone"
                   [class.invalid]="isFieldInvalid('phone')"
-                  placeholder="Enter your phone number">
+                  placeholder="(555) 123-4567">
                 @if (isFieldInvalid('phone')) {
                   <span class="error-text">Phone number is required</span>
                 }
               </div>
 
               <div class="form-group">
-                <label for="address">Address</label>
+                <label for="email">Email <span class="required">*</span></label>
                 <input
-                  type="text"
-                  id="address"
-                  formControlName="address"
-                  placeholder="Enter your address">
+                  type="email"
+                  id="email"
+                  formControlName="email"
+                  [class.invalid]="isFieldInvalid('email')"
+                  placeholder="you@example.com">
+                @if (isFieldInvalid('email')) {
+                  <span class="error-text">Please enter a valid email</span>
+                }
               </div>
 
               <div class="form-group">
-                <label>Is this your first time registering?</label>
-                <div class="radio-group">
-                  <label class="radio-label">
-                    <input type="radio" formControlName="isFirstTime" value="yes">
-                    <span>Yes</span>
-                  </label>
-                  <label class="radio-label">
-                    <input type="radio" formControlName="isFirstTime" value="no">
-                    <span>No</span>
-                  </label>
-                </div>
+                <label for="interestedIn">I'm interested in classes for... <span class="required">*</span></label>
+                <select
+                  id="interestedIn"
+                  formControlName="interestedIn"
+                  [class.invalid]="isFieldInvalid('interestedIn')">
+                  <option value="">Select an option</option>
+                  <option value="toddlers">Toddlers (ages 3-5)</option>
+                  <option value="kids">Kids (ages 6+)</option>
+                  <option value="adults">Adults (all levels)</option>
+                  <option value="multiple">Multiple family members</option>
+                </select>
+                @if (isFieldInvalid('interestedIn')) {
+                  <span class="error-text">Please select an option</span>
+                }
               </div>
 
               <div class="form-group">
-                <label for="comments">Do you have any questions or comments?</label>
+                <label for="comments">Anything else we should know? <span class="optional">(optional)</span></label>
                 <textarea
                   id="comments"
                   formControlName="comments"
-                  rows="4"
-                  placeholder="Enter any questions or comments here..."></textarea>
+                  rows="2"
+                  placeholder="Questions, preferred days, etc."></textarea>
               </div>
 
               <button
@@ -147,11 +132,13 @@
                 class="submit-button"
                 [disabled]="isSubmitting()">
                 @if (isSubmitting()) {
-                  <span>Submitting...</span>
+                  <span>Sending...</span>
                 } @else {
-                  <span>Submit Registration</span>
+                  <span>Get Started</span>
                 }
               </button>
+
+              <p class="privacy-note">We respect your privacy and will never share your information.</p>
 
               @if (submitError()) {
                 <div class="error-message">{{ submitError() }}</div>
