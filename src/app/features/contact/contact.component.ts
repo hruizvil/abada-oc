@@ -1,4 +1,4 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmailService } from '../../core/services/email.service';
@@ -13,6 +13,8 @@ import { EmailService } from '../../core/services/email.service';
 export class ContactComponent {
   private fb = inject(FormBuilder);
   private emailService = inject(EmailService);
+
+  @ViewChild('formSection') formSection!: ElementRef;
 
   registrationForm: FormGroup;
   isSubmitting = signal(false);
@@ -38,6 +40,7 @@ export class ContactComponent {
         await this.emailService.sendRegistrationEmail(this.registrationForm.value);
         this.submitSuccess.set(true);
         this.registrationForm.reset();
+        this.scrollToForm();
       } catch (error) {
         this.submitError.set(
           error instanceof Error ? error.message : 'An error occurred. Please try again.'
@@ -53,5 +56,11 @@ export class ContactComponent {
   isFieldInvalid(fieldName: string): boolean {
     const field = this.registrationForm.get(fieldName);
     return field ? field.invalid && field.touched : false;
+  }
+
+  private scrollToForm(): void {
+    setTimeout(() => {
+      this.formSection?.nativeElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
   }
 }
