@@ -1,0 +1,30 @@
+{
+  "title": "MESTRE CAMISA",
+  "fullName": "José Tadeu Cardoso",
+  "nickname": "Mestre Camisa",
+  "heroImage": "/assets/images/about/mestre-camisa.jpg",
+  "role": "Founder of ABADÁ-Capoeira",
+  "sections": [
+    {
+      "id": "introduction",
+      "content": "Mestre Camisa, born José Tadeu Cardoso, is the founder of ABADÁ-Capoeira. He began training with Mestre Bimba at a very young age. He subsequently began teaching capoeira in Rio de Janeiro based on the teachings of Mestre Bimba, until his style became truly unique – widely known and respected for skillfulness, technicality, innovation, and dedication to traditions."
+    },
+    {
+      "id": "founding",
+      "title": "Founding ABADÁ-Capoeira",
+      "content": "In 1988, Mestre Camisa formed ABADÁ-Capoeira. In Portuguese, the ABADÁ acronym stands for Associação Brasileira de Apoio e Desenvolvimento da Arte-Capoeira. In English, this is translated as \"The Brazilian Association for the Support and Development of the Art of Capoeira.\""
+    },
+    {
+      "id": "legacy",
+      "title": "Legacy",
+      "content": "Mestre Camisa has had immense impact on modern Capoeira, bringing it from the old masters in Brazil to an evolving art spreading throughout the world. Capoeira is now an internationally-respected art of grace and strength known for its unique combination of ritual, self-defense, acrobatics and music in a rhythmic dialogue of the body, mind, and spirit."
+    }
+  ],
+  "achievements": [
+    "Founder of ABADÁ-Capoeira (1988)",
+    "Trained under legendary Mestre Bimba",
+    "Developed unique style known for skillfulness and technicality",
+    "Spread Capoeira from Brazil to over 30 countries",
+    "Over 40,000 members worldwide under his leadership"
+  ]
+}

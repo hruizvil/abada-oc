@@ -1,0 +1,27 @@
+{
+  "title": "CAPOEIRA",
+  "pronunciation": "ka-poo-ay-da",
+  "heroImage": "/assets/images/about/capoeira-hero.jpg",
+  "sections": [
+    {
+      "id": "introduction",
+      "content": "Capoeira (pronounced ka-poo-ay-da) is a martial art developed in Brazil by enslaved Africans. It is a communal game in which two opponents play each other inside a circle, formed by the other players who create rhythm for the game by clapping, singing and playing traditional instruments."
+    },
+    {
+      "id": "gameplay",
+      "content": "The two \"capoeiristas\" play a game together using capoeira movements, camouflaging self-defense kicks with playful acrobatics and dance-like moves, spontaneously creating a strategy to fool the other player and perhaps catch them off guard. At the same time, the two players work together to build a beautiful, harmonic and naturally-flowing game."
+    },
+    {
+      "id": "history",
+      "title": "History",
+      "content": "The modern art form of capoeira is believed to date back to the 1500's, when many Africans were taken from different areas of West Africa and brought to Brazil to be used as slaves by the Portuguese. Because slaves were not allowed to practice martial arts, the development and practice of the art had to be disguised. The result was capoeira: a way of practicing different defensive and offensive techniques with music, singing, and dance."
+    }
+  ],
+  "highlights": [
+    "Martial art developed by enslaved Africans in Brazil",
+    "Combines self-defense with music, dance, and acrobatics",
+    "Played in a circle called a 'roda'",
+    "Features traditional instruments and Portuguese songs",
+    "Over 500 years of cultural heritage"
+  ]
+}

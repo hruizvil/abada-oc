@@ -1,0 +1,69 @@
+{
+  "brand": {
+    "name": "ABADÁ-Capoeira OC",
+    "tagline": "Brazilian Martial Arts in Orange County",
+    "logo": "/assets/images/logo.png"
+  },
+  "mainMenu": [
+    {
+      "id": "home",
+      "label": "HOME",
+      "route": "/",
+      "icon": "home",
+      "order": 1
+    },
+    {
+      "id": "about",
+      "label": "ABOUT US",
+      "route": "/about",
+      "icon": "info-circle",
+      "order": 2
+    },
+    {
+      "id": "classes",
+      "label": "CLASSES",
+      "route": "/classes",
+      "icon": "users",
+      "order": 3
+    },
+    {
+      "id": "schedule",
+      "label": "SCHEDULE",
+      "route": "/schedule",
+      "icon": "calendar",
+      "order": 4
+    },
+    {
+      "id": "contact",
+      "label": "CONTACT US",
+      "route": "/contact",
+      "icon": "envelope",
+      "order": 5
+    }
+  ],
+  "contactInfo": {
+    "phone": "1-562-340-9801",
+    "email": "capoeiraoc@gmail.com",
+    "hours": "Monday - Friday: 9am - 5pm"
+  },
+  "socialLinks": [
+    {
+      "id": "facebook",
+      "label": "Facebook",
+      "url": "https://www.facebook.com/abadaorangecounty/",
+      "icon": "facebook"
+    },
+    {
+      "id": "instagram",
+      "label": "Instagram",
+      "url": "https://www.instagram.com/abadacapoeiraoc",
+      "icon": "instagram"
+    },
+    {
+      "id": "youtube",
+      "label": "YouTube",
+      "url": "https://www.youtube.com/channel/UCk_Fke7Q0jy9zESOvI3NhjA/featured",
+      "icon": "youtube"
+    }
+  ]
+}

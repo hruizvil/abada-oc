@@ -1,0 +1,37 @@
+{
+  "title": "SAMBA DE RODA",
+  "heroImage": "/assets/images/about/samba-de-roda.jpg",
+  "introduction": "One of the original forms of the samba, the samba de roda (samba in a circle), was developed in the Recôncavo – or at least received important stimuli there. However, with this dance alone, significant local differences can be identified. In its orchestration and body language, the dance differs in Cachoeira from the version performed in Santo Amaro, which is only a few kilometers away.",
+  "sections": [
+    {
+      "id": "dance",
+      "title": "The Dance",
+      "content": "Like the capoeira, the samba de roda is danced in a circle. In this circle, one person asks another to dance. This couple then dances for some minutes, and is replaced after a while by other dancers. The dancers are often egged on by the audience, and humorous comments can often be heard."
+    },
+    {
+      "id": "music",
+      "title": "Musical Accompaniment",
+      "content": "The dance is accompanied by drums and the tambourine, as well as special small guitars or the Brazilian ukulele, which is known as the cavaquinho. If there are no instruments, the rhythm of the samba de roda can also be created simply by clapping. Everyday objects such as glasses, tin plates or cutlery are also used as musical instruments."
+    },
+    {
+      "id": "roots",
+      "title": "African Roots",
+      "content": "The samba de roda typical of the Recôncavo is clearly the product of its religious African roots – Candomblé ceremonies also feature dances in circles. The texts, on the other hand, are clearly worldly, and often include salacious passages. Samba de roda is danced at all popular festivals in the Recôncavo, and is often particularly amusing and interesting when the performers dance completely spontaneously."
+    }
+  ],
+  "instruments": [
+    "Drums",
+    "Tambourine",
+    "Cavaquinho (Brazilian ukulele)",
+    "Small guitars",
+    "Hand clapping",
+    "Everyday objects (glasses, plates, cutlery)"
+  ],
+  "highlights": [
+    "Original form of samba",
+    "Danced in a circle like Capoeira",
+    "Roots in African Candomblé ceremonies",
+    "Features traditional Brazilian instruments",
+    "Spontaneous and interactive dance form"
+  ]
+}

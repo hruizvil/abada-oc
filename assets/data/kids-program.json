@@ -1,0 +1,74 @@
+{
+  "title": "ABADÁ-Capoeira Kids Program",
+  "subtitle": "Teaching Children Character Development Through the Martial Arts",
+  "heroImage": "/assets/images/kids-program-hero.jpg",
+  "introduction": {
+    "welcome": "Welcome to ABADÁ-Capoeira Martial Arts Kids Program",
+    "philosophy": "At ABADÁ-Capoeira OC No Child Sits On The Bench. Unlike traditional sports, martial arts do not fall into specific individual or team activity categories. They are actually the best of both worlds, encouraging individual performance and growth within a positive team environment that fosters effective interaction with others. This combination makes capoeira the absolute best way for children to grow as individuals."
+  },
+  "commitment": {
+    "title": "Our Commitment",
+    "description": "In the capoeira kids program, we are committed to providing essential tools for your child to excel both in and out of the academy. A child must develop an assortment of qualities to be successful."
+  },
+  "benefits": [
+    {
+      "id": "focus",
+      "title": "Improved Focus",
+      "icon": "brain"
+    },
+    {
+      "id": "discipline",
+      "title": "Self Discipline",
+      "icon": "star"
+    },
+    {
+      "id": "respect",
+      "title": "Respect for Others",
+      "icon": "heart"
+    },
+    {
+      "id": "fitness",
+      "title": "Physical Fitness",
+      "icon": "dumbbell"
+    },
+    {
+      "id": "balance",
+      "title": "Balance & Coordination",
+      "icon": "balance"
+    },
+    {
+      "id": "confidence",
+      "title": "Confidence",
+      "icon": "shield"
+    }
+  ],
+  "antibullying": {
+    "title": "Bullying Prevention",
+    "statistic": "Over 70% of children will experience bullying to some degree.",
+    "approach": "We want to make sure that our students are prepared for those situations when they occur and are able to respond in a non-violent way. We teach common sense before self defense. ABADÁ-Capoeira strives to prepare children with the character traits and decision making skills needed to address and analyze the challenges they will face."
+  },
+  "partnership": {
+    "title": "Working Together",
+    "description": "We understand how important it is to instill these character skills in children at a young age. We work closely with the parents, as well as the teachers of our school systems, to make sure the children are excelling at home and in the classroom."
+  },
+  "closing": {
+    "title": "A Safe Learning Environment",
+    "description": "ABADÁ-Capoeira martial arts provides a safe, positive and effective learning environment for your child to succeed.",
+    "callToAction": "Come see it for yourself today!"
+  },
+  "schedule": {
+    "title": "Kids Class Schedule",
+    "ageRange": "5 to 12 years old",
+    "classes": [
+      {
+        "days": "Tuesdays & Thursdays",
+        "time": "5:00 PM"
+      },
+      {
+        "days": "Saturday",
+        "time": "10:00 AM"
+      }
+    ],
+    "location": "8552 Warner Ave, Fountain Valley, CA 92708"
+  }
+}
