@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/styles.scss"],
+  "sourcesContent": ["/* Global Styles for ABADÁ-Capoeira OC */\r\n\r\n* {\r\n  margin: 0;\r\n  padding: 0;\r\n  box-sizing: border-box;\r\n}\r\n\r\nhtml {\r\n  font-size: 16px;\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale;\r\n  background-color: #212529; /* Match footer color for mobile over-scroll */\r\n}\r\n\r\nbody {\r\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;\r\n  font-size: 1rem;\r\n  line-height: 1.5;\r\n  color: #212529;\r\n  background-color: #ffffff;\r\n  overflow-x: hidden;\r\n}\r\n\r\nh1, h2, h3, h4, h5, h6 {\r\n  font-weight: 700;\r\n  line-height: 1.2;\r\n  margin-bottom: 1rem;\r\n}\r\n\r\np {\r\n  margin-bottom: 1rem;\r\n}\r\n\r\na {\r\n  color: #8B2AB2;\r\n  text-decoration: none;\r\n  transition: color 0.2s ease;\r\n}\r\n\r\na:hover {\r\n  color: #5A1A75;\r\n}\r\n\r\nbutton {\r\n  font-family: inherit;\r\n}\r\n\r\n/* You can add more global styles here */\r\n"],
+  "mappings": ";;;AAEA;AACE,UAAA;AACA,WAAA;AACA,cAAA;;AAGF;AACE,aAAA;AACA,0BAAA;AACA,2BAAA;AACA,oBAAA;;AAGF;AACE;IAAA,aAAA;IAAA,kBAAA;IAAA,UAAA;IAAA,QAAA;IAAA,QAAA;IAAA,QAAA;IAAA,WAAA;IAAA,WAAA;IAAA,YAAA;IAAA,gBAAA;IAAA;AACA,aAAA;AACA,eAAA;AACA,SAAA;AACA,oBAAA;AACA,cAAA;;AAGF;AAAA;AAAA;AAAA;AAAA;AAAA;AACE,eAAA;AACA,eAAA;AACA,iBAAA;;AAGF;AACE,iBAAA;;AAGF;AACE,SAAA;AACA,mBAAA;AACA,cAAA,MAAA,KAAA;;AAGF,CAAA;AACE,SAAA;;AAGF;AACE,eAAA;;",
+  "names": []
+}
