@@ -46,6 +46,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/abada-oc/",
               "budgets": [
                 {
                   "type": "initial",
