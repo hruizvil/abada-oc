@@ -15,9 +15,8 @@ export interface RegistrationData {
 })
 export class EmailService {
   private interestLabels: Record<string, string> = {
-    'toddlers': 'Toddlers (ages 3-5)',
-    'kids': 'Kids (ages 6+)',
-    'adults': 'Adults (all levels)',
+    'kids': 'Kids (ages 5-12)',
+    'adults': 'Adults (12 years & up)',
     'multiple': 'Multiple family members'
   };
 

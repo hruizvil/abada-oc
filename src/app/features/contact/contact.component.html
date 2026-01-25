@@ -108,9 +108,8 @@
                   formControlName="interestedIn"
                   [class.invalid]="isFieldInvalid('interestedIn')">
                   <option value="">Select an option</option>
-                  <option value="toddlers">Toddlers (ages 3-5)</option>
-                  <option value="kids">Kids (ages 6+)</option>
-                  <option value="adults">Adults (all levels)</option>
+                  <option value="kids">Kids (ages 5-12)</option>
+                  <option value="adults">Adults (12 years & up)</option>
                   <option value="multiple">Multiple family members</option>
                 </select>
                 @if (isFieldInvalid('interestedIn')) {
