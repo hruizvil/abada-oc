@@ -92,23 +92,36 @@
         @if (data.ageGroups) {
           <div class="cord-system">
             @for (ageGroup of data.ageGroups; track ageGroup.id) {
-              <div class="age-group-section">
+              <div class="age-group-section" [class.infantil]="ageGroup.id === 'infantil'">
                 <h2 class="age-group-title">{{ ageGroup.title }}</h2>
                 <p class="age-group-description">{{ ageGroup.description }}</p>
                 @for (level of ageGroup.levels; track level.category) {
                   <div class="cord-category">
                     <h3>{{ level.category }}</h3>
-                    <div class="cords">
-                      @for (cord of level.cords; track cord.name) {
-                        <div class="cord-item">
-                          <div class="cord-visual" [style.background]="cord.colorCode"></div>
-                          <div class="cord-info">
-                            <h4>{{ cord.name }}</h4>
-                            <p>{{ cord.meaning }}</p>
+                    @if (ageGroup.id === 'infantil') {
+                      <!-- Horizontal layout for children's system -->
+                      <div class="cords cords-horizontal">
+                        @for (cord of level.cords; track cord.name) {
+                          <div class="cord-pill">
+                            <div class="cord-visual-vertical" [style.background]="cord.colorCode"></div>
+                            <span class="cord-year">{{ cord.name }}</span>
                           </div>
-                        </div>
-                      }
-                    </div>
+                        }
+                      </div>
+                    } @else {
+                      <!-- Vertical layout for adult system -->
+                      <div class="cords">
+                        @for (cord of level.cords; track cord.name) {
+                          <div class="cord-item">
+                            <div class="cord-visual" [style.background]="cord.colorCode"></div>
+                            <div class="cord-info">
+                              <h4>{{ cord.name }}</h4>
+                              <p>{{ cord.meaning }}</p>
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    }
                   </div>
                 }
               </div>

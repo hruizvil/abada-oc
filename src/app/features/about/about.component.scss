@@ -232,10 +232,23 @@
       letter-spacing: 0.05em;
     }
 
+    // Vertical layout for adult system
     .cords {
       display: flex;
       flex-direction: column;
       gap: 1rem;
+    }
+
+    // Horizontal layout for children's system
+    .cords-horizontal {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+
+      @include tablet {
+        gap: 1.5rem;
+      }
     }
 
     .cord-item {
@@ -267,6 +280,48 @@
           color: $text-light;
           margin: 0;
           line-height: 1.5;
+        }
+      }
+    }
+
+    // Pill style for children's horizontal cords
+    .cord-pill {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      min-width: 70px;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+      }
+
+      .cord-visual-vertical {
+        width: 24px;
+        height: 60px;
+        border-radius: 12px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+
+        @include tablet {
+          width: 28px;
+          height: 70px;
+        }
+      }
+
+      .cord-year {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: $text-color;
+        text-align: center;
+        white-space: nowrap;
+
+        @include tablet {
+          font-size: 0.8125rem;
         }
       }
     }

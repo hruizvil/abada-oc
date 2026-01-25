@@ -27,7 +27,7 @@
               "name": "5 anos",
               "color": "Amarelo-Laranja",
               "meaning": "Learning fundamental movements",
-              "colorCode": "linear-gradient(to right, #FFD700 0%, #FFD700 50%, #FFA500 50%, #FFA500 100%)"
+              "colorCode": "linear-gradient(to bottom, #FFD700 0%, #FFD700 50%, #FFA500 50%, #FFA500 100%)"
             },
             {
               "name": "6 anos",
@@ -39,7 +39,7 @@
               "name": "7 anos",
               "color": "Laranja-Azul",
               "meaning": "Strengthening ginga and basic kicks",
-              "colorCode": "linear-gradient(to right, #FFA500 0%, #FFA500 50%, #0066CC 50%, #0066CC 100%)"
+              "colorCode": "linear-gradient(to bottom, #FFA500 0%, #FFA500 50%, #0066CC 50%, #0066CC 100%)"
             },
             {
               "name": "8 anos",
@@ -56,7 +56,7 @@
               "name": "9 anos",
               "color": "Crua-Amarelo",
               "meaning": "First major transition cord",
-              "colorCode": "linear-gradient(to right, #F5F5DC 0%, #F5F5DC 50%, #FFD700 50%, #FFD700 100%)"
+              "colorCode": "linear-gradient(to bottom, #F5F5DC 0%, #F5F5DC 50%, #FFD700 50%, #FFD700 100%)"
             },
             {
               "name": "10 anos",
@@ -68,13 +68,13 @@
               "name": "11 anos",
               "color": "Crua-Laranja",
               "meaning": "New cycle - building on foundations",
-              "colorCode": "linear-gradient(to right, #F5F5DC 0%, #F5F5DC 50%, #FFA500 50%, #FFA500 100%)"
+              "colorCode": "linear-gradient(to bottom, #F5F5DC 0%, #F5F5DC 50%, #FFA500 50%, #FFA500 100%)"
             },
             {
               "name": "12 anos",
               "color": "Amarelo-Laranja",
               "meaning": "Growing awareness and enthusiasm",
-              "colorCode": "linear-gradient(to right, #FFD700 0%, #FFD700 50%, #FFA500 50%, #FFA500 100%)"
+              "colorCode": "linear-gradient(to bottom, #FFD700 0%, #FFD700 50%, #FFA500 50%, #FFA500 100%)"
             },
             {
               "name": "13 anos",
@@ -91,19 +91,19 @@
               "name": "14 anos",
               "color": "Crua-Azul",
               "meaning": "New cycle begins - awareness of the journey",
-              "colorCode": "linear-gradient(to right, #F5F5DC 0%, #F5F5DC 50%, #0066CC 50%, #0066CC 100%)"
+              "colorCode": "linear-gradient(to bottom, #F5F5DC 0%, #F5F5DC 50%, #0066CC 50%, #0066CC 100%)"
             },
             {
               "name": "15 anos",
               "color": "Amarelo-Azul",
               "meaning": "Transformation toward maturity",
-              "colorCode": "linear-gradient(to right, #FFD700 0%, #FFD700 50%, #0066CC 50%, #0066CC 100%)"
+              "colorCode": "linear-gradient(to bottom, #FFD700 0%, #FFD700 50%, #0066CC 50%, #0066CC 100%)"
             },
             {
               "name": "16 anos",
               "color": "Laranja-Azul",
               "meaning": "Preparing for transition to adult system",
-              "colorCode": "linear-gradient(to right, #FFA500 0%, #FFA500 50%, #0066CC 50%, #0066CC 100%)"
+              "colorCode": "linear-gradient(to bottom, #FFA500 0%, #FFA500 50%, #0066CC 50%, #0066CC 100%)"
             },
             {
               "name": "17 anos",
