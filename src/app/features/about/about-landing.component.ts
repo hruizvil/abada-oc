@@ -44,7 +44,7 @@ import { RouterModule } from '@angular/router';
     }
 
     .about-hero {
-      background: linear-gradient(135deg, #0066cc 0%, #004d99 100%);
+      background: linear-gradient(135deg, #8B2AB2 0%, #5A1A75 100%);
       color: white;
       padding: 3rem 0;
       text-align: center;
@@ -115,7 +115,7 @@ import { RouterModule } from '@angular/router';
         position: absolute;
         top: 1.5rem;
         right: 1.5rem;
-        color: #0066cc;
+        color: #8B2AB2;
         font-size: 1.25rem;
         transition: transform 0.2s ease;
       }
@@ -145,7 +145,7 @@ export class AboutLandingComponent {
     {
       id: 'professor-mosquito',
       label: 'PROFESSOR MOSQUITO',
-      description: 'Lead Instructor at ABADÁ-Capoeira OC',
+      description: 'Professor at ABADÁ-Capoeira OC',
       route: '/about/professor-mosquito'
     },
     {

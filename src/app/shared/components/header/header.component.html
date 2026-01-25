@@ -3,6 +3,10 @@
     <!-- Logo -->
     <div class="header-logo">
       <a routerLink="/" class="logo-link" (click)="closeMobileMenu()">
+        <img
+          src="assets/images/abdada-logo.JPG"
+          alt="ABADÁ-Capoeira Fountain Valley Logo"
+          class="logo-image">
         @if (navigationData(); as nav) {
           <div class="logo-text">
             <h1>{{ nav.brand.name }}</h1>

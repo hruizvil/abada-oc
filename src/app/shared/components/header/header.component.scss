@@ -37,7 +37,28 @@
     }
   }
 
+  .logo-image {
+    height: 45px;
+    width: auto;
+    border-radius: 4px;
+
+    @include tablet {
+      height: 55px;
+    }
+
+    @include desktop {
+      height: 60px;
+    }
+  }
+
   .logo-text {
+    // Hide text on very small screens since logo has text
+    display: none;
+
+    @include tablet {
+      display: block;
+    }
+
     h1 {
       font-size: 1.25rem;
       margin: 0;

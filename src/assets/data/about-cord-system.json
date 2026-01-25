@@ -1,147 +1,256 @@
 {
   "title": "CORD SYSTEM",
   "heroImage": "/assets/images/about/cord-system.jpg",
-  "introduction": "As in all martial arts, capoeira has its own graduation system. The level reached by the students is indicated by the color of their belt (\"corda\"), which for our group is summarized here:",
-  "levels": [
+  "introduction": "As in all martial arts, capoeira has its own graduation system. The level reached by students is indicated by the color of their belt (\"corda\"). ABADÁ-Capoeira has two main systems: the Children's System (Graduação Infantil) organized by age, and the Adult System (Graduação Adulto) organized by skill level.",
+  "ageGroups": [
     {
-      "category": "BEGINNER",
-      "cords": [
+      "id": "infantil",
+      "title": "Sistema de Graduação Infantil",
+      "description": "The Children's Graduation System is organized by age, from 2 years old through 17 years old. Each age group receives a specific cord that recognizes their development and progress in capoeira.",
+      "levels": [
         {
-          "name": "Corda Crua",
-          "color": "Natural",
-          "meaning": "Natural belt",
-          "colorCode": "#F5F5DC"
+          "category": "AGES 2-8",
+          "cords": [
+            {
+              "name": "2 e 3 anos",
+              "color": "Crua",
+              "meaning": "Beginning of the capoeira journey for the youngest students",
+              "colorCode": "#F5F5DC"
+            },
+            {
+              "name": "4 anos",
+              "color": "Amarelo",
+              "meaning": "Developing basic coordination and rhythm",
+              "colorCode": "#FFD700"
+            },
+            {
+              "name": "5 anos",
+              "color": "Amarelo-Laranja",
+              "meaning": "Learning fundamental movements",
+              "colorCode": "linear-gradient(to right, #FFD700 0%, #FFD700 50%, #FFA500 50%, #FFA500 100%)"
+            },
+            {
+              "name": "6 anos",
+              "color": "Laranja",
+              "meaning": "Building discipline and respect",
+              "colorCode": "#FFA500"
+            },
+            {
+              "name": "7 anos",
+              "color": "Laranja-Azul",
+              "meaning": "Strengthening ginga and basic kicks",
+              "colorCode": "linear-gradient(to right, #FFA500 0%, #FFA500 50%, #0066CC 50%, #0066CC 100%)"
+            },
+            {
+              "name": "8 anos",
+              "color": "Azul",
+              "meaning": "Preparing for transition",
+              "colorCode": "#0066CC"
+            }
+          ]
+        },
+        {
+          "category": "AGES 9-13",
+          "cords": [
+            {
+              "name": "9 anos",
+              "color": "Crua-Amarelo",
+              "meaning": "First major transition cord",
+              "colorCode": "linear-gradient(to right, #F5F5DC 0%, #F5F5DC 50%, #FFD700 50%, #FFD700 100%)"
+            },
+            {
+              "name": "10 anos",
+              "color": "Amarelo",
+              "meaning": "Gold represents dedication to practice",
+              "colorCode": "#FFD700"
+            },
+            {
+              "name": "11 anos",
+              "color": "Crua-Laranja",
+              "meaning": "New cycle - building on foundations",
+              "colorCode": "linear-gradient(to right, #F5F5DC 0%, #F5F5DC 50%, #FFA500 50%, #FFA500 100%)"
+            },
+            {
+              "name": "12 anos",
+              "color": "Amarelo-Laranja",
+              "meaning": "Growing awareness and enthusiasm",
+              "colorCode": "linear-gradient(to right, #FFD700 0%, #FFD700 50%, #FFA500 50%, #FFA500 100%)"
+            },
+            {
+              "name": "13 anos",
+              "color": "Laranja",
+              "meaning": "The sun reflects growing enthusiasm",
+              "colorCode": "#FFA500"
+            }
+          ]
+        },
+        {
+          "category": "AGES 14-17",
+          "cords": [
+            {
+              "name": "14 anos",
+              "color": "Crua-Azul",
+              "meaning": "New cycle begins - awareness of the journey",
+              "colorCode": "linear-gradient(to right, #F5F5DC 0%, #F5F5DC 50%, #0066CC 50%, #0066CC 100%)"
+            },
+            {
+              "name": "15 anos",
+              "color": "Amarelo-Azul",
+              "meaning": "Transformation toward maturity",
+              "colorCode": "linear-gradient(to right, #FFD700 0%, #FFD700 50%, #0066CC 50%, #0066CC 100%)"
+            },
+            {
+              "name": "16 anos",
+              "color": "Laranja-Azul",
+              "meaning": "Preparing for transition to adult system",
+              "colorCode": "linear-gradient(to right, #FFA500 0%, #FFA500 50%, #0066CC 50%, #0066CC 100%)"
+            },
+            {
+              "name": "17 anos",
+              "color": "Azul",
+              "meaning": "The sea - ready for adult graduation",
+              "colorCode": "#0066CC"
+            }
+          ]
         }
       ]
     },
     {
-      "category": "STUDENT",
-      "cords": [
+      "id": "adulto",
+      "title": "Sistema de Graduação Adulto",
+      "description": "The Adult Graduation System encompasses the full ABADÁ-Capoeira progression, from beginner (Aluno) through the highest level of mastery (Grão Mestre).",
+      "levels": [
         {
-          "name": "Corda Crua-Amarelo",
-          "color": "Natural-Yellow",
-          "meaning": "Transition",
-          "colorCode": "linear-gradient(90deg, #F5F5DC 50%, #FFD700 50%)"
+          "category": "ALUNO",
+          "cords": [
+            {
+              "name": "Corda Crua",
+              "color": "Natural/Raw",
+              "meaning": "Corda Crua Iniciante - The beginning of the adult capoeira journey",
+              "colorCode": "#F5F5DC"
+            },
+            {
+              "name": "Corda Crua-Amarelo",
+              "color": "Natural-Yellow",
+              "meaning": "Transformação - Developing fundamental skills and technique",
+              "colorCode": "linear-gradient(to right, #F5F5DC 0%, #F5F5DC 50%, #FFD700 50%, #FFD700 100%)"
+            },
+            {
+              "name": "Corda Amarelo",
+              "color": "Yellow/Gold",
+              "meaning": "O Ouro (Gold) - Signifies the value of the learning that will be developed",
+              "colorCode": "#FFD700"
+            },
+            {
+              "name": "Corda Amarelo-Laranja",
+              "color": "Yellow-Orange",
+              "meaning": "Transformação - Growing awareness and technique refinement",
+              "colorCode": "linear-gradient(to right, #FFD700 0%, #FFD700 50%, #FFA500 50%, #FFA500 100%)"
+            },
+            {
+              "name": "Corda Laranja",
+              "color": "Orange",
+              "meaning": "O Sol (The Sun) - Signifies the awakening of the apprentice's consciousness",
+              "colorCode": "#FFA500"
+            },
+            {
+              "name": "Corda Laranja-Azul",
+              "color": "Orange-Blue",
+              "meaning": "Transformação - Transition toward deeper knowledge",
+              "colorCode": "linear-gradient(to right, #FFA500 0%, #FFA500 50%, #0066CC 50%, #0066CC 100%)"
+            }
+          ]
         },
         {
-          "name": "Corda Amarelo",
-          "color": "Yellow/Gold",
-          "meaning": "Gold signifies the value of apprenticeship",
-          "colorCode": "#FFD700"
+          "category": "GRADUADO",
+          "cords": [
+            {
+              "name": "Corda Azul",
+              "color": "Blue",
+              "meaning": "O Mar (The Sea) - Signifies consciousness of the immense path ahead to travel",
+              "colorCode": "#0066CC"
+            },
+            {
+              "name": "Corda Azul-Verde",
+              "color": "Blue-Green",
+              "meaning": "Transformação - Deepening commitment to the art",
+              "colorCode": "linear-gradient(to right, #0066CC 0%, #0066CC 50%, #228B22 50%, #228B22 100%)"
+            },
+            {
+              "name": "Corda Verde",
+              "color": "Green",
+              "meaning": "A Floresta (The Forest) - Represents one of the lungs of the world. This graduation concentrates all the work and solidifies learning. From this graduation comes the continuation and foundation of ABADÁ",
+              "colorCode": "#228B22"
+            },
+            {
+              "name": "Corda Verde-Roxa",
+              "color": "Green-Purple",
+              "meaning": "Transformação - Preparing for teaching responsibilities",
+              "colorCode": "linear-gradient(to right, #228B22 0%, #228B22 50%, #800080 50%, #800080 100%)"
+            }
+          ]
         },
         {
-          "name": "Corda Amarelo-Laranja",
-          "color": "Yellow-Orange",
-          "meaning": "Transformation",
-          "colorCode": "linear-gradient(90deg, #FFD700 50%, #FFA500 50%)"
+          "category": "INSTRUTOR",
+          "cords": [
+            {
+              "name": "Corda Roxa",
+              "color": "Purple/Amethyst",
+              "meaning": "A Ametista (Amethyst) - Reflects the continuity of capoeira. The capoeirista seeks to overcome physical, psychological, and spiritual challenges in pursuit of capoeira knowledge and defense of ABADÁ's ideals",
+              "colorCode": "#800080"
+            },
+            {
+              "name": "Corda Roxa-Marrom",
+              "color": "Purple-Brown",
+              "meaning": "Transformação - Advancing toward professorship",
+              "colorCode": "linear-gradient(to right, #800080 0%, #800080 50%, #8B4513 50%, #8B4513 100%)"
+            }
+          ]
         },
         {
-          "name": "Corda Laranja",
-          "color": "Orange",
-          "meaning": "Sun reflects the awakening of the apprentice's consciousness",
-          "colorCode": "#FFA500"
+          "category": "PROFESSOR",
+          "cords": [
+            {
+              "name": "Corda Marrom",
+              "color": "Brown",
+              "meaning": "O Camaleão (The Chameleon) - The cord that characterizes the ABADÁ style. From this graduation will come the future Mestrandos, Mestres, and Grão-Mestres of ABADÁ",
+              "colorCode": "#8B4513"
+            },
+            {
+              "name": "Corda Marrom-Vermelha",
+              "color": "Brown-Red",
+              "meaning": "Transformação - Advancing toward mastery",
+              "colorCode": "linear-gradient(to right, #8B4513 0%, #8B4513 50%, #DC143C 50%, #DC143C 100%)"
+            }
+          ]
         },
         {
-          "name": "Corda Laranja-Azul",
-          "color": "Orange-Blue",
-          "meaning": "Transformation",
-          "colorCode": "linear-gradient(90deg, #FFA500 50%, #0066CC 50%)"
-        }
-      ]
-    },
-    {
-      "category": "GRADUADO",
-      "cords": [
-        {
-          "name": "Corda Azul",
-          "color": "Blue",
-          "meaning": "Sea indicates the apprentice's awareness of the immense path ahead",
-          "colorCode": "#0066CC"
+          "category": "MESTRANDO",
+          "cords": [
+            {
+              "name": "Corda Vermelha",
+              "color": "Red/Ruby",
+              "meaning": "O Rubi (Ruby) - The stone that symbolizes justice. The capoeirista acquires consciousness of the responsibility they have toward capoeira, seeking to conduct their work and decisions with justice",
+              "colorCode": "#DC143C"
+            }
+          ]
         },
         {
-          "name": "Corda Azul-Verde",
-          "color": "Blue-Green",
-          "meaning": "Transformation",
-          "colorCode": "linear-gradient(90deg, #0066CC 50%, #228B22 50%)"
-        },
-        {
-          "name": "Corda Verde",
-          "color": "Green",
-          "meaning": "Forest signifies the consolidation of apprenticeship. This cord provides the base on which ABADÁ-Capoeira is built",
-          "colorCode": "#228B22"
-        },
-        {
-          "name": "Corda Verde-Roxa",
-          "color": "Green-Purple",
-          "meaning": "Transformation",
-          "colorCode": "linear-gradient(90deg, #228B22 50%, #800080 50%)"
-        }
-      ]
-    },
-    {
-      "category": "INSTRUTOR",
-      "cords": [
-        {
-          "name": "Corda Roxa",
-          "color": "Purple/Amethyst",
-          "meaning": "The capoeirista begins to overcome the physical, psychological and spiritual pain of learning Capoeira and defending its ideals",
-          "colorCode": "#800080"
-        },
-        {
-          "name": "Corda Roxa-Marron",
-          "color": "Purple-Brown",
-          "meaning": "Transformation",
-          "colorCode": "linear-gradient(90deg, #800080 50%, #8B4513 50%)"
-        }
-      ]
-    },
-    {
-      "category": "PROFESSOR",
-      "cords": [
-        {
-          "name": "Corda Marron",
-          "color": "Brown/Chameleon",
-          "meaning": "Chameleon represents the constant transformation that characterizes the ABADÁ style",
-          "colorCode": "#8B4513"
-        },
-        {
-          "name": "Corda Marron-Vermelha",
-          "color": "Brown-Red",
-          "meaning": "Transformation",
-          "colorCode": "linear-gradient(90deg, #8B4513 50%, #DC143C 50%)"
-        }
-      ]
-    },
-    {
-      "category": "MESTRANDO",
-      "cords": [
-        {
-          "name": "Corda Vermelha",
-          "color": "Red/Ruby",
-          "meaning": "Ruby symbolizes justice. At this level, the capoeirista acquires an understanding of responsibility; he or she is expected to strive for justice in conducting his work and making her decisions",
-          "colorCode": "#DC143C"
-        }
-      ]
-    },
-    {
-      "category": "MESTRE/A",
-      "cords": [
-        {
-          "name": "Corda Vermelha-Branca",
-          "color": "Red-White",
-          "meaning": "Transformation. This phase sees the development of a capoeirista's full potential to maintain the ideals of ABADÁ. A Mestre begins preparing him/herself for the maximum grade by being honest, reliable, loyal and, above all, wise and impartial",
-          "colorCode": "linear-gradient(90deg, #DC143C 50%, #FFFFFF 50%)"
-        }
-      ]
-    },
-    {
-      "category": "GRÃO MESTRE",
-      "cords": [
-        {
-          "name": "Corda Branca",
-          "color": "White/Diamond",
-          "meaning": "Diamond reflects all colors and is the hardest gem stone. The Grão Mestre sustains ABADÁ's system and preserves its ideals. All attributes of this grade are concentrated in one person who has the important responsibility of guiding the destiny of ABADÁ",
-          "colorCode": "#FFFFFF"
+          "category": "MESTRE",
+          "cords": [
+            {
+              "name": "Corda Vermelha-Branca",
+              "color": "Red-White",
+              "meaning": "Transformação - The capoeirista can develop their full potential to understand and maintain ABADÁ's ideals, preparing to assume the maximum graduation. This requires precision, honesty, loyalty, and above all, wisdom and impartiality",
+              "colorCode": "linear-gradient(to right, #DC143C 0%, #DC143C 50%, #FFFFFF 50%, #FFFFFF 100%)"
+            },
+            {
+              "name": "Corda Branca",
+              "color": "White/Diamond",
+              "meaning": "O Diamante (Diamond) - The mineral that reflects all colors and is the hardest gemstone. The Grão Mestre works to preserve the true ideals. In white, all colors unite. Through wisdom, patience, humility, loyalty, and firmness of purpose, they maintain the philosophy, tradition, and foundations. There is only one Grão Mestre in ABADÁ, who has the greatest responsibility of guiding the destiny of the organization",
+              "colorCode": "#FFFFFF"
+            }
+          ]
         }
       ]
     }

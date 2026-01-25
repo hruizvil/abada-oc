@@ -14,8 +14,6 @@
   color: white;
   padding: $spacing-3xl $spacing-md;
   text-align: center;
-  position: relative;
-  overflow: hidden;
 
   @include tablet {
     padding: 5rem $spacing-lg;
@@ -24,17 +22,6 @@
   @include desktop {
     padding: 6rem $spacing-xl;
   }
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
-    opacity: 0.3;
-  }
 }
 
 .hero-content {
@@ -42,6 +29,24 @@
   z-index: 1;
   max-width: 900px;
   margin: 0 auto;
+}
+
+.hero-announcement {
+  display: inline-block;
+  background-color: $secondary-color;
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 700;
+  padding: 0.5rem 1.25rem;
+  border-radius: 25px;
+  margin-bottom: $spacing-md;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+
+  @include tablet {
+    font-size: 1rem;
+    padding: 0.625rem 1.5rem;
+  }
 }
 
 .hero-title {
@@ -276,18 +281,21 @@
 }
 
 .classes-grid {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: $spacing-lg;
-  max-width: 1000px;
-  margin: 0 auto;
 
   @include tablet {
-    grid-template-columns: repeat(3, 1fr);
+    flex-direction: row;
+    justify-content: center;
     gap: $spacing-xl;
   }
 }
 
 .class-card {
+  width: 100%;
+  max-width: 320px;
   background-color: $gray-100;
   padding: $spacing-xl;
   border-radius: 12px;
