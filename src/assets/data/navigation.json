@@ -34,11 +34,18 @@
       "order": 4
     },
     {
+      "id": "rental",
+      "label": "SPACE RENTAL",
+      "route": "/rental",
+      "icon": "building",
+      "order": 5
+    },
+    {
       "id": "contact",
       "label": "CONTACT US",
       "route": "/contact",
       "icon": "envelope",
-      "order": 5
+      "order": 6
     }
   ],
   "contactInfo": {

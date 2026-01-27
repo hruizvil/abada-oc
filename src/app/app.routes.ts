@@ -5,6 +5,7 @@ import { AboutLandingComponent } from './features/about/about-landing.component'
 import { AboutComponent } from './features/about/about.component';
 import { ContactComponent } from './features/contact/contact.component';
 import { ClassesComponent } from './features/classes/classes.component';
+import { RentalComponent } from './features/rental/rental.component';
 
 export const routes: Routes = [
   {
@@ -30,6 +31,10 @@ export const routes: Routes = [
   {
     path: 'classes',
     component: ClassesComponent
+  },
+  {
+    path: 'rental',
+    component: RentalComponent
   },
   {
     path: '**',
