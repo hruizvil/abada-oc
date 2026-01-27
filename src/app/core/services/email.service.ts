@@ -36,11 +36,22 @@ export class EmailService {
     };
 
     try {
+      // Send admin notification email
       await emailjs.send(
         environment.emailjs.serviceId,
         environment.emailjs.templateId,
         templateParams
       );
+
+      // Send auto-reply to user (if template is configured)
+      if (environment.emailjs.autoReplyTemplateId &&
+          environment.emailjs.autoReplyTemplateId !== 'YOUR_AUTO_REPLY_TEMPLATE_ID') {
+        await emailjs.send(
+          environment.emailjs.serviceId,
+          environment.emailjs.autoReplyTemplateId,
+          templateParams
+        );
+      }
     } catch (error) {
       console.error('EmailJS error:', error);
       throw new Error('Failed to send registration. Please try again or call us directly.');

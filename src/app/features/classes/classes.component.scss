@@ -260,6 +260,139 @@
   }
 }
 
+// Pricing Section
+.pricing-section {
+  padding: 3rem 0;
+  background: white;
+
+  @include tablet {
+    padding: 4rem 0;
+  }
+}
+
+.pricing-header {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  h2 {
+    font-size: 2rem;
+    color: $text-color;
+    margin-bottom: 0.5rem;
+  }
+
+  .pricing-subtitle {
+    font-size: 1.125rem;
+    color: $text-light;
+  }
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+
+  @include tablet {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.pricing-card {
+  background: $background-light;
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  &.popular {
+    background: linear-gradient(135deg, $primary-color 0%, $primary-dark 100%);
+    color: white;
+
+    .pricing-tier {
+      color: white;
+    }
+
+    .pricing-amount {
+      .currency,
+      .price,
+      .period {
+        color: white;
+      }
+    }
+
+    .pricing-description {
+      color: rgba(255, 255, 255, 0.9);
+    }
+  }
+
+  .popular-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: $secondary-color;
+    color: white;
+    padding: 0.375rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .pricing-tier {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: $text-color;
+    margin-bottom: 1rem;
+  }
+
+  .pricing-amount {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+
+    .currency {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: $primary-color;
+    }
+
+    .price {
+      font-size: 3rem;
+      font-weight: 700;
+      color: $primary-color;
+      line-height: 1;
+    }
+
+    .period {
+      font-size: 1rem;
+      color: $text-light;
+      margin-left: 0.25rem;
+    }
+  }
+
+  .pricing-description {
+    font-size: 0.9375rem;
+    color: $text-light;
+  }
+}
+
+.pricing-note {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.125rem;
+  color: $primary-color;
+  font-weight: 500;
+}
+
 // CTA Section
 .cta-section {
   background: linear-gradient(135deg, $primary-color 0%, $primary-dark 100%);
