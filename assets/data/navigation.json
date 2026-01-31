@@ -20,32 +20,46 @@
       "order": 2
     },
     {
+      "id": "gallery",
+      "label": "GALLERY",
+      "route": "/gallery",
+      "icon": "images",
+      "order": 3
+    },
+    {
       "id": "classes",
       "label": "CLASSES",
       "route": "/classes",
       "icon": "users",
-      "order": 3
+      "order": 4
     },
     {
       "id": "schedule",
       "label": "SCHEDULE",
       "route": "/schedule",
       "icon": "calendar",
-      "order": 4
+      "order": 5
+    },
+    {
+      "id": "events",
+      "label": "EVENTS",
+      "route": "/events",
+      "icon": "calendar-check",
+      "order": 6
     },
     {
       "id": "rental",
       "label": "SPACE RENTAL",
       "route": "/rental",
       "icon": "building",
-      "order": 5
+      "order": 7
     },
     {
       "id": "contact",
       "label": "CONTACT US",
       "route": "/contact",
       "icon": "envelope",
-      "order": 6
+      "order": 8
     }
   ],
   "contactInfo": {
@@ -63,7 +77,7 @@
     {
       "id": "instagram",
       "label": "Instagram",
-      "url": "https://www.instagram.com/abadacapoeiraoc",
+      "url": "https://www.instagram.com/abadaoc",
       "icon": "instagram"
     },
     {
