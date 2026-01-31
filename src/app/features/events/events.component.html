@@ -1,0 +1,66 @@
+<div class="events-page">
+  <!-- Hero Section -->
+  <section class="events-hero">
+    <div class="container">
+      <h1>Events</h1>
+      <p>Workshops, performances, and community gatherings</p>
+    </div>
+  </section>
+
+  <!-- Coming Soon Section -->
+  <section class="coming-soon-section">
+    <div class="container">
+      <div class="coming-soon-card">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </div>
+        <h2>Events Coming Soon</h2>
+        <p>We're planning exciting events for our community. Check back soon for upcoming workshops, batizados, and special gatherings!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- What to Expect Section -->
+  <section class="expect-section">
+    <div class="container">
+      <h2>What to Expect</h2>
+      <div class="expect-grid">
+        @for (type of eventTypes; track type.name) {
+          <div class="expect-card">
+            <h3>{{ type.name }}</h3>
+            <p>{{ type.description }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Stay Updated Section -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Stay Updated</h2>
+      <p>Follow us on social media to be the first to know about upcoming events</p>
+      <div class="social-links">
+        <a href="https://www.facebook.com/abadaorangecounty/" target="_blank" rel="noopener noreferrer" class="social-link facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+          </svg>
+          <span>Facebook</span>
+        </a>
+        <a href="https://www.instagram.com/abadaoc" target="_blank" rel="noopener noreferrer" class="social-link instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+          <span>Instagram</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</div>

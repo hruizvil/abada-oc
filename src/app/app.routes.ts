@@ -6,6 +6,8 @@ import { AboutComponent } from './features/about/about.component';
 import { ContactComponent } from './features/contact/contact.component';
 import { ClassesComponent } from './features/classes/classes.component';
 import { RentalComponent } from './features/rental/rental.component';
+import { EventsComponent } from './features/events/events.component';
+import { GalleryComponent } from './features/gallery/gallery.component';
 
 export const routes: Routes = [
   {
@@ -29,8 +31,16 @@ export const routes: Routes = [
     component: ContactComponent
   },
   {
+    path: 'gallery',
+    component: GalleryComponent
+  },
+  {
     path: 'classes',
     component: ClassesComponent
+  },
+  {
+    path: 'events',
+    component: EventsComponent
   },
   {
     path: 'rental',
