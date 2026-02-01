@@ -2,7 +2,7 @@
   <div class="header-container">
     <!-- Logo -->
     <div class="header-logo">
-      <a routerLink="/" class="logo-link" (click)="closeMobileMenu()">
+      <a routerLink="/" href="/" class="logo-link" (click)="closeMobileMenu()">
         <img
           src="assets/images/abadaoc-logo.png"
           alt="ABADÁ-Capoeira Fountain Valley Logo"
@@ -55,6 +55,7 @@
                       <li class="dropdown-item">
                         <a
                           [routerLink]="child.route"
+                          [attr.href]="child.route"
                           routerLinkActive="active"
                           (click)="closeMobileMenu()"
                           class="dropdown-link">
@@ -67,6 +68,7 @@
               } @else {
                 <a
                   [routerLink]="item.route"
+                  [attr.href]="item.route"
                   routerLinkActive="active"
                   [routerLinkActiveOptions]="{exact: item.route === '/'}"
                   (click)="closeMobileMenu()"
