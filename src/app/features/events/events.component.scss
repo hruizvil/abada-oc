@@ -40,51 +40,133 @@
   }
 }
 
-// Coming Soon Section
-.coming-soon-section {
-  padding: 4rem 0;
+// Event Header Card
+.event-header-section {
+  padding: 3rem 0;
   background: white;
-
-  @include tablet {
-    padding: 5rem 0;
-  }
 }
 
-.coming-soon-card {
-  text-align: center;
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 3rem 2rem;
+.event-header-card {
   background: $background-light;
   border-radius: 16px;
+  padding: 2rem;
+  border-top: 4px solid $primary-color;
 
-  .coming-soon-icon {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 1.5rem;
-    color: $primary-color;
-
-    svg {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  h2 {
-    font-size: 1.75rem;
-    color: $text-color;
-    margin-bottom: 1rem;
-  }
-
-  p {
-    font-size: 1.0625rem;
-    color: $text-light;
-    line-height: 1.7;
+  @include tablet {
+    padding: 2.5rem;
   }
 }
 
-// What to Expect Section
-.expect-section {
+.event-badge {
+  display: inline-block;
+  background: $secondary-color;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.9rem;
+  border-radius: 20px;
+  margin-bottom: 1rem;
+}
+
+.event-header-card h2 {
+  font-size: 1.25rem;
+  color: $text-color;
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+
+  @include tablet {
+    font-size: 1.6rem;
+  }
+
+  @include desktop {
+    font-size: 2rem;
+  }
+}
+
+.event-subtitle {
+  font-size: 1.125rem;
+  color: $primary-color;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+}
+
+.event-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+
+  @include tablet {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  color: $text-light;
+
+  svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: $primary-color;
+  }
+
+  &.warning {
+    color: #c0392b;
+
+    svg {
+      color: #c0392b;
+    }
+  }
+}
+
+.event-description {
+  font-size: 1rem;
+  color: $text-light;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.event-guests {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  @include tablet {
+    flex-direction: row;
+    gap: 2rem;
+  }
+}
+
+.guest-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.guest-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: $text-light;
+}
+
+.guest-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: $primary-color;
+}
+
+// Schedule Section
+.schedule-section {
   padding: 3rem 0;
   background: $background-light;
 
@@ -100,32 +182,315 @@
   }
 }
 
-.expect-grid {
+.schedule-grid {
   display: grid;
-  grid-template-columns: 1fr;
   gap: 1rem;
+  grid-template-columns: 1fr;
 
   @include tablet {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  @include desktop {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
-.expect-card {
+.schedule-card {
   background: white;
-  padding: 1.5rem;
   border-radius: 12px;
+  padding: 1.25rem 1.5rem;
   border-left: 4px solid $primary-color;
+}
 
-  h3 {
-    font-size: 1.125rem;
-    color: $primary-color;
-    margin-bottom: 0.5rem;
+.schedule-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: $primary-color;
+  margin-bottom: 0.2rem;
+}
+
+.schedule-date {
+  font-size: 1rem;
+  font-weight: 700;
+  color: $text-color;
+  margin-bottom: 0.5rem;
+}
+
+.schedule-location {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  font-size: 0.8125rem;
+  color: $text-light;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+
+  svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+}
+
+.schedule-events {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  li {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+  }
+}
+
+.event-time {
+  font-weight: 700;
+  color: $secondary-color;
+  white-space: nowrap;
+  min-width: 60px;
+}
+
+.event-desc {
+  color: $text-light;
+  line-height: 1.4;
+}
+
+// Pricing Section
+.pricing-section {
+  padding: 3rem 0;
+  background: white;
+
+  @include tablet {
+    padding: 4rem 0;
   }
 
-  p {
+  h2 {
+    font-size: 1.5rem;
+    color: $text-color;
+    margin-bottom: 1.25rem;
+  }
+}
+
+.pricing-grid {
+  display: grid;
+  gap: 1.5rem;
+
+  @include tablet {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.pricing-card,
+.payment-card {
+  background: $background-light;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.pricing-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid darken($background-light, 5%);
+
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+  }
+}
+
+.pricing-label {
+  font-size: 0.9375rem;
+  color: $text-light;
+}
+
+.pricing-price {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: $primary-color;
+}
+
+.pricing-note {
+  font-size: 0.875rem;
+  color: #c0392b;
+  margin: 0;
+}
+
+.payment-methods {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  li {
     font-size: 0.9375rem;
     color: $text-light;
-    margin: 0;
+    padding: 0.5rem 0.75rem;
+    background: white;
+    border-radius: 8px;
+
+    &::before {
+      content: '✓ ';
+      color: $secondary-color;
+      font-weight: 700;
+    }
+  }
+}
+
+.qr-section {
+  text-align: center;
+
+  p {
+    font-size: 0.875rem;
+    color: $text-light;
+    margin-bottom: 0.75rem;
+  }
+}
+
+.qr-image {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+}
+
+// Flyers Gallery
+.flyers-section {
+  padding: 3rem 0;
+  background: $background-light;
+
+  @include tablet {
+    padding: 4rem 0;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+    color: $text-color;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+}
+
+.flyers-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+
+  @include tablet {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.flyer-item {
+  cursor: pointer;
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+
+  img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.flyer-caption {
+  display: block;
+  text-align: center;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $text-light;
+  background: white;
+}
+
+.flyer-hint {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: $primary-color;
+  opacity: 0.7;
+  margin-left: 0.3rem;
+}
+
+// Lightbox
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+
+  img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255,255,255,0.2);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(255,255,255,0.35);
   }
 }
 

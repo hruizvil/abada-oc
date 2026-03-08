@@ -7,38 +7,137 @@
     </div>
   </section>
 
-  <!-- Coming Soon Section -->
-  <section class="coming-soon-section">
-    <div class="container">
-      <div class="coming-soon-card">
-        <div class="coming-soon-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-            <line x1="16" y1="2" x2="16" y2="6"/>
-            <line x1="8" y1="2" x2="8" y2="6"/>
-            <line x1="3" y1="10" x2="21" y2="10"/>
-          </svg>
-        </div>
-        <h2>Events Coming Soon</h2>
-        <p>We're planning exciting events for our community. Check back soon for upcoming workshops, batizados, and special gatherings!</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- What to Expect Section -->
-  <section class="expect-section">
-    <div class="container">
-      <h2>What to Expect</h2>
-      <div class="expect-grid">
-        @for (type of eventTypes; track type.name) {
-          <div class="expect-card">
-            <h3>{{ type.name }}</h3>
-            <p>{{ type.description }}</p>
+  @if (eventData(); as event) {
+    <!-- Event Header Card -->
+    <section class="event-header-section">
+      <div class="container">
+        <div class="event-header-card">
+          <div class="event-badge">Upcoming Event</div>
+          <h2>{{ event.title }}</h2>
+          <p class="event-subtitle">{{ event.subtitle }}</p>
+          <div class="event-meta">
+            <div class="meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>{{ event.dates }}</span>
+            </div>
+            <div class="meta-item warning">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span>Registration deadline: {{ event.registrationDeadline }}</span>
+            </div>
           </div>
-        }
+          <p class="event-description">{{ event.description }}</p>
+          <div class="event-guests">
+            <div class="guest-item">
+              <span class="guest-label">Guest of Honor</span>
+              <span class="guest-name">{{ event.guestOfHonor }}</span>
+            </div>
+            @for (guest of event.specialGuests; track guest) {
+              <div class="guest-item">
+                <span class="guest-label">Special Guest</span>
+                <span class="guest-name">{{ guest }}</span>
+              </div>
+            }
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- Workshop Schedule -->
+    <section class="schedule-section">
+      <div class="container">
+        <h2>Event Schedule</h2>
+        <div class="schedule-grid">
+          @for (day of event.schedule; track day.date) {
+            <div class="schedule-card">
+              <div class="schedule-label">{{ day.label }}</div>
+              <div class="schedule-date">{{ day.date }}</div>
+              <div class="schedule-location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                {{ day.location }}
+              </div>
+              <ul class="schedule-events">
+                @for (item of day.events; track item.time) {
+                  <li>
+                    <span class="event-time">{{ item.time }}</span>
+                    <span class="event-desc">{{ item.description }}</span>
+                  </li>
+                }
+              </ul>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing & Registration -->
+    <section class="pricing-section">
+      <div class="container">
+        <div class="pricing-grid">
+          <!-- Pricing -->
+          <div class="pricing-card">
+            <h2>Student Pricing</h2>
+            <ul class="pricing-list">
+              @for (tier of event.pricing; track tier.label) {
+                <li>
+                  <span class="pricing-label">{{ tier.label }}</span>
+                  <span class="pricing-price">{{ tier.price }}</span>
+                </li>
+              }
+            </ul>
+            <p class="pricing-note">Registration ends <strong>{{ event.registrationDeadline }}</strong></p>
+          </div>
+
+          <!-- Payment Methods -->
+          <div class="payment-card">
+            <h2>How to Pay</h2>
+            <ul class="payment-methods">
+              @for (method of event.payment.methods; track method) {
+                <li>{{ method }}</li>
+              }
+            </ul>
+            <div class="qr-section">
+              <p>Scan to pay via Venmo — click to enlarge</p>
+              <img
+                [src]="event.payment.qrCode"
+                alt="Venmo QR Code — @Abada-Oc"
+                class="qr-image"
+                (click)="openLightbox(event.payment.qrCode)"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Flyers Gallery -->
+    <section class="flyers-section">
+      <div class="container">
+        <h2>Event Flyers</h2>
+        <div class="flyers-grid">
+          <div class="flyer-item" (click)="openLightbox(event.flyers.general)">
+            <img [src]="event.flyers.general" alt="Batizado 2026 — General Flyer" />
+            <span class="flyer-caption">General Announcement <span class="flyer-hint">tap to enlarge</span></span>
+          </div>
+          <div class="flyer-item" (click)="openLightbox(event.flyers.workshops)">
+            <img [src]="event.flyers.workshops" alt="Batizado 2026 — Workshop Schedule" />
+            <span class="flyer-caption">Workshop Schedule <span class="flyer-hint">tap to enlarge</span></span>
+          </div>
+          <div class="flyer-item" (click)="openLightbox(event.flyers.instructors)">
+            <img [src]="event.flyers.instructors" alt="Batizado 2026 — Registration Info" />
+            <span class="flyer-caption">Registration Info <span class="flyer-hint">tap to enlarge</span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lightbox -->
+    @if (lightboxImage()) {
+      <div class="lightbox" (click)="closeLightbox()">
+        <button class="lightbox-close" (click)="closeLightbox()">✕</button>
+        <img [src]="lightboxImage()!" alt="Flyer full view" (click)="$event.stopPropagation()" />
+      </div>
+    }
+  }
 
   <!-- Stay Updated Section -->
   <section class="cta-section">

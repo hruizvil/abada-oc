@@ -30,4 +30,8 @@ export class DataService {
   getAboutContent(page: string): Observable<any> {
     return this.http.get(`${this.dataPath}/about-${page}.json`);
   }
+
+  getEvents(): Observable<any> {
+    return this.http.get(`${this.dataPath}/events.json`);
+  }
 }

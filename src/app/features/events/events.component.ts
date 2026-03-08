@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { DataService } from '../../core/services/data.service';
 
 @Component({
   selector: 'app-events',
@@ -9,12 +10,23 @@ import { RouterModule } from '@angular/router';
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.scss']
 })
-export class EventsComponent {
-  // Event types for future use
-  eventTypes = [
-    { name: 'Batizados', description: 'Belt ceremonies and graduations' },
-    { name: 'Workshops', description: 'Special training with guest instructors' },
-    { name: 'Rodas', description: 'Open capoeira circles' },
-    { name: 'Performances', description: 'Community events and shows' }
-  ];
+export class EventsComponent implements OnInit {
+  private dataService = inject(DataService);
+
+  eventData = signal<any>(null);
+  lightboxImage = signal<string | null>(null);
+
+  ngOnInit() {
+    this.dataService.getEvents().subscribe(data => {
+      this.eventData.set(data.upcomingEvent);
+    });
+  }
+
+  openLightbox(src: string) {
+    this.lightboxImage.set(src);
+  }
+
+  closeLightbox() {
+    this.lightboxImage.set(null);
+  }
 }
