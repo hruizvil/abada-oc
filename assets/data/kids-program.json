@@ -61,8 +61,16 @@
     "ageRange": "5 to 12 years old",
     "classes": [
       {
+        "days": "Mondays",
+        "time": "5:30 PM"
+      },
+      {
         "days": "Tuesdays & Thursdays",
         "time": "5:00 PM"
+      },
+      {
+        "days": "Wednesdays",
+        "time": "5:30 PM"
       },
       {
         "days": "Saturday",

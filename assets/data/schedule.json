@@ -16,11 +16,15 @@
       "level": "All Levels Welcome",
       "schedule": [
         {
+          "days": "Mondays",
+          "time": "7:00 PM"
+        },
+        {
           "days": "Tuesdays & Thursdays",
           "time": "6:00 PM"
         },
         {
-          "days": "Wednesday",
+          "days": "Wednesdays",
           "time": "7:00 PM"
         },
         {
@@ -38,8 +42,16 @@
       "level": "Kids of All Levels Welcome",
       "schedule": [
         {
+          "days": "Mondays",
+          "time": "5:30 PM"
+        },
+        {
           "days": "Tuesdays & Thursdays",
           "time": "5:00 PM"
+        },
+        {
+          "days": "Wednesdays",
+          "time": "5:30 PM"
         },
         {
           "days": "Saturday",

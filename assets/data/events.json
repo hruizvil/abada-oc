@@ -1,0 +1,76 @@
+{
+  "upcomingEvent": {
+    "id": "batizado-2026",
+    "title": "Southern California Youth Capoeira Festival 2026",
+    "subtitle": "Batizado & Troca de Cordas",
+    "dates": "April 22–26, 2026",
+    "registrationDeadline": "April 1, 2026",
+    "description": "Our annual graduation ceremony this year features not only the graduation ceremony and the exchange of ranks, but also our very first Youth Capoeira Festival. A great opportunity to introduce youth to the competition atmosphere without the pressure of competing to win.",
+    "guestOfHonor": "Mestrando Coala (Rio de Janeiro, Brazil)",
+    "specialGuests": ["Professor Veio (Porto Alegre, Brazil)"],
+    "presentedBy": "Professor Mosquito & ABADÁ OC Team",
+    "regionalCoordinator": "Mestra Marcia Cigarra",
+    "supervisedBy": "Mestre Camisa",
+    "schedule": [
+      {
+        "date": "Wednesday, April 22",
+        "label": "Workshop Day 1",
+        "location": "8552 Warner Ave, Fountain Valley, CA 92708",
+        "events": [
+          { "time": "5:00 PM", "description": "Kids/Youth Class" },
+          { "time": "6:30 PM", "description": "All Level Adults Class" }
+        ]
+      },
+      {
+        "date": "Thursday, April 23",
+        "label": "Workshop Day 2",
+        "location": "8552 Warner Ave, Fountain Valley, CA 92708",
+        "events": [
+          { "time": "5:00 PM", "description": "Kids/Youth Class" },
+          { "time": "6:30 PM", "description": "All Level Adults Class" }
+        ]
+      },
+      {
+        "date": "Friday, April 24",
+        "label": "Workshop Day 3",
+        "location": "8552 Warner Ave, Fountain Valley, CA 92708",
+        "events": [
+          { "time": "5:00 PM", "description": "Kids/Youth Class" },
+          { "time": "6:30 PM", "description": "All Level Adults Class" }
+        ]
+      },
+      {
+        "date": "Saturday, April 25",
+        "label": "Youth Capoeira Festival Day",
+        "location": "16400 Brookhurst St, Fountain Valley, CA 92708",
+        "events": [
+          { "time": "9:00 AM", "description": "Youth Capoeira Festival" },
+          { "time": "12:00 PM", "description": "Performance — Earth Moves Event (all must attend)" },
+          { "time": "6:00 PM", "description": "Adults All Level Class — 8552 Warner Ave" }
+        ]
+      },
+      {
+        "date": "Sunday, April 26",
+        "label": "Batizado & Graduation",
+        "location": "16400 Brookhurst St, Fountain Valley, CA 92708",
+        "events": [
+          { "time": "9:30 AM", "description": "Batizado & Graduation Ceremony" }
+        ]
+      }
+    ],
+    "pricing": [
+      { "label": "1 student", "price": "$180" },
+      { "label": "2 students per family", "price": "$160 each" },
+      { "label": "3 or more students per family", "price": "$140 each" }
+    ],
+    "payment": {
+      "methods": ["Cash", "Venmo (@Abada-Oc)", "Zelle (capoeiraoc@gmail.com)", "Check (Orange County Capoeira)"],
+      "qrCode": "/assets/images/batizado-2026/batizado-qrcode-for-payment.jpg"
+    },
+    "flyers": {
+      "general": "/assets/images/batizado-2026/batizado-2026-general.jpg",
+      "workshops": "/assets/images/batizado-2026/batizado-2026-workshops.jpg",
+      "instructors": "/assets/images/batizado-2026/batizado-2026-instructors.jpg"
+    }
+  }
+}
