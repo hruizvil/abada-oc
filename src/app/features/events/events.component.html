@@ -215,12 +215,22 @@
             <div class="schedule-card">
               <div class="schedule-label">{{ day.label }}</div>
               <div class="schedule-date">{{ day.date }}</div>
-
+              @if (day.location) {
+                <div class="schedule-location">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  {{ day.location }}
+                </div>
+              }
               <ul class="schedule-events">
                 @for (item of day.events; track item.time) {
                   <li>
                     <span class="event-time">{{ item.time }}</span>
-                    <span class="event-desc">{{ item.description }}</span>
+                    <span class="event-desc">
+                      {{ item.description }}
+                      @if (item.location) {
+                        <span class="event-location">{{ item.location }}</span>
+                      }
+                    </span>
                   </li>
                 }
               </ul>
@@ -238,10 +248,6 @@
           <div class="flyer-item" (click)="openLightbox(event.flyers.general)">
             <img [src]="event.flyers.general" alt="Batizado 2026 — General Flyer" />
             <span class="flyer-caption">General Announcement <span class="flyer-hint">tap to enlarge</span></span>
-          </div>
-          <div class="flyer-item" (click)="openLightbox(event.flyers.workshops)">
-            <img [src]="event.flyers.workshops" alt="Batizado 2026 — Workshop Schedule" />
-            <span class="flyer-caption">Workshop Schedule <span class="flyer-hint">tap to enlarge</span></span>
           </div>
           <div class="flyer-item" (click)="openLightbox(event.flyers.instructors)">
             <img [src]="event.flyers.instructors" alt="Batizado 2026 — Registration Info" />

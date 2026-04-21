@@ -285,6 +285,14 @@
   line-height: 1.4;
 }
 
+.event-location {
+  display: block;
+  font-size: 0.8rem;
+  color: $primary-color;
+  opacity: 0.8;
+  margin-top: 0.2rem;
+}
+
 .qr-section {
   text-align: center;
 
@@ -333,7 +341,8 @@
   grid-template-columns: 1fr;
 
   @include tablet {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 320px));
+    justify-content: center;
   }
 }
 

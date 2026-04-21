@@ -41,17 +41,16 @@
       {
         "date": "Saturday, April 25",
         "label": "Youth Capoeira Festival Day",
-        "location": "16400 Brookhurst St, Fountain Valley, CA 92708",
         "events": [
-          { "time": "9:00 AM", "description": "Youth Capoeira Festival" },
-          { "time": "12:00 PM", "description": "Performance — Earth Moves Event (all must attend)" },
-          { "time": "6:00 PM", "description": "Adults All Level Class — 8552 Warner Ave" }
+          { "time": "9:00 AM", "description": "Youth Capoeira Festival", "location": "17967 Bushard St, Fountain Valley, CA 92708" },
+          { "time": "12:00 PM", "description": "Performance — Earth Moves Event (all must attend)", "location": "4700 Griffin Ave, Los Angeles, CA 90031" },
+          { "time": "6:00 PM", "description": "Adults All Level Class", "location": "8552 Warner Ave, Fountain Valley, CA 92708" }
         ]
       },
       {
         "date": "Sunday, April 26",
         "label": "Batizado & Graduation",
-        "location": "16400 Brookhurst St, Fountain Valley, CA 92708",
+        "location": "17967 Bushard St, Fountain Valley, CA 92708",
         "events": [
           { "time": "9:30 AM", "description": "Batizado & Graduation Ceremony" }
         ]
