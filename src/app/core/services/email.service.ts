@@ -10,6 +10,16 @@ export interface RegistrationData {
   comments: string;
 }
 
+export interface BatizadoRegistrationData {
+  firstName: string;
+  lastName: string;
+  apelido: string;
+  phone: string;
+  email: string;
+  attendeeCount: number;
+  totalPrice: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -55,6 +65,43 @@ export class EmailService {
     } catch (error) {
       console.error('EmailJS error:', error);
       throw new Error('Failed to send registration. Please try again or call us directly.');
+    }
+  }
+
+  async sendBatizadoRegistrationEmail(data: BatizadoRegistrationData): Promise<void> {
+    const templateParams = {
+      from_name: `${data.firstName} ${data.lastName}`,
+      from_email: data.email,
+      phone: data.phone,
+      apelido: data.apelido || 'N/A',
+      attendee_count: data.attendeeCount,
+      total_price: `$${data.totalPrice}`,
+      to_email: environment.emailjs.toEmail
+    };
+
+    try {
+      // Admin notification
+      if (environment.emailjs.batizadoAdminTemplateId &&
+          !environment.emailjs.batizadoAdminTemplateId.startsWith('YOUR_')) {
+        await emailjs.send(
+          environment.emailjs.serviceId,
+          environment.emailjs.batizadoAdminTemplateId,
+          templateParams
+        );
+      }
+
+      // User confirmation
+      if (environment.emailjs.batizadoReplyTemplateId &&
+          !environment.emailjs.batizadoReplyTemplateId.startsWith('YOUR_')) {
+        await emailjs.send(
+          environment.emailjs.serviceId,
+          environment.emailjs.batizadoReplyTemplateId,
+          { ...templateParams, to_email: data.email }
+        );
+      }
+    } catch (error) {
+      console.error('EmailJS batizado error:', error);
+      throw new Error('Failed to send registration. Please try again or contact us directly.');
     }
   }
 }

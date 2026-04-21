@@ -4,7 +4,6 @@
     "title": "Southern California Youth Capoeira Festival 2026",
     "subtitle": "Batizado & Troca de Cordas",
     "dates": "April 22–26, 2026",
-    "registrationDeadline": "April 1, 2026",
     "description": "Our annual graduation ceremony this year features not only the graduation ceremony and the exchange of ranks, but also our very first Youth Capoeira Festival. A great opportunity to introduce youth to the competition atmosphere without the pressure of competing to win.",
     "guestOfHonor": "Mestrando Coala (Rio de Janeiro, Brazil)",
     "specialGuests": ["Professor Veio (Porto Alegre, Brazil)"],
@@ -59,9 +58,9 @@
       }
     ],
     "pricing": [
-      { "label": "1 student", "price": "$180" },
-      { "label": "2 students per family", "price": "$160 each" },
-      { "label": "3 or more students per family", "price": "$140 each" }
+      { "label": "1 student", "price": "$220" },
+      { "label": "2 students per family", "price": "$200 each" },
+      { "label": "3 or more students per family", "price": "$180 each" }
     ],
     "payment": {
       "methods": ["Cash", "Venmo (@Abada-Oc)", "Zelle (capoeiraoc@gmail.com)", "Check (Orange County Capoeira)"],
