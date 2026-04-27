@@ -105,6 +105,54 @@
   padding: 0.3rem 0.9rem;
   border-radius: 20px;
   margin-bottom: 1rem;
+
+  &.past { background: #888; }
+}
+
+.thankyou-card {
+  text-align: center;
+
+  .thankyou-icon {
+    font-size: 3rem;
+    margin-bottom: 0.75rem;
+  }
+
+  h2 { margin-bottom: 1rem; }
+
+  .thankyou-message {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: $text-light;
+    margin-bottom: 0.75rem;
+  }
+
+  .thankyou-submessage {
+    font-size: 0.9rem;
+    color: $text-light;
+    margin-bottom: 1.5rem;
+  }
+
+  .thankyou-social {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+
+    .social-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      color: white;
+
+      &.facebook { background: #1877f2; }
+      &.instagram { background: #e1306c; }
+    }
+  }
 }
 
 .event-subtitle {

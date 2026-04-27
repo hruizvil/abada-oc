@@ -23,21 +23,6 @@
     </section>
 
     <!-- Upcoming Event Banner -->
-    @if (upcomingEvent(); as event) {
-      <section class="event-banner">
-        <div class="container">
-          <div class="event-banner-inner">
-            <div class="event-banner-badge">Upcoming Event</div>
-            <div class="event-banner-content">
-              <h2>{{ event.title }}</h2>
-              <p>{{ event.subtitle }} &mdash; <strong>{{ event.dates }}</strong></p>
-              <p class="event-banner-deadline">Late registration open — prices have increased</p>
-            </div>
-            <a routerLink="/events" class="event-banner-btn">View Details</a>
-          </div>
-        </div>
-      </section>
-    }
 
     <!-- What is Capoeira Section -->
     <section class="what-is-capoeira">
