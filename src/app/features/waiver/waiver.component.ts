@@ -17,7 +17,12 @@ export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestr
 
   private signaturePad!: SignaturePad;
   private guardianSignaturePad?: SignaturePad;
-  private resizeHandler = () => this.resizeCanvas(this.signatureCanvas.nativeElement);
+  private resizeHandler = () => {
+    this.resizeCanvas(this.signatureCanvas.nativeElement, this.signaturePad);
+    if (this.guardianSignaturePad && this.guardianSignatureCanvas) {
+      this.resizeCanvas(this.guardianSignatureCanvas.nativeElement, this.guardianSignaturePad);
+    }
+  };
 
   waiverForm: FormGroup;
   isMinor = signal(false);
@@ -84,18 +89,22 @@ export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestr
 
   private initGuardianPad(): void {
     const canvas = this.guardianSignatureCanvas!.nativeElement;
-    this.resizeCanvas(canvas);
+    this.resizeCanvas(canvas, undefined);
     this.guardianSignaturePad = new SignaturePad(canvas, { penColor: '#1a1a1a', minWidth: 1, maxWidth: 3 });
     this.guardianSignaturePad.addEventListener('endStroke', () => {
       this.guardianSignatureEmpty.set(this.guardianSignaturePad!.isEmpty());
     });
   }
 
-  private resizeCanvas(canvas: HTMLCanvasElement): void {
+  private resizeCanvas(canvas: HTMLCanvasElement, pad?: SignaturePad): void {
+    const data = pad?.toData();
     const ratio = Math.max(window.devicePixelRatio || 1, 1);
     canvas.width  = canvas.offsetWidth  * ratio;
     canvas.height = canvas.offsetHeight * ratio;
     canvas.getContext('2d')!.scale(ratio, ratio);
+    if (pad && data?.length) {
+      pad.fromData(data);
+    }
   }
 
   clearSignature(): void {
