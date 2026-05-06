@@ -1,0 +1,191 @@
+<div class="waiver-page">
+  <section class="waiver-hero">
+    <div class="container">
+      <h1>Registration Form, Waiver of Liability,<br>Assumption of Risk & Indemnity Agreement,<br>and Photo/Video Consent</h1>
+      <p>ABADÁ-Capoeira OC — Please read carefully and sign below</p>
+    </div>
+  </section>
+
+  <section class="waiver-section">
+    <div class="container">
+
+      @if (submitSuccess()) {
+        <div class="waiver-success">
+          <div class="success-icon">✓</div>
+          <h2>Waiver Signed!</h2>
+          <p>Thank you, <strong>{{ waiverForm.get('firstName')?.value }}</strong>. Your waiver has been recorded and a confirmation has been sent to <strong>{{ waiverForm.get('email')?.value }}</strong>.</p>
+          <p class="success-note">You're all set to participate. See you on the floor!</p>
+        </div>
+
+      } @else {
+        <form [formGroup]="waiverForm" (ngSubmit)="onSubmit()" novalidate>
+
+          <!-- Personal Information -->
+          <div class="form-card">
+            <h3 class="form-section-title">Your Information</h3>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="firstName">First Name <span class="required">*</span></label>
+                <input id="firstName" type="text" formControlName="firstName"
+                  [class.error]="isFieldInvalid('firstName')" placeholder="First name" />
+                @if (isFieldInvalid('firstName')) {
+                  <span class="error-msg">Required</span>
+                }
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name <span class="required">*</span></label>
+                <input id="lastName" type="text" formControlName="lastName"
+                  [class.error]="isFieldInvalid('lastName')" placeholder="Last name" />
+                @if (isFieldInvalid('lastName')) {
+                  <span class="error-msg">Required</span>
+                }
+              </div>
+            </div>
+
+            <div class="form-group half">
+              <label for="apelido">Apelido (Capoeira nickname)</label>
+              <input id="apelido" type="text" formControlName="apelido" placeholder="Optional" />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">Email <span class="required">*</span></label>
+                <input id="email" type="email" formControlName="email"
+                  [class.error]="isFieldInvalid('email')" placeholder="you@example.com" />
+                @if (isFieldInvalid('email')) {
+                  <span class="error-msg">Valid email required</span>
+                }
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone <span class="required">*</span></label>
+                <input id="phone" type="tel" formControlName="phone"
+                  [class.error]="isFieldInvalid('phone')" placeholder="(555) 555-5555" />
+                @if (isFieldInvalid('phone')) {
+                  <span class="error-msg">Required</span>
+                }
+              </div>
+            </div>
+
+            <div class="form-group half">
+              <label for="dateOfBirth">Date of Birth <span class="required">*</span></label>
+              <input id="dateOfBirth" type="date" formControlName="dateOfBirth"
+                [class.error]="isFieldInvalid('dateOfBirth')" />
+              @if (isFieldInvalid('dateOfBirth')) {
+                <span class="error-msg">Required</span>
+              }
+            </div>
+          </div>
+
+          <!-- Parent / Guardian (minors only) -->
+          @if (isMinor()) {
+            <div class="form-card minor-card">
+              <div class="minor-badge">Under 18 — Parent / Guardian Required</div>
+              <h3 class="form-section-title">Parent / Guardian Information</h3>
+              <p class="minor-note">Because this participant is under 18, a parent or legal guardian must provide their information and consent.</p>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="parentName">Parent / Guardian Full Name <span class="required">*</span></label>
+                  <input id="parentName" type="text" formControlName="parentName"
+                    [class.error]="isFieldInvalid('parentName')" placeholder="Full name" />
+                  @if (isFieldInvalid('parentName')) {
+                    <span class="error-msg">Required</span>
+                  }
+                </div>
+                <div class="form-group">
+                  <label for="parentEmail">Parent / Guardian Email <span class="required">*</span></label>
+                  <input id="parentEmail" type="email" formControlName="parentEmail"
+                    [class.error]="isFieldInvalid('parentEmail')" placeholder="parent@example.com" />
+                  @if (isFieldInvalid('parentEmail')) {
+                    <span class="error-msg">Valid email required</span>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+
+          <!-- Waiver Text -->
+          <div class="form-card">
+            <h3 class="form-section-title">Waiver & Release of Liability</h3>
+            <div class="waiver-text">
+
+              <p><strong>PLEASE READ THIS ENTIRE DOCUMENT CAREFULLY BEFORE SIGNING.</strong></p>
+
+              <h4>Assumption of Risk</h4>
+              <p>I am aware that Capoeira is a powerful tool of self-defense. Though students are not commonly injured, I understand and agree, however, that all martial arts, including Capoeira, are inherently dangerous recreational activities in which students can, on rare occasions, be severely or even fatally injured.</p>
+
+              <h4>Release of Liability</h4>
+              <p>I RELEASE JACKSON FERREIRA, THE CAPOEIRA ACADEMY AND ITS INSTRUCTORS FROM RESPONSIBILITY FOR ANY INJURIES THAT I INCUR AS A RESULT OF MY STUDY WITH/AT ABADÁ CAPOEIRA ORANGE COUNTY ACADEMY. This release is binding to my heirs.</p>
+
+              <h4>Photo & Video Consent</h4>
+              <p>Without expectation of compensation now or in the future, I hereby give my consent to ABADA CAPOEIRA, its affiliates and agents, to USE MY IMAGE and likeness and/or any interview statements from me in its publications, advertising or other media (including Internet). This consent includes, but is not limited to: (a) Permission to photograph, film, interview or otherwise make a video reproduction of me and/or record my voice; (b) Permission to use my name, (c) Permission to use quotes/clips from the photo, film, or interview (or excerpts of such quotes). This consent is given in perpetuity, and does not require prior approval by me. The below signed parent or legal guardian of the above-named minor child hereby consents to and gives permission to the above on behalf of such minor child.</p>
+
+              <h4>Mailing List</h4>
+              <p>By signing this form, you agree to be added to our mailing list. You may unsubscribe at any time.</p>
+
+            </div>
+          </div>
+
+          <!-- Agreement Checkbox -->
+          <div class="form-card">
+            <label class="agree-label" [class.error]="isFieldInvalid('agreeToTerms')">
+              <input type="checkbox" formControlName="agreeToTerms" />
+              <span>I have read and fully understand the waiver above. I agree to its terms on behalf of myself{{ isMinor() ? ' and my minor child' : '' }}.</span>
+            </label>
+            @if (isFieldInvalid('agreeToTerms')) {
+              <span class="error-msg">You must agree to the terms to continue</span>
+            }
+          </div>
+
+          <!-- Client Signature -->
+          <div class="form-card signature-card">
+            <h3 class="form-section-title">Client Signature</h3>
+            <p class="signature-instructions">Sign with your mouse or finger in the box below.</p>
+
+            <div class="signature-wrapper" [class.error]="signatureEmpty() && waiverForm.touched">
+              <canvas #signatureCanvas class="signature-canvas"></canvas>
+            </div>
+            @if (signatureEmpty() && waiverForm.touched) {
+              <span class="error-msg">Signature is required</span>
+            }
+            <button type="button" class="clear-btn" (click)="clearSignature()">Clear signature</button>
+          </div>
+
+          <!-- Guardian Signature (minors only) -->
+          @if (isMinor()) {
+            <div class="form-card signature-card minor-card">
+              <div class="minor-badge">Guardian Signature Required</div>
+              <h3 class="form-section-title">Guardian Signature</h3>
+              <p class="signature-instructions">Parent or legal guardian must sign below.</p>
+
+              <div class="signature-wrapper" [class.error]="guardianSignatureEmpty() && waiverForm.touched">
+                <canvas #guardianSignatureCanvas class="signature-canvas"></canvas>
+              </div>
+              @if (guardianSignatureEmpty() && waiverForm.touched) {
+                <span class="error-msg">Guardian signature is required</span>
+              }
+              <button type="button" class="clear-btn" (click)="clearGuardianSignature()">Clear signature</button>
+            </div>
+          }
+
+          <!-- Submit -->
+          @if (submitError()) {
+            <div class="submit-error">{{ submitError() }}</div>
+          }
+
+          <button type="submit" class="submit-btn" [disabled]="isSubmitting()">
+            {{ isSubmitting() ? 'Submitting...' : 'Sign & Submit Waiver' }}
+          </button>
+
+          <p class="form-contact-note">
+            Questions? Contact Professor Mosquito:
+            <a href="tel:5623409801">(562) 340-9801</a> &nbsp;·&nbsp;
+            <a href="mailto:capoeiraoc@gmail.com">capoeiraoc&#64;gmail.com</a>
+          </p>
+
+        </form>
+      }
+    </div>
+  </section>
+</div>

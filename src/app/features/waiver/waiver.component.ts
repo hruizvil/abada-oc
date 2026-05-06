@@ -1,0 +1,170 @@
+import { Component, signal, ViewChild, ElementRef, AfterViewInit, AfterViewChecked, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import SignaturePad from 'signature_pad';
+import { environment } from '../../../environments/environment';
+
+@Component({
+  selector: 'app-waiver',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './waiver.component.html',
+  styleUrl: './waiver.component.scss'
+})
+export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestroy {
+  @ViewChild('signatureCanvas') signatureCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('guardianSignatureCanvas') guardianSignatureCanvas?: ElementRef<HTMLCanvasElement>;
+
+  private signaturePad!: SignaturePad;
+  private guardianSignaturePad?: SignaturePad;
+  private resizeHandler = () => this.resizeCanvas(this.signatureCanvas.nativeElement);
+
+  waiverForm: FormGroup;
+  isMinor = signal(false);
+  isSubmitting = signal(false);
+  submitSuccess = signal(false);
+  submitError = signal('');
+  signatureEmpty = signal(true);
+  guardianSignatureEmpty = signal(true);
+
+  constructor(private fb: FormBuilder) {
+    this.waiverForm = this.fb.group({
+      firstName:    ['', Validators.required],
+      lastName:     ['', Validators.required],
+      apelido:      [''],
+      email:        ['', [Validators.required, Validators.email]],
+      phone:        ['', Validators.required],
+      dateOfBirth:  ['', Validators.required],
+      parentName:   [''],
+      parentEmail:  [''],
+      agreeToTerms: [false, Validators.requiredTrue]
+    });
+
+    this.waiverForm.get('dateOfBirth')!.valueChanges.subscribe(dob => {
+      const minor = this.calculateIsMinor(dob);
+      this.isMinor.set(minor);
+      const parentName  = this.waiverForm.get('parentName')!;
+      const parentEmail = this.waiverForm.get('parentEmail')!;
+      if (minor) {
+        parentName.setValidators(Validators.required);
+        parentEmail.setValidators([Validators.required, Validators.email]);
+      } else {
+        parentName.clearValidators();
+        parentEmail.clearValidators();
+        this.guardianSignaturePad = undefined;
+        this.guardianSignatureEmpty.set(true);
+      }
+      parentName.updateValueAndValidity();
+      parentEmail.updateValueAndValidity();
+    });
+  }
+
+  ngAfterViewInit(): void {
+    const canvas = this.signatureCanvas.nativeElement;
+    this.resizeCanvas(canvas);
+    this.signaturePad = new SignaturePad(canvas, { penColor: '#1a1a1a', minWidth: 1, maxWidth: 3 });
+    this.signaturePad.addEventListener('endStroke', () => {
+      this.signatureEmpty.set(this.signaturePad.isEmpty());
+    });
+    window.addEventListener('resize', this.resizeHandler);
+  }
+
+  ngAfterViewChecked(): void {
+    if (this.isMinor() && this.guardianSignatureCanvas && !this.guardianSignaturePad) {
+      this.initGuardianPad();
+    }
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('resize', this.resizeHandler);
+  }
+
+  private initGuardianPad(): void {
+    const canvas = this.guardianSignatureCanvas!.nativeElement;
+    this.resizeCanvas(canvas);
+    this.guardianSignaturePad = new SignaturePad(canvas, { penColor: '#1a1a1a', minWidth: 1, maxWidth: 3 });
+    this.guardianSignaturePad.addEventListener('endStroke', () => {
+      this.guardianSignatureEmpty.set(this.guardianSignaturePad!.isEmpty());
+    });
+  }
+
+  private resizeCanvas(canvas: HTMLCanvasElement): void {
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    canvas.width  = canvas.offsetWidth  * ratio;
+    canvas.height = canvas.offsetHeight * ratio;
+    canvas.getContext('2d')!.scale(ratio, ratio);
+  }
+
+  clearSignature(): void {
+    this.signaturePad.clear();
+    this.signatureEmpty.set(true);
+  }
+
+  clearGuardianSignature(): void {
+    this.guardianSignaturePad?.clear();
+    this.guardianSignatureEmpty.set(true);
+  }
+
+  private calculateIsMinor(dob: string): boolean {
+    if (!dob) return false;
+    const today = new Date();
+    const birthDate = new Date(dob);
+    const age = today.getFullYear() - birthDate.getFullYear()
+      - (today < new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate()) ? 1 : 0);
+    return age < 18;
+  }
+
+  isFieldInvalid(field: string): boolean {
+    const control = this.waiverForm.get(field);
+    return !!(control && control.invalid && control.touched);
+  }
+
+  async onSubmit(): Promise<void> {
+    this.waiverForm.markAllAsTouched();
+
+    if (this.waiverForm.invalid) return;
+    if (this.signaturePad.isEmpty()) {
+      this.signatureEmpty.set(true);
+      return;
+    }
+    if (this.isMinor() && (!this.guardianSignaturePad || this.guardianSignaturePad.isEmpty())) {
+      this.guardianSignatureEmpty.set(true);
+      return;
+    }
+
+    this.isSubmitting.set(true);
+    this.submitError.set('');
+
+    const formValue = this.waiverForm.value;
+    const payload = {
+      firstName:        formValue.firstName,
+      lastName:         formValue.lastName,
+      apelido:          formValue.apelido || '',
+      email:            formValue.email,
+      phone:            formValue.phone,
+      dateOfBirth:      formValue.dateOfBirth,
+      isMinor:          this.isMinor(),
+      parentName:       formValue.parentName  || '',
+      parentEmail:      formValue.parentEmail || '',
+      signature:        this.signaturePad.toDataURL('image/png'),
+      guardianSignature: this.isMinor() ? (this.guardianSignaturePad?.toDataURL('image/png') || '') : '',
+      agreedAt:         new Date().toISOString()
+    };
+
+    try {
+      if (environment.waiverSheetUrl && !environment.waiverSheetUrl.startsWith('YOUR_')) {
+        await fetch(environment.waiverSheetUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      }
+      this.submitSuccess.set(true);
+    } catch {
+      this.submitError.set('Something went wrong. Please try again or contact us directly.');
+    } finally {
+      this.isSubmitting.set(false);
+    }
+  }
+}
