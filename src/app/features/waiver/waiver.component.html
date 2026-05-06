@@ -77,6 +77,38 @@
             </div>
           </div>
 
+          <!-- Emergency Contact -->
+          <div class="form-card">
+            <h3 class="form-section-title">Emergency Contact</h3>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="emergencyName">Full Name <span class="required">*</span></label>
+                <input id="emergencyName" type="text" formControlName="emergencyName"
+                  [class.error]="isFieldInvalid('emergencyName')" placeholder="Contact name" />
+                @if (isFieldInvalid('emergencyName')) {
+                  <span class="error-msg">Required</span>
+                }
+              </div>
+              <div class="form-group">
+                <label for="emergencyPhone">Phone <span class="required">*</span></label>
+                <input id="emergencyPhone" type="tel" formControlName="emergencyPhone"
+                  [class.error]="isFieldInvalid('emergencyPhone')" placeholder="(555) 555-5555" />
+                @if (isFieldInvalid('emergencyPhone')) {
+                  <span class="error-msg">Required</span>
+                }
+              </div>
+            </div>
+            <div class="form-group half">
+              <label for="emergencyRelationship">Relationship <span class="required">*</span></label>
+              <input id="emergencyRelationship" type="text" formControlName="emergencyRelationship"
+                [class.error]="isFieldInvalid('emergencyRelationship')" placeholder="e.g. Parent, Spouse" />
+              @if (isFieldInvalid('emergencyRelationship')) {
+                <span class="error-msg">Required</span>
+              }
+            </div>
+          </div>
+
           <!-- Parent / Guardian (minors only) -->
           @if (isMinor()) {
             <div class="form-card minor-card">

@@ -34,10 +34,13 @@ export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestr
       apelido:      [''],
       email:        ['', [Validators.required, Validators.email]],
       phone:        ['', Validators.required],
-      dateOfBirth:  ['', Validators.required],
-      parentName:   [''],
-      parentEmail:  [''],
-      agreeToTerms: [false, Validators.requiredTrue]
+      dateOfBirth:           ['', Validators.required],
+      emergencyName:         ['', Validators.required],
+      emergencyPhone:        ['', Validators.required],
+      emergencyRelationship: ['', Validators.required],
+      parentName:            [''],
+      parentEmail:           [''],
+      agreeToTerms:          [false, Validators.requiredTrue]
     });
 
     this.waiverForm.get('dateOfBirth')!.valueChanges.subscribe(dob => {
@@ -143,9 +146,12 @@ export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestr
       email:            formValue.email,
       phone:            formValue.phone,
       dateOfBirth:      formValue.dateOfBirth,
-      isMinor:          this.isMinor(),
-      parentName:       formValue.parentName  || '',
-      parentEmail:      formValue.parentEmail || '',
+      isMinor:               this.isMinor(),
+      emergencyName:         formValue.emergencyName,
+      emergencyPhone:        formValue.emergencyPhone,
+      emergencyRelationship: formValue.emergencyRelationship,
+      parentName:            formValue.parentName  || '',
+      parentEmail:           formValue.parentEmail || '',
       signature:        this.signaturePad.toDataURL('image/png'),
       guardianSignature: this.isMinor() ? (this.guardianSignaturePad?.toDataURL('image/png') || '') : '',
       agreedAt:         new Date().toISOString()
