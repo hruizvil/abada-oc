@@ -43,9 +43,19 @@
               </div>
             </div>
 
-            <div class="form-group half">
-              <label for="apelido">Apelido (Capoeira nickname)</label>
-              <input id="apelido" type="text" formControlName="apelido" placeholder="Optional" />
+            <div class="form-row">
+              <div class="form-group">
+                <label for="apelido">Apelido (Capoeira nickname)</label>
+                <input id="apelido" type="text" formControlName="apelido" placeholder="Optional" />
+              </div>
+              <div class="form-group">
+                <label for="dateOfBirth">Date of Birth <span class="required">*</span></label>
+                <input id="dateOfBirth" type="date" formControlName="dateOfBirth"
+                  [class.error]="isFieldInvalid('dateOfBirth')" />
+                @if (isFieldInvalid('dateOfBirth')) {
+                  <span class="error-msg">Required</span>
+                }
+              </div>
             </div>
 
             <div class="form-row">
@@ -65,15 +75,6 @@
                   <span class="error-msg">Required</span>
                 }
               </div>
-            </div>
-
-            <div class="form-group half">
-              <label for="dateOfBirth">Date of Birth <span class="required">*</span></label>
-              <input id="dateOfBirth" type="date" formControlName="dateOfBirth"
-                [class.error]="isFieldInvalid('dateOfBirth')" />
-              @if (isFieldInvalid('dateOfBirth')) {
-                <span class="error-msg">Required</span>
-              }
             </div>
           </div>
 
@@ -99,7 +100,7 @@
                 }
               </div>
             </div>
-            <div class="form-group half">
+            <div class="form-group">
               <label for="emergencyRelationship">Relationship <span class="required">*</span></label>
               <input id="emergencyRelationship" type="text" formControlName="emergencyRelationship"
                 [class.error]="isFieldInvalid('emergencyRelationship')" placeholder="e.g. Parent, Spouse" />
