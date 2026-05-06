@@ -203,8 +203,20 @@
   cursor: crosshair;
 }
 
-.clear-btn {
+.signature-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-top: 0.75rem;
+  min-height: 2rem;
+
+  .error-msg {
+    font-size: 0.8rem;
+    color: #e53e3e;
+  }
+}
+
+.clear-btn {
   background: none;
   border: 1.5px solid #ddd;
   border-radius: 6px;

@@ -179,10 +179,10 @@
             <div class="signature-wrapper" [class.error]="signatureEmpty() && waiverForm.touched">
               <canvas #signatureCanvas class="signature-canvas"></canvas>
             </div>
-            @if (signatureEmpty() && waiverForm.touched) {
-              <span class="error-msg">Signature is required</span>
-            }
-            <button type="button" class="clear-btn" (click)="clearSignature()">Clear signature</button>
+            <div class="signature-actions">
+              <span class="error-msg">{{ (signatureEmpty() && waiverForm.touched) ? 'Signature is required' : '' }}</span>
+              <button type="button" class="clear-btn" (click)="clearSignature()">Clear signature</button>
+            </div>
           </div>
 
           <!-- Guardian Signature (minors only) -->
@@ -195,10 +195,10 @@
               <div class="signature-wrapper" [class.error]="guardianSignatureEmpty() && waiverForm.touched">
                 <canvas #guardianSignatureCanvas class="signature-canvas"></canvas>
               </div>
-              @if (guardianSignatureEmpty() && waiverForm.touched) {
-                <span class="error-msg">Guardian signature is required</span>
-              }
-              <button type="button" class="clear-btn" (click)="clearGuardianSignature()">Clear signature</button>
+              <div class="signature-actions">
+                <span class="error-msg">{{ (guardianSignatureEmpty() && waiverForm.touched) ? 'Guardian signature is required' : '' }}</span>
+                <button type="button" class="clear-btn" (click)="clearGuardianSignature()">Clear signature</button>
+              </div>
             </div>
           }
 
