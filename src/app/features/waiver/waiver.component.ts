@@ -161,6 +161,7 @@ export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestr
       emergencyRelationship: formValue.emergencyRelationship,
       parentName:            formValue.parentName  || '',
       parentEmail:           formValue.parentEmail || '',
+      formType:         'waiver',
       signature:        this.signaturePad.toDataURL('image/png'),
       guardianSignature: this.isMinor() ? (this.guardianSignaturePad?.toDataURL('image/png') || '') : '',
       agreedAt:         new Date().toISOString()

@@ -91,6 +91,7 @@ export class JoinComponent {
 
     const v = this.joinForm.value;
     const payload = {
+      formType:              'join',
       firstName:             v.firstName,
       lastName:              v.lastName,
       apelido:               v.apelido || '',
