@@ -167,20 +167,15 @@ export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestr
       agreedAt:         new Date().toISOString()
     };
 
-    try {
-      if (environment.waiverSheetUrl && !environment.waiverSheetUrl.startsWith('YOUR_')) {
-        await fetch(environment.waiverSheetUrl, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-      }
-      this.submitSuccess.set(true);
-    } catch {
-      this.submitError.set('Something went wrong. Please try again or contact us directly.');
-    } finally {
-      this.isSubmitting.set(false);
+    if (environment.waiverSheetUrl && !environment.waiverSheetUrl.startsWith('YOUR_')) {
+      fetch(environment.waiverSheetUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
     }
+    this.submitSuccess.set(true);
+    this.isSubmitting.set(false);
   }
 }

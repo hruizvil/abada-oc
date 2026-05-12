@@ -8,6 +8,8 @@ import { ClassesComponent } from './features/classes/classes.component';
 import { RentalComponent } from './features/rental/rental.component';
 import { EventsComponent } from './features/events/events.component';
 import { GalleryComponent } from './features/gallery/gallery.component';
+import { WaiverComponent } from './features/waiver/waiver.component';
+import { JoinComponent } from './features/join/join.component';
 
 export const routes: Routes = [
   {
@@ -45,6 +47,14 @@ export const routes: Routes = [
   {
     path: 'rental',
     component: RentalComponent
+  },
+  {
+    path: 'waiver',
+    component: WaiverComponent
+  },
+  {
+    path: 'join',
+    component: JoinComponent
   },
   {
     path: '**',
