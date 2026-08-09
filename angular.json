@@ -22,6 +22,8 @@
           "options": {
             "outputPath": "dist/abada-oc-app",
             "browser": "src/main.ts",
+            "server": "src/main.server.ts",
+            "outputMode": "static",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [

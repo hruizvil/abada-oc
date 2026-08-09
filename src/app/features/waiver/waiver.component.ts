@@ -1,5 +1,5 @@
-import { Component, signal, ViewChild, ElementRef, AfterViewInit, AfterViewChecked, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, signal, ViewChild, ElementRef, AfterViewInit, AfterViewChecked, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import SignaturePad from 'signature_pad';
 import { environment } from '../../../environments/environment';
@@ -14,6 +14,8 @@ import { environment } from '../../../environments/environment';
 export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestroy {
   @ViewChild('signatureCanvas') signatureCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('guardianSignatureCanvas') guardianSignatureCanvas?: ElementRef<HTMLCanvasElement>;
+
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   private signaturePad!: SignaturePad;
   private guardianSignaturePad?: SignaturePad;
@@ -68,6 +70,10 @@ export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestr
   }
 
   ngAfterViewInit(): void {
+    // Prerendering DOES run this hook. Everything below needs a real canvas and
+    // a real window, so it is browser-only.
+    if (!this.isBrowser) return;
+
     const canvas = this.signatureCanvas.nativeElement;
     this.resizeCanvas(canvas);
     this.signaturePad = new SignaturePad(canvas, { penColor: '#1a1a1a', minWidth: 1, maxWidth: 3 });
@@ -78,12 +84,18 @@ export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestr
   }
 
   ngAfterViewChecked(): void {
+    if (!this.isBrowser) return;
+
     if (this.isMinor() && this.guardianSignatureCanvas && !this.guardianSignaturePad) {
       this.initGuardianPad();
     }
   }
 
   ngOnDestroy(): void {
+    // ngAfterViewInit never runs on the server, so the listener was never added —
+    // but ngOnDestroy DOES run when the prerender teardown destroys the app, and
+    // touching `window` there crashed the prerender worker.
+    if (!this.isBrowser) return;
     window.removeEventListener('resize', this.resizeHandler);
   }
 

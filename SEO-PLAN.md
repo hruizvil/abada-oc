@@ -122,28 +122,49 @@ tagline still sits on its own line; verified in-browser that computed font-size,
 weight and layout are unchanged, and that `/classes` now reports exactly one `<h1>`
 ("Our Programs") instead of two.
 
-### ⬜ Step 4 — Prerendering (`@angular/ssr` static generation)
-**~1–2 days · one-time + light upkeep · STRUCTURAL**
+### ✅ Step 4 — Prerendering (`@angular/ssr` static generation) — **DONE, not deployed**
+**Took ~2 hrs, not the 1–2 days estimated · on `feature/prerender`**
 
-Generate real `.html` per route at build time. GitHub Pages serves them directly.
+Real `.html` per route at build time. GitHub Pages serves them directly.
 
-Fixes, and is the **only** thing that fixes:
-- social link previews (Facebook / WhatsApp / iMessage / LinkedIn / Discord / Slack)
-- AI crawler visibility (most don't run JS)
-- indexing latency, Bing/DuckDuckGo, the 404.html redirect dance
+**17 routes prerendered, 17 unique titles**, each with its own description, canonical
+and Open Graph tags baked into static HTML. `/musica` deliberately excluded
+(`RenderMode.Client`) because it is behind `localOnlyGuard`.
 
-Known costs before starting:
-- add `@angular/ssr`
-- `about/:page` needs its param values enumerated at build time
-- `/musica` must be excluded (it's behind `localOnlyGuard`)
-- anything touching `window` / `localStorage` / `signature_pad` at construction
-  time will break the build until guarded
-- the `deploy` script changes (`dist/` is gitignored; `ng deploy` pushes the build
-  output to the `gh-pages` branch, so **the deploy always reflects the working tree
-  on disk, not what is committed**)
+This is what finally fixes social link previews: Facebook, WhatsApp, iMessage,
+LinkedIn, Discord and Slack do not run JavaScript, so runtime meta tags never
+reached them. Now the tags are in the file itself.
 
-**Decide after one month of Search Console data.** If traffic is overwhelmingly
-map-pack, spend those two days on Step 5 instead.
+What it took:
+- [x] `@angular/ssr` + `@angular/platform-server`, both pinned to **21.1.1**
+- [x] `src/main.server.ts`, `app.config.server.ts`, `app.routes.server.ts`
+- [x] `angular.json`: `"server"` entry + `"outputMode": "static"`
+- [x] `about/:page` params derived from `ABOUT_SEO`, so they cannot drift
+- [x] `provideHttpClient(withFetch())` — Node has no XMLHttpRequest
+- [x] guarded `window` in `waiver.component.ts` lifecycle hooks
+
+⚠️ **Three traps, all hit and solved — read before touching this:**
+
+1. **`main.server.ts` must accept `BootstrapContext`** and pass it to
+   `bootstrapApplication`. Without it the build fails with a bare `NG0401 — An
+   error occurred while extracting routes`, no stack trace, no hint.
+2. **`ngAfterViewInit` DOES run during prerendering.** A widely repeated claim says
+   it does not. It does, and `waiver.component.ts` crashed prerender workers through
+   `resizeCanvas` → `window.devicePixelRatio`. `ngOnDestroy` runs too. All lifecycle
+   hooks that touch `window` need `isPlatformBrowser` guards.
+3. **Version pinning.** `package.json` used `^21.1.0`, so adding any Angular package
+   made npm re-resolve the whole set up to 21.2.x and fail on peer conflicts. All
+   `@angular/*` deps are now pinned to exact `21.1.1`. If you intentionally upgrade
+   Angular, bump them together.
+
+Deploy path was already correct — `angular-cli-ghpages` points at
+`dist/abada-oc-app/browser`, which is where the prerendered tree lands. CNAME,
+404.html, robots.txt and sitemap.xml are all present there. Verified.
+
+**Not done, optional:** `provideClientHydration()`. Without it the client bootstraps
+and re-renders over the prerendered DOM — exactly what happened before, so no
+regression, and it avoids hydration-mismatch risk on a live site. Worth revisiting
+only as a performance tweak.
 
 ### ⬜ Step 5 — Split `/classes` into real landing pages
 **~2 hrs per page · ongoing · HIGHEST CEILING**
