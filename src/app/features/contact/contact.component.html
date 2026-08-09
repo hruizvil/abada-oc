@@ -2,39 +2,22 @@
   <!-- Hero Section -->
   <section class="contact-hero">
     <div class="container">
-      <h1>Book Your FREE Trial Class</h1>
-      <p>Experience Capoeira with no commitment</p>
+      <h1>Get In Touch</h1>
+      <p>Performances, questions, partnerships — we'd love to hear from you.</p>
     </div>
   </section>
 
   <section class="contact-content">
     <div class="container">
       <div class="contact-layout">
-        <!-- Welcome Message -->
+        <!-- Left Section -->
         <div class="welcome-section">
-          <h2>Why Try Capoeira?</h2>
-          <ul class="benefits-list">
-            <li>
-              <span class="benefit-icon">💪</span>
-              <span>Full-body workout that's actually fun</span>
-            </li>
-            <li>
-              <span class="benefit-icon">🎵</span>
-              <span>Learn music, movement & Brazilian culture</span>
-            </li>
-            <li>
-              <span class="benefit-icon">👨‍👩‍👧‍👦</span>
-              <span>Classes for all ages (3+) and skill levels</span>
-            </li>
-            <li>
-              <span class="benefit-icon">🤝</span>
-              <span>Join a welcoming, supportive community</span>
-            </li>
-          </ul>
+          <h2>Let's Connect</h2>
+          <p>Whether you're interested in booking us for a performance, have a question about our classes, or just want to say hello — reach out and we'll get back to you shortly.</p>
 
           <!-- Contact Info -->
           <div class="contact-info">
-            <h3>Questions? Reach out directly</h3>
+            <h3>Prefer to reach out directly?</h3>
             <div class="info-item">
               <span class="info-label">Call/Text:</span>
               <a href="tel:1-562-340-9801">1-562-340-9801</a>
@@ -46,20 +29,19 @@
           </div>
         </div>
 
-        <!-- Registration Form -->
-        <div class="form-section" #formSection>
+        <!-- Contact Form -->
+        <div class="form-section">
           @if (submitSuccess()) {
             <div class="success-message">
               <div class="success-icon">✓</div>
-              <h3>You're all set!</h3>
-              <p>We'll contact you within 24 hours to schedule your free class.</p>
-              <p class="success-subtext">Check your email for confirmation.</p>
+              <h3>Message received!</h3>
+              <p>Thanks for reaching out. We'll get back to you soon.</p>
             </div>
           } @else {
-            <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="registration-form">
+            <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="registration-form">
               <div class="form-header">
-                <h3>Get Started</h3>
-                <p class="form-subtitle">Fill out this quick form and we'll be in touch!</p>
+                <h3>Send Us a Message</h3>
+                <p class="form-subtitle">We'll get back to you as soon as possible.</p>
               </div>
 
               <div class="form-group">
@@ -102,28 +84,17 @@
               </div>
 
               <div class="form-group">
-                <label for="interestedIn">I'm interested in classes for... <span class="required">*</span></label>
-                <select
-                  id="interestedIn"
-                  formControlName="interestedIn"
-                  [class.invalid]="isFieldInvalid('interestedIn')">
-                  <option value="">Select an option</option>
-                  <option value="kids">Kids (ages 5-12)</option>
-                  <option value="adults">Adults (12 years & up)</option>
-                  <option value="multiple">Multiple family members</option>
-                </select>
-                @if (isFieldInvalid('interestedIn')) {
-                  <span class="error-text">Please select an option</span>
-                }
-              </div>
-
-              <div class="form-group">
-                <label for="comments">Anything else we should know? <span class="optional">(optional)</span></label>
+                <label for="message">Message <span class="required">*</span></label>
                 <textarea
-                  id="comments"
-                  formControlName="comments"
-                  rows="2"
-                  placeholder="Questions, preferred days, etc."></textarea>
+                  id="message"
+                  formControlName="message"
+                  [class.invalid]="isFieldInvalid('message')"
+                  rows="5"
+                  placeholder="Tell us how we can help...">
+                </textarea>
+                @if (isFieldInvalid('message')) {
+                  <span class="error-text">Please enter a message</span>
+                }
               </div>
 
               <button
@@ -133,7 +104,7 @@
                 @if (isSubmitting()) {
                   <span>Sending...</span>
                 } @else {
-                  <span>Get Started</span>
+                  <span>Send Message</span>
                 }
               </button>
 

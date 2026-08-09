@@ -1,7 +1,7 @@
-import { Component, signal, inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EmailService } from '../../core/services/email.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-contact',
@@ -12,55 +12,54 @@ import { EmailService } from '../../core/services/email.service';
 })
 export class ContactComponent {
   private fb = inject(FormBuilder);
-  private emailService = inject(EmailService);
 
-  @ViewChild('formSection') formSection!: ElementRef;
-
-  registrationForm: FormGroup;
+  contactForm: FormGroup;
   isSubmitting = signal(false);
   submitSuccess = signal(false);
   submitError = signal<string | null>(null);
 
   constructor() {
-    this.registrationForm = this.fb.group({
-      name: ['', Validators.required],
-      phone: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      interestedIn: ['', Validators.required],
-      comments: ['']
+    this.contactForm = this.fb.group({
+      name:    ['', Validators.required],
+      phone:   ['', Validators.required],
+      email:   ['', [Validators.required, Validators.email]],
+      message: ['', Validators.required]
     });
   }
 
   async onSubmit() {
-    if (this.registrationForm.valid) {
-      this.isSubmitting.set(true);
-      this.submitError.set(null);
+    this.contactForm.markAllAsTouched();
+    if (this.contactForm.invalid) return;
 
-      try {
-        await this.emailService.sendRegistrationEmail(this.registrationForm.value);
-        this.submitSuccess.set(true);
-        this.registrationForm.reset();
-        this.scrollToForm();
-      } catch (error) {
-        this.submitError.set(
-          error instanceof Error ? error.message : 'An error occurred. Please try again.'
-        );
-      } finally {
-        this.isSubmitting.set(false);
-      }
-    } else {
-      this.registrationForm.markAllAsTouched();
+    this.isSubmitting.set(true);
+    this.submitError.set(null);
+
+    const v = this.contactForm.value;
+    const payload = {
+      formType:    'contact',
+      name:        v.name,
+      phone:       v.phone,
+      email:       v.email,
+      message:     v.message,
+      submittedAt: new Date().toISOString()
+    };
+
+    if (environment.contactSheetUrl && !environment.contactSheetUrl.startsWith('YOUR_')) {
+      fetch(environment.contactSheetUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
     }
+
+    this.submitSuccess.set(true);
+    this.isSubmitting.set(false);
+    this.contactForm.reset();
   }
 
   isFieldInvalid(fieldName: string): boolean {
-    const field = this.registrationForm.get(fieldName);
+    const field = this.contactForm.get(fieldName);
     return field ? field.invalid && field.touched : false;
-  }
-
-  private scrollToForm(): void {
-    setTimeout(() => {
-      this.formSection?.nativeElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
   }
 }

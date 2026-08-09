@@ -65,7 +65,7 @@
   "callToAction": {
     "title": "Ready to Start?",
     "description": "Contact us to schedule your free trial class!",
-    "buttonText": "Contact Us",
-    "buttonRoute": "/contact"
+    "buttonText": "Book Your Free Class",
+    "buttonRoute": "/book"
   }
 }

@@ -1,6 +1,6 @@
 @import '../../../assets/styles/variables';
 
-.contact-page {
+.book-page {
   min-height: 100vh;
 }
 
@@ -80,6 +80,27 @@
     font-size: 1.125rem;
     line-height: 1.6;
     margin-bottom: 1.5rem;
+  }
+
+  .benefits-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.125rem;
+      color: $text-color;
+
+      .benefit-icon {
+        font-size: 1.5rem;
+      }
+    }
   }
 }
 
@@ -195,6 +216,21 @@
     }
   }
 
+  select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+  }
+
+  .optional {
+    font-weight: normal;
+    color: $text-light;
+    font-size: 0.875rem;
+  }
+
   textarea {
     resize: vertical;
     min-height: 100px;
@@ -205,6 +241,72 @@
     color: #dc3545;
     font-size: 0.875rem;
     margin-top: 0.25rem;
+  }
+}
+
+.slot-hint {
+  font-size: 0.875rem;
+  color: $text-light;
+  background: rgba($primary-color, 0.06);
+  border-left: 3px solid $primary-color;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0 6px 6px 0;
+  margin: 0.5rem 0 0.75rem;
+  line-height: 1.5;
+}
+
+.slot-weeks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.slot-week-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #999;
+  margin-bottom: 6px;
+}
+
+.slot-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.slot-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 12px;
+  border: 1.5px solid #ddd;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  min-width: 80px;
+
+  &:hover { border-color: $primary-color; }
+
+  &.selected {
+    border-color: $primary-color;
+    background: #f3e8ff;
+  }
+
+  .chip-day {
+    font-size: 13px;
+    font-weight: 600;
+    color: #222;
+    white-space: nowrap;
+  }
+
+  .chip-time {
+    font-size: 11px;
+    color: #666;
+    margin-top: 2px;
   }
 }
 
@@ -276,5 +378,10 @@
   p {
     color: $text-light;
     font-size: 1.125rem;
+  }
+
+  .success-subtext {
+    font-size: 1rem;
+    margin-top: 0.5rem;
   }
 }

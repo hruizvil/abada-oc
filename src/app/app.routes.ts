@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { localOnlyGuard } from './core/guards/local-only.guard';
 import { HomeComponent } from './features/home/home.component';
 import { ScheduleComponent } from './features/schedule/schedule.component';
 import { AboutLandingComponent } from './features/about/about-landing.component';
@@ -9,7 +10,7 @@ import { RentalComponent } from './features/rental/rental.component';
 import { EventsComponent } from './features/events/events.component';
 import { GalleryComponent } from './features/gallery/gallery.component';
 import { WaiverComponent } from './features/waiver/waiver.component';
-import { JoinComponent } from './features/join/join.component';
+import { BookComponent } from './features/book/book.component';
 
 export const routes: Routes = [
   {
@@ -33,6 +34,10 @@ export const routes: Routes = [
     component: ContactComponent
   },
   {
+    path: 'book',
+    component: BookComponent
+  },
+  {
     path: 'gallery',
     component: GalleryComponent
   },
@@ -53,8 +58,9 @@ export const routes: Routes = [
     component: WaiverComponent
   },
   {
-    path: 'join',
-    component: JoinComponent
+    path: 'musica',
+    canActivate: [localOnlyGuard],
+    loadComponent: () => import('./features/musica/musica.component').then(m => m.MusicaComponent)
   },
   {
     path: '**',

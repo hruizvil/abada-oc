@@ -1,0 +1,194 @@
+<div class="book-page">
+  <!-- Hero Section -->
+  <section class="contact-hero">
+    <div class="container">
+      <h1>Book Your Free Trial Class</h1>
+      <p>Experience Capoeira with no commitment</p>
+    </div>
+  </section>
+
+  <section class="contact-content">
+    <div class="container">
+      <div class="contact-layout">
+        <!-- Welcome Message -->
+        <div class="welcome-section">
+          <h2>Why Try Capoeira?</h2>
+          <ul class="benefits-list">
+            <li>
+              <span class="benefit-icon">💪</span>
+              <span>Full-body workout that's actually fun</span>
+            </li>
+            <li>
+              <span class="benefit-icon">🎵</span>
+              <span>Learn music, movement & Brazilian culture</span>
+            </li>
+            <li>
+              <span class="benefit-icon">👨‍👩‍👧‍👦</span>
+              <span>Classes for all ages (3+) and skill levels</span>
+            </li>
+            <li>
+              <span class="benefit-icon">🤝</span>
+              <span>Join a welcoming, supportive community</span>
+            </li>
+          </ul>
+
+          <!-- Contact Info -->
+          <div class="contact-info">
+            <h3>Questions? Reach out directly</h3>
+            <div class="info-item">
+              <span class="info-label">Call/Text:</span>
+              <a href="tel:1-562-340-9801">1-562-340-9801</a>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Email:</span>
+              <a href="mailto:capoeiraoc@gmail.com">capoeiraoc&#64;gmail.com</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="form-section" #formSection>
+          @if (submitSuccess()) {
+            <div class="success-message">
+              <div class="success-icon">✓</div>
+              <h3>You're all set!</h3>
+              <p>Your spot is booked. Check your email for a confirmation with all the details.</p>
+              <p class="success-subtext">We look forward to seeing you!</p>
+            </div>
+          } @else {
+            <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="registration-form">
+              <div class="form-header">
+                <h3>Reserve Your Spot</h3>
+                <p class="form-subtitle">Fill out this quick form to book your free class!</p>
+              </div>
+
+              <div class="form-group">
+                <label for="name">Your Name <span class="required">*</span></label>
+                <input
+                  type="text"
+                  id="name"
+                  formControlName="name"
+                  [class.invalid]="isFieldInvalid('name')"
+                  placeholder="First name">
+                @if (isFieldInvalid('name')) {
+                  <span class="error-text">Name is required</span>
+                }
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone <span class="required">*</span></label>
+                <input
+                  type="tel"
+                  id="phone"
+                  formControlName="phone"
+                  [class.invalid]="isFieldInvalid('phone')"
+                  placeholder="(555) 123-4567">
+                @if (isFieldInvalid('phone')) {
+                  <span class="error-text">Phone number is required</span>
+                }
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email <span class="required">*</span></label>
+                <input
+                  type="email"
+                  id="email"
+                  formControlName="email"
+                  [class.invalid]="isFieldInvalid('email')"
+                  placeholder="you@example.com">
+                @if (isFieldInvalid('email')) {
+                  <span class="error-text">Please enter a valid email</span>
+                }
+              </div>
+
+              <div class="form-group">
+                <label for="interestedIn">I'm interested in classes for... <span class="required">*</span></label>
+                <select
+                  id="interestedIn"
+                  formControlName="interestedIn"
+                  [class.invalid]="isFieldInvalid('interestedIn')">
+                  <option value="">Select an option</option>
+                  <option value="kids">Kids (ages 5-12)</option>
+                  <option value="adults">Adults (12 years & up)</option>
+                  <option value="multiple">Multiple family members</option>
+                </select>
+                @if (isFieldInvalid('interestedIn')) {
+                  <span class="error-text">Please select an option</span>
+                }
+              </div>
+
+              @if (availableSlots().length > 0) {
+                <div class="form-group">
+                  <label>Pick your first class <span class="required">*</span></label>
+                  @if (registrationForm.get('interestedIn')?.value === 'multiple') {
+                    <p class="slot-hint">Please pick a time that works for your family. Since you're registering multiple members, use the <strong>"Anything else we should know?"</strong> field below to tell us who's joining and their ages.</p>
+                  }
+                  <div class="slot-weeks">
+                    @for (week of availableSlots(); track week.weekLabel) {
+                      <div class="slot-week">
+                        <span class="slot-week-label">{{ week.weekLabel }}</span>
+                        <div class="slot-chips">
+                          @for (slot of week.slots; track slot.value) {
+                            <button type="button" class="slot-chip"
+                              [class.selected]="registrationForm.get('firstClassSlot')?.value === slot.value"
+                              (click)="registrationForm.get('firstClassSlot')?.setValue(slot.value)">
+                              <span class="chip-day">{{ slot.dayAbbr }}, {{ slot.dateLabel }}</span>
+                              <span class="chip-time">{{ slot.time }}</span>
+                            </button>
+                          }
+                        </div>
+                      </div>
+                    }
+                  </div>
+                  @if (isFieldInvalid('firstClassSlot')) {
+                    <span class="error-text">Please select a session</span>
+                  }
+                </div>
+              }
+
+              <div class="form-group">
+                <label for="comments">
+                  Anything else we should know?
+                  @if (registrationForm.get('interestedIn')?.value === 'multiple') {
+                    <span class="required">*</span>
+                  } @else {
+                    <span class="optional">(optional)</span>
+                  }
+                </label>
+                <textarea
+                  id="comments"
+                  formControlName="comments"
+                  [class.invalid]="isFieldInvalid('comments')"
+                  rows="2"
+                  [placeholder]="registrationForm.get('interestedIn')?.value === 'multiple'
+                    ? 'List the family members joining and their ages (e.g. Maria, age 8 — adult class; João, age 34 — adult class)'
+                    : 'Questions, anything we should know, etc.'">
+                </textarea>
+                @if (isFieldInvalid('comments')) {
+                  <span class="error-text">Please tell us who's joining and their ages</span>
+                }
+              </div>
+
+              <button
+                type="submit"
+                class="submit-button"
+                [disabled]="isSubmitting()">
+                @if (isSubmitting()) {
+                  <span>Sending...</span>
+                } @else {
+                  <span>Book My Free Class</span>
+                }
+              </button>
+
+              <p class="privacy-note">We respect your privacy and will never share your information.</p>
+
+              @if (submitError()) {
+                <div class="error-message">{{ submitError() }}</div>
+              }
+            </form>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

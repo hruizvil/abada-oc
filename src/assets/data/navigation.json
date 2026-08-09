@@ -53,13 +53,6 @@
       "route": "/rental",
       "icon": "building",
       "order": 7
-    },
-    {
-      "id": "contact",
-      "label": "CONTACT US",
-      "route": "/contact",
-      "icon": "envelope",
-      "order": 8
     }
   ],
   "contactInfo": {

@@ -7,7 +7,7 @@
     "ctaButtons": [
       {
         "text": "Try a Free Class",
-        "route": "/contact",
+        "route": "/book",
         "type": "primary"
       },
       {
@@ -131,7 +131,7 @@
     "title": "Ready to Begin Your Capoeira Journey?",
     "description": "Join us for a FREE trial class and experience the energy, culture, and community of ABADÁ-Capoeira OC",
     "buttonText": "Try a Free Class",
-    "buttonRoute": "/contact",
+    "buttonRoute": "/book",
     "secondaryText": "No experience necessary • All fitness levels welcome"
   },
   "sponsor": {

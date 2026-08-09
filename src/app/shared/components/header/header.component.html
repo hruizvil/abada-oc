@@ -79,6 +79,19 @@
             </li>
           }
         </ul>
+        <a routerLink="/book"
+           [attr.href]="'/book'"
+           class="nav-cta-btn"
+           (click)="closeMobileMenu()">
+          Book Your Free Class
+        </a>
+        <a routerLink="/contact"
+           [attr.href]="'/contact'"
+           routerLinkActive="active"
+           class="nav-link nav-contact-link"
+           (click)="closeMobileMenu()">
+          <span>CONTACT US</span>
+        </a>
       }
     </nav>
 
