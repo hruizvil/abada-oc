@@ -1,0 +1,13 @@
+# https://abadaoc.com
+
+User-agent: *
+Allow: /
+
+# /waiver and /musica are deliberately NOT disallowed here.
+# They carry <meta name="robots" content="noindex, nofollow"> instead.
+# Disallowing them would stop crawlers fetching the page at all, which means
+# they would never see that noindex tag — and Google can still list a blocked
+# URL it has never read. Letting it crawl and read the noindex is what actually
+# keeps them out of results.
+
+Sitemap: https://abadaoc.com/sitemap.xml
