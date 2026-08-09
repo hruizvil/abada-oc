@@ -37,7 +37,7 @@ properly; it does not substitute for a claimed, well-fed Google Business Profile
 
 ## Code track (Claude)
 
-### ✅ Step 1 — Per-route titles + meta descriptions + Open Graph — **DONE, not deployed**
+### ✅ Step 1 — Per-route titles + meta descriptions + Open Graph — **DONE — live 2026-08-09**
 **~3 hrs · one-time · HIGH value**
 
 Unique `<title>` and `<meta name="description">` per route, driven by route config.
@@ -82,7 +82,7 @@ logic. Titles under ~60 chars, descriptions 140–160.
 
 Also added `.claude/launch.json` so the dev server can be started for verification.
 
-### ✅ Step 2 — robots.txt + sitemap.xml + LocalBusiness JSON-LD — **DONE, not deployed**
+### ✅ Step 2 — robots.txt + sitemap.xml + LocalBusiness JSON-LD — **DONE — live 2026-08-09**
 **~3 hrs · one-time · MODERATE value**
 
 - [x] `public/robots.txt` — allows everything, points at the sitemap
@@ -107,7 +107,7 @@ Two deliberate choices:
 `assets/data/schedule.json`; each class was assumed to run about an hour. Fix the
 `closes` values if that is wrong — and they should agree with GBP.
 
-### ✅ Step 3 — Heading cleanup — **DONE, not deployed**
+### ✅ Step 3 — Heading cleanup — **DONE — live 2026-08-09**
 **~1 hr · one-time · LOW value**
 
 - [x] duplicate `<h1>` — the header brand name is now
@@ -122,7 +122,7 @@ tagline still sits on its own line; verified in-browser that computed font-size,
 weight and layout are unchanged, and that `/classes` now reports exactly one `<h1>`
 ("Our Programs") instead of two.
 
-### ✅ Step 4 — Prerendering (`@angular/ssr` static generation) — **DONE, not deployed**
+### ✅ Step 4 — Prerendering (`@angular/ssr` static generation) — **DONE — live 2026-08-09**
 **Took ~2 hrs, not the 1–2 days estimated · on `feature/prerender`**
 
 Real `.html` per route at build time. GitHub Pages serves them directly.

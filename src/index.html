@@ -7,11 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!--
-    Sitewide defaults. Angular overwrites the title/description/OG tags per route at
-    runtime (see src/app/core/seo/), which Google honours because it executes JS.
-    Social preview crawlers do NOT execute JS, so what follows is all they will ever
-    see on every URL. Making previews page-specific requires prerendering.
-    See SEO-PLAN.md, Step 4.
+    Sitewide defaults, and the template every prerendered page starts from.
+
+    Each route is prerendered to its own .html file at build time, and the values
+    below are replaced per page with that route's entry from src/app/core/seo/.
+    So social crawlers — which do not execute JavaScript — get page-specific
+    previews from the file itself.
+
+    These defaults still apply to anything NOT prerendered: the generated 404.html
+    and /musica, which renders client-side. Keep them accurate and generic.
   -->
   <meta name="description" content="Afro-Brazilian martial art classes for kids and adults in Fountain Valley, CA. Music, acrobatics, and self-defense. Book a free trial class today.">
   <link rel="canonical" href="https://abadaoc.com/">
