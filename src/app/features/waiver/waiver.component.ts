@@ -92,9 +92,9 @@ export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestr
   }
 
   ngOnDestroy(): void {
-    // ngAfterViewInit never runs on the server, so the listener was never added —
-    // but ngOnDestroy DOES run when the prerender teardown destroys the app, and
-    // touching `window` there crashed the prerender worker.
+    // Runs during prerendering too, when the teardown destroys the app. On the
+    // server the listener was never added, and touching `window` here crashed
+    // the prerender worker.
     if (!this.isBrowser) return;
     window.removeEventListener('resize', this.resizeHandler);
   }
