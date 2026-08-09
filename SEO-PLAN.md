@@ -61,10 +61,21 @@ crawlers (they don't). Social previews need Step 4.
 - [x] sitewide fallback description + OG tags in `index.html`
 - [x] `noindex` on `/waiver` and `/musica`
 
-**Shipped 2026-08-08.** Verified in the browser: correct per-route title, description,
-and canonical on `/`, `/book`, `/classes`, `/about/maculele`, `/waiver`; `noindex`
-applied on `/waiver` and correctly cleared on client-side navigation away from it;
-no duplicated tags; no console errors; build clean.
+**Done 2026-08-08, on `feature/seo`. Not deployed.** Verified in the browser across
+all 12 routes: unique title, description and canonical on each; `noindex` on
+`/waiver`, correctly cleared when navigating away; `/about/:page` resolves per topic;
+exactly one canonical tag after repeated navigation; no console errors; build clean.
+
+⚠️ **Regression history — read before refactoring.** `data: { seo: … }` in
+`app.routes.ts` is what feeds all of this. During the git/production reconciliation
+that file was reverted to its production state and the route data was lost. Nothing
+failed loudly — the build passed and the app ran — but every page fell back to the
+site default, including `<link rel="canonical" href="https://abadaoc.com/">` on all
+of them, which tells Google the entire site is duplicates of the homepage. That is
+strictly worse than shipping no tags at all.
+
+If `app.routes.ts` is ever touched, re-run the browser check over every route. A
+green build proves nothing here.
 
 **All page copy lives in `seo.config.ts`** — edit it freely, it's marketing text, not
 logic. Titles under ~60 chars, descriptions 140–160.
