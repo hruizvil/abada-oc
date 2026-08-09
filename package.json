@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng build --configuration production && ng deploy"
+    "deploy": "ng build --configuration production && ng deploy",
+    "predeploy": "node scripts/predeploy-check.js"
   },
   "prettier": {
     "printWidth": 100,
