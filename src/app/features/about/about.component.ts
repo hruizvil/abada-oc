@@ -2,6 +2,8 @@ import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { DataService } from '../../core/services/data.service';
+import { SeoService } from '../../core/seo/seo.service';
+import { ABOUT_SEO, PAGE_SEO } from '../../core/seo/seo.config';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -14,6 +16,7 @@ import { Subscription } from 'rxjs';
 export class AboutComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   private route = inject(ActivatedRoute);
+  private seo = inject(SeoService);
   private routeSub: Subscription | null = null;
 
   pageData = signal<any>(null);
@@ -23,6 +26,9 @@ export class AboutComponent implements OnInit, OnDestroy {
     this.routeSub = this.route.params.subscribe(params => {
       const page = params['page'] || 'capoeira';
       this.pageType.set(page);
+      // This route is marked seoDynamic, so SeoTitleStrategy leaves it to us.
+      // Unknown topics fall back to the generic /about metadata.
+      this.seo.update(ABOUT_SEO[page] ?? PAGE_SEO['about']);
       this.loadPageContent(page);
     });
   }

@@ -2,9 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>ABADÁ-Capoeira OC</title>
+  <title>Capoeira Classes in Fountain Valley, CA | ABADÁ-Capoeira OC</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--
+    Sitewide defaults. Angular overwrites the title/description/OG tags per route at
+    runtime (see src/app/core/seo/), which Google honours because it executes JS.
+    Social preview crawlers do NOT execute JS, so what follows is all they will ever
+    see on every URL. Making previews page-specific requires prerendering.
+    See SEO-PLAN.md, Step 4.
+  -->
+  <meta name="description" content="Afro-Brazilian martial art classes for kids and adults in Fountain Valley, CA. Music, acrobatics, and self-defense. Book a free trial class today.">
+  <link rel="canonical" href="https://abadaoc.com/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ABADÁ-Capoeira OC">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="Capoeira Classes in Fountain Valley, CA | ABADÁ-Capoeira OC">
+  <meta property="og:description" content="Afro-Brazilian martial art classes for kids and adults in Fountain Valley, CA. Music, acrobatics, and self-defense. Book a free trial class today.">
+  <meta property="og:url" content="https://abadaoc.com/">
+  <meta property="og:image" content="https://abadaoc.com/assets/images/abadaoc-logo.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Capoeira Classes in Fountain Valley, CA | ABADÁ-Capoeira OC">
+  <meta name="twitter:description" content="Afro-Brazilian martial art classes for kids and adults in Fountain Valley, CA. Music, acrobatics, and self-defense. Book a free trial class today.">
+  <meta name="twitter:image" content="https://abadaoc.com/assets/images/abadaoc-logo.png">
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-4J3ZPPVWS8"></script>
   <script>
