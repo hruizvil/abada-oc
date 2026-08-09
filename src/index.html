@@ -28,6 +28,110 @@
   <meta name="twitter:title" content="Capoeira Classes in Fountain Valley, CA | ABADÁ-Capoeira OC">
   <meta name="twitter:description" content="Afro-Brazilian martial art classes for kids and adults in Fountain Valley, CA. Music, acrobatics, and self-defense. Book a free trial class today.">
   <meta name="twitter:image" content="https://abadaoc.com/assets/images/abadaoc-logo.png">
+
+  <!--
+    Structured data. Lives in index.html on purpose: it is static, so crawlers that
+    do not execute JavaScript (most AI answer engines, social crawlers) still read it.
+    Google cross-checks this against the Google Business Profile, so name, address and
+    telephone MUST stay byte-identical to the GBP listing and to the site footer.
+
+    NOTE FOR HUGO — two values here are assumptions, please confirm:
+      1. Closing times. Class START times come from assets/data/schedule.json; I
+         assumed each class runs about an hour. Adjust `closes` if that is wrong.
+      2. `geo` coordinates are deliberately omitted rather than guessed. The Google
+         Business Profile already places the pin; a wrong lat/long here would fight it.
+  -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SportsActivityLocation",
+    "@id": "https://abadaoc.com/#organization",
+    "name": "ABADÁ-Capoeira OC",
+    "alternateName": "ABADÁ-Capoeira Orange County",
+    "description": "Afro-Brazilian capoeira classes for kids and adults in Fountain Valley, California. Capoeira blends martial arts, acrobatics, dance and live music.",
+    "url": "https://abadaoc.com/",
+    "logo": "https://abadaoc.com/assets/images/abadaoc-logo.png",
+    "image": "https://abadaoc.com/assets/images/abadaoc-logo.png",
+    "telephone": "+1-562-340-9801",
+    "email": "capoeiraoc@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "8552 Warner Ave",
+      "addressLocality": "Fountain Valley",
+      "addressRegion": "CA",
+      "postalCode": "92708",
+      "addressCountry": "US"
+    },
+    "areaServed": [
+      { "@type": "City", "name": "Fountain Valley" },
+      { "@type": "City", "name": "Huntington Beach" },
+      { "@type": "City", "name": "Westminster" },
+      { "@type": "City", "name": "Garden Grove" },
+      { "@type": "City", "name": "Costa Mesa" },
+      { "@type": "City", "name": "Santa Ana" }
+    ],
+    "sameAs": [
+      "https://www.facebook.com/abadaorangecounty/",
+      "https://www.instagram.com/abadaoc",
+      "https://www.youtube.com/channel/UCk_Fke7Q0jy9zESOvI3NhjA/featured"
+    ],
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Monday",    "opens": "17:30", "closes": "20:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Tuesday",   "opens": "17:00", "closes": "19:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Wednesday", "opens": "17:30", "closes": "20:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Thursday",  "opens": "17:00", "closes": "19:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday",  "opens": "10:00", "closes": "12:00" }
+    ],
+    "makesOffer": {
+      "@type": "Offer",
+      "name": "Free trial capoeira class",
+      "description": "A free, no-obligation first capoeira class for new students, kids or adults.",
+      "url": "https://abadaoc.com/book",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Capoeira classes",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Kids capoeira classes",
+            "description": "Capoeira for children ages 5 to 12. All levels welcome."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Adult capoeira classes",
+            "description": "Capoeira for ages 12 and up. No experience required."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Event and studio space rental",
+            "description": "Studio space in Fountain Valley available for classes, workshops, rehearsals and private events."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Brazilian cultural performances",
+            "description": "Capoeira, maculelê and samba de roda performances for schools and events."
+          }
+        }
+      ]
+    }
+  }
+  </script>
+
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-4J3ZPPVWS8"></script>
   <script>

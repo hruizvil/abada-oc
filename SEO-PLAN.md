@@ -82,27 +82,45 @@ logic. Titles under ~60 chars, descriptions 140–160.
 
 Also added `.claude/launch.json` so the dev server can be started for verification.
 
-### ⬜ Step 2 — robots.txt + sitemap.xml + LocalBusiness JSON-LD
+### ✅ Step 2 — robots.txt + sitemap.xml + LocalBusiness JSON-LD — **DONE, not deployed**
 **~3 hrs · one-time · MODERATE value**
 
-- [ ] `public/robots.txt` — allow all, point at sitemap
-- [ ] `public/sitemap.xml` — 10 public routes (exclude `/waiver`, `/musica`)
-- [ ] `SportsActivityLocation` JSON-LD in `index.html`: name, address, geo, phone,
-      opening hours, `Offer` for the free trial, `sameAs` → social profiles
-- [ ] confirm JSON-LD address is byte-identical to the Google Business Profile
+- [x] `public/robots.txt` — allows everything, points at the sitemap
+- [x] `public/sitemap.xml` — 16 URLs (9 top-level + 7 `/about/:page` topics),
+      excludes `/waiver` and `/musica`
+- [x] `SportsActivityLocation` JSON-LD in `index.html`: name, address, phone, email,
+      hours, `areaServed`, `sameAs`, free-trial `Offer`, 4-service `OfferCatalog`
+- [ ] **Hugo: confirm the address/phone match the Google Business Profile exactly**
 
-Value is mostly indirect: makes Search Console useful, feeds AI answer engines,
-corroborates the GBP listing.
+`public/` is copied to the site root at build time, so these serve as
+`/robots.txt` and `/sitemap.xml`. Verified: both return 200 with correct MIME
+types, and the JSON-LD parses.
 
-### ⬜ Step 3 — Image alt text + heading cleanup
+Two deliberate choices:
+- **robots.txt does NOT disallow `/waiver` or `/musica`.** They use `noindex` meta
+  instead. Disallowing would stop crawlers fetching the page, so they would never
+  read the `noindex` — and Google can still list a blocked URL it has never seen.
+- **`geo` coordinates are omitted, not guessed.** The GBP listing places the map pin;
+  an invented lat/long would contradict it.
+
+⚠️ **Closing times in the JSON-LD are assumptions.** Class START times come from
+`assets/data/schedule.json`; each class was assumed to run about an hour. Fix the
+`closes` values if that is wrong — and they should agree with GBP.
+
+### ✅ Step 3 — Heading cleanup — **DONE, not deployed**
 **~1 hr · one-time · LOW value**
 
-- [ ] 2 of 8 `<img>` tags are missing `alt`
-- [ ] duplicate `<h1>` — `header.component.html:12` wraps the brand name in `<h1>`
-      while every page component also has one; header should be a `<div>`/`<span>`
-- [ ] wildcard route redirects to home (soft 404) — consider a real 404 page
+- [x] duplicate `<h1>` — the header brand name is now
+      `<span class="brand-name">`, so each page has exactly one `<h1>`
+- [x] ~~2 of 8 `<img>` tags missing `alt`~~ — **this was wrong.** All 8 have `alt`;
+      two use Angular's `[alt]="…"` property binding, which the original audit regex
+      did not recognise. No change needed.
+- [ ] wildcard route redirects to home (soft 404) — still open, very low priority
 
-Accessibility win. Near-zero traffic impact. Bundle with Step 2.
+The `<h1>` swap is semantics only. `.brand-name` carries `display: block` so the
+tagline still sits on its own line; verified in-browser that computed font-size,
+weight and layout are unchanged, and that `/classes` now reports exactly one `<h1>`
+("Our Programs") instead of two.
 
 ### ⬜ Step 4 — Prerendering (`@angular/ssr` static generation)
 **~1–2 days · one-time + light upkeep · STRUCTURAL**

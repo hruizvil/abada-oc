@@ -9,7 +9,13 @@
           class="logo-image">
         @if (navigationData(); as nav) {
           <div class="logo-text">
-            <h1>{{ nav.brand.name }}</h1>
+            <!--
+              Intentionally not an <h1>. This appears in the header of every page, so
+              it competed with each page's own <h1> and told search engines every page
+              was titled "ABADÁ-Capoeira OC". Purely a semantics change — .brand-name
+              preserves the exact appearance.
+            -->
+            <span class="brand-name">{{ nav.brand.name }}</span>
             <span class="tagline">{{ nav.brand.tagline }}</span>
           </div>
         }

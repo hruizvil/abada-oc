@@ -62,7 +62,9 @@
       display: block;
     }
 
-    h1 {
+    .brand-name {
+      // Was an <h1>; kept block so the tagline still sits on its own line.
+      display: block;
       font-size: 1.25rem;
       margin: 0;
       font-weight: 700;
