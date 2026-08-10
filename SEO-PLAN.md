@@ -103,9 +103,22 @@ Two deliberate choices:
 - **`geo` coordinates are omitted, not guessed.** The GBP listing places the map pin;
   an invented lat/long would contradict it.
 
-⚠️ **Closing times in the JSON-LD are assumptions.** Class START times come from
-`assets/data/schedule.json`; each class was assumed to run about an hour. Fix the
-`closes` values if that is wrong — and they should agree with GBP.
+✅ **JSON-LD hours now mirror the Google Business Profile** (corrected 2026-08-10).
+
+They were previously invented — Claude assumed each class ran about an hour and
+derived closing times from the class schedule. That was wrong twice over: the values
+matched nothing real, and the field does not mean what that assumed.
+
+`openingHoursSpecification` is **door hours** — when the studio is open:
+
+| | Mon | Tue | Wed | Thu | Sat |
+|---|---|---|---|---|---|
+| Doors | 5:00 PM–8:30 PM | 4:30–7:30 PM | 5:00 PM–8:30 PM | 4:30–7:30 PM | 8:30 AM–1:30 PM |
+
+**Class times are a different thing** and live in `assets/data/schedule.json` (kids
+5:30 Mon, adults 7:00, etc.). Doors open ~30 min before the first class. Do not
+"reconcile" these two — they are supposed to differ. If the GBP hours change, update
+the JSON-LD to match; leave the class schedule alone.
 
 ### ✅ Step 3 — Heading cleanup — **DONE — live 2026-08-09**
 **~1 hr · one-time · LOW value**
