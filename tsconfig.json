@@ -13,7 +13,11 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
-    "module": "preserve"
+    "module": "preserve",
+    // Lets DataService import the content JSON directly instead of fetching it
+    // over HTTP. The files are static build assets, so importing them makes the
+    // content available synchronously and removes the empty-render flash.
+    "resolveJsonModule": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
