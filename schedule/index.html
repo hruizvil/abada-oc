@@ -37,11 +37,15 @@
     Google cross-checks this against the Google Business Profile, so name, address and
     telephone MUST stay byte-identical to the GBP listing and to the site footer.
 
-    NOTE FOR HUGO — two values here are assumptions, please confirm:
-      1. Closing times. Class START times come from assets/data/schedule.json; I
-         assumed each class runs about an hour. Adjust `closes` if that is wrong.
-      2. `geo` coordinates are deliberately omitted rather than guessed. The Google
-         Business Profile already places the pin; a wrong lat/long here would fight it.
+    openingHoursSpecification is DOOR HOURS — when the studio is open — copied from
+    the Google Business Profile so the two never disagree. It is NOT the class
+    schedule. Class times live in assets/data/schedule.json and are shown on
+    /schedule and /classes; they start after the doors open (e.g. Monday doors 5:00,
+    kids class 5:30). Changing one does not imply changing the other, and if the GBP
+    hours are ever edited, update these to match.
+
+    `geo` coordinates are deliberately omitted rather than guessed. The Google
+    Business Profile already places the map pin; a wrong lat/long here would fight it.
   -->
   <script type="application/ld+json">
   {
@@ -78,11 +82,11 @@
       "https://www.youtube.com/channel/UCk_Fke7Q0jy9zESOvI3NhjA/featured"
     ],
     "openingHoursSpecification": [
-      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Monday",    "opens": "17:30", "closes": "20:00" },
-      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Tuesday",   "opens": "17:00", "closes": "19:00" },
-      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Wednesday", "opens": "17:30", "closes": "20:00" },
-      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Thursday",  "opens": "17:00", "closes": "19:00" },
-      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday",  "opens": "10:00", "closes": "12:00" }
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Monday",    "opens": "17:00", "closes": "20:30" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Tuesday",   "opens": "16:30", "closes": "19:30" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Wednesday", "opens": "17:00", "closes": "20:30" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Thursday",  "opens": "16:30", "closes": "19:30" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday",  "opens": "08:30", "closes": "13:30" }
     ],
     "makesOffer": {
       "@type": "Offer",
