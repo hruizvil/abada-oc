@@ -162,8 +162,7 @@
                   rows="2"
                   [placeholder]="registrationForm.get('interestedIn')?.value === 'multiple'
                     ? 'List the family members joining and their ages (e.g. Maria, age 8 — adult class; João, age 34 — adult class)'
-                    : 'Questions, anything we should know, etc.'">
-                </textarea>
+                    : 'Questions, anything we should know, etc.'"></textarea>
                 @if (isFieldInvalid('comments')) {
                   <span class="error-text">Please tell us who's joining and their ages</span>
                 }

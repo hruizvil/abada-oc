@@ -90,8 +90,7 @@
                   formControlName="message"
                   [class.invalid]="isFieldInvalid('message')"
                   rows="5"
-                  placeholder="Tell us how we can help...">
-                </textarea>
+                  placeholder="Tell us how we can help..."></textarea>
                 @if (isFieldInvalid('message')) {
                   <span class="error-text">Please enter a message</span>
                 }
