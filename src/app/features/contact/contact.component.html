@@ -96,6 +96,19 @@
                 }
               </div>
 
+              <!--
+                Honeypot. Positioned off-screen rather than display:none, since
+                some bots skip hidden fields but not offset ones. aria-hidden and
+                tabindex="-1" keep it away from screen readers and keyboard users.
+              -->
+              <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+                <label for="contact-website">Website</label>
+                <input type="text" id="contact-website" formControlName="website" tabindex="-1" autocomplete="off">
+              </div>
+
+              <!-- Turnstile renders here. Invisible widget: nothing is drawn. -->
+              <div #turnstileHost></div>
+
               <button
                 type="submit"
                 class="submit-button"

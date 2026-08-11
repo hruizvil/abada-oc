@@ -1,7 +1,8 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from '../../../environments/environment';
+import { TurnstileService } from '../../core/services/turnstile.service';
 
 @Component({
   selector: 'app-contact',
@@ -12,6 +13,9 @@ import { environment } from '../../../environments/environment';
 })
 export class ContactComponent {
   private fb = inject(FormBuilder);
+  private turnstile = inject(TurnstileService);
+
+  @ViewChild('turnstileHost') turnstileHost?: ElementRef<HTMLElement>;
 
   contactForm: FormGroup;
   isSubmitting = signal(false);
@@ -23,39 +27,58 @@ export class ContactComponent {
       name:    ['', Validators.required],
       phone:   ['', Validators.required],
       email:   ['', [Validators.required, Validators.email]],
-      message: ['', Validators.required]
+      message: ['', Validators.required],
+      // Honeypot. Hidden from people and from screen readers, so anything that
+      // fills it is automated. The Worker drops those without sending an email.
+      website: ['']
     });
   }
 
-  async onSubmit() {
+  onSubmit(): void {
     this.contactForm.markAllAsTouched();
     if (this.contactForm.invalid) return;
 
-    this.isSubmitting.set(true);
-    this.submitError.set(null);
-
     const v = this.contactForm.value;
-    const payload = {
-      formType:    'contact',
-      name:        v.name,
-      phone:       v.phone,
-      email:       v.email,
-      message:     v.message,
-      submittedAt: new Date().toISOString()
-    };
 
-    if (environment.contactSheetUrl && !environment.contactSheetUrl.startsWith('YOUR_')) {
-      fetch(environment.contactSheetUrl, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-    }
-
+    // Confirm to the visitor straight away. Waiting on Turnstile and the network
+    // would replace instant feedback with a spinner, and there is nothing useful
+    // we could tell them if the send failed anyway — so the delivery runs in the
+    // background and reports problems to the console, not to the person.
     this.submitSuccess.set(true);
     this.isSubmitting.set(false);
     this.contactForm.reset();
+
+    void this.deliver(v);
+  }
+
+  private async deliver(v: Record<string, string>): Promise<void> {
+    if (!environment.contactWorkerUrl || environment.contactWorkerUrl.startsWith('YOUR_')) return;
+
+    const turnstileToken = await this.turnstile.getToken(this.turnstileHost?.nativeElement);
+
+    const payload = {
+      formType:    'contact',
+      name:        v['name'],
+      phone:       v['phone'],
+      email:       v['email'],
+      message:     v['message'],
+      website:     v['website'] ?? '',
+      submittedAt: new Date().toISOString(),
+      turnstileToken
+    };
+
+    try {
+      const res = await fetch(environment.contactWorkerUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) {
+        console.error('Contact form was rejected by the Worker', res.status);
+      }
+    } catch (err) {
+      console.error('Contact form could not be delivered', err);
+    }
   }
 
   isFieldInvalid(fieldName: string): boolean {

@@ -2,6 +2,7 @@ import { Component, signal, inject, ViewChild, ElementRef } from '@angular/core'
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from '../../../environments/environment';
+import { TurnstileService } from '../../core/services/turnstile.service';
 
 interface SlotWeek {
   weekLabel: string;
@@ -17,8 +18,10 @@ interface SlotWeek {
 })
 export class BookComponent {
   private fb = inject(FormBuilder);
+  private turnstile = inject(TurnstileService);
 
   @ViewChild('formSection') formSection!: ElementRef;
+  @ViewChild('turnstileHost') turnstileHost?: ElementRef<HTMLElement>;
 
   private readonly SCHEDULE: Record<string, { day: number; time: string }[]> = {
     kids: [
@@ -46,7 +49,10 @@ export class BookComponent {
       email:          ['', [Validators.required, Validators.email]],
       interestedIn:   ['', Validators.required],
       firstClassSlot: ['', Validators.required],
-      comments:       ['']
+      comments:       [''],
+      // Honeypot. Hidden from people and from screen readers, so anything that
+      // fills it is automated. The Worker drops those without sending an email.
+      website:        ['']
     });
 
     this.registrationForm.get('interestedIn')!.valueChanges.subscribe(value => {
@@ -112,31 +118,48 @@ export class BookComponent {
     this.submitError.set(null);
 
     const v = this.registrationForm.value;
-    const payload = {
-      formType:       'booking',
-      name:           v.name,
-      phone:          v.phone,
-      email:          v.email,
-      interestedIn:   v.interestedIn,
-      firstClassSlot: v.firstClassSlot,
-      comments:       v.comments || '',
-      submittedAt:    new Date().toISOString()
-    };
 
-    if (environment.contactSheetUrl && !environment.contactSheetUrl.startsWith('YOUR_')) {
-      fetch(environment.contactSheetUrl, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-    }
-
+    // Confirm to the visitor straight away — see the note in ContactComponent.
+    // Delivery runs in the background so nobody waits on Turnstile or the network.
     this.submitSuccess.set(true);
     this.isSubmitting.set(false);
     this.registrationForm.reset();
     this.availableSlots.set([]);
     this.scrollToForm();
+
+    void this.deliver(v);
+  }
+
+  private async deliver(v: Record<string, string>): Promise<void> {
+    if (!environment.contactWorkerUrl || environment.contactWorkerUrl.startsWith('YOUR_')) return;
+
+    const turnstileToken = await this.turnstile.getToken(this.turnstileHost?.nativeElement);
+
+    const payload = {
+      formType:       'booking',
+      name:           v['name'],
+      phone:          v['phone'],
+      email:          v['email'],
+      interestedIn:   v['interestedIn'],
+      firstClassSlot: v['firstClassSlot'],
+      comments:       v['comments'] || '',
+      website:        v['website'] ?? '',
+      submittedAt:    new Date().toISOString(),
+      turnstileToken
+    };
+
+    try {
+      const res = await fetch(environment.contactWorkerUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) {
+        console.error('Booking form was rejected by the Worker', res.status);
+      }
+    } catch (err) {
+      console.error('Booking form could not be delivered', err);
+    }
   }
 
   isFieldInvalid(fieldName: string): boolean {

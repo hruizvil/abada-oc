@@ -1,0 +1,17 @@
+name = "abadaoc-contact"
+main = "contact-worker.js"
+compatibility_date = "2026-08-11"
+
+# Both values below are secrets and must NOT be committed here.
+# Set them once from this directory:
+#
+#   npx wrangler secret put TURNSTILE_SECRET
+#   npx wrangler secret put APPS_SCRIPT_URL
+#
+# APPS_SCRIPT_URL is a secret because it is the whole point of this Worker: the
+# Apps Script endpoint must stop being publicly readable. If it ends up in the
+# site bundle or in git again, the spam route reopens.
+#
+# Deploy with:
+#
+#   npx wrangler deploy

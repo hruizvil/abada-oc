@@ -168,6 +168,15 @@
                 }
               </div>
 
+              <!-- Honeypot — see the note in contact.component.html. -->
+              <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+                <label for="book-website">Website</label>
+                <input type="text" id="book-website" formControlName="website" tabindex="-1" autocomplete="off">
+              </div>
+
+              <!-- Turnstile renders here. Invisible widget: nothing is drawn. -->
+              <div #turnstileHost></div>
+
               <button
                 type="submit"
                 class="submit-button"
