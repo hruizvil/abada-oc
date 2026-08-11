@@ -101,6 +101,11 @@ Worker and Turnstile entirely, and nothing else in this document matters.
 
 Leaving it until last means there is no window where the forms are broken.
 
+Archiving is also reversible — versioned deployments cannot be deleted, only
+archived, and an archived one can be restored from **Manage deployments →
+Archived → pencil → Deploy**. So this step is recoverable too if anything
+unexpected turns up after cutover.
+
 ## Not doing: spam subject tagging
 
 The Worker forwards a `suspectedSpam` boolean, but nothing acts on it. Turnstile
