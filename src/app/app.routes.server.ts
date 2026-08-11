@@ -20,12 +20,6 @@ export const serverRoutes: ServerRoute[] = [
     getPrerenderParams: async () => Object.keys(ABOUT_SEO).map(page => ({ page }))
   },
   {
-    // Behind localOnlyGuard and noindex. Prerendering it would emit a public
-    // HTML file for a page that is meant to be reachable only locally.
-    path: 'musica',
-    renderMode: RenderMode.Client
-  },
-  {
     path: '**',
     renderMode: RenderMode.Prerender
   }

@@ -100,13 +100,6 @@ export const PAGE_SEO: Record<string, PageSeo> = {
     description: 'Participation waiver for ABADÁ-Capoeira OC students.',
     path: '/waiver',
     noIndex: true
-  },
-
-  musica: {
-    title: 'Música | ABADÁ-Capoeira OC',
-    description: 'Song reference for ABADÁ-Capoeira OC students.',
-    path: '/musica',
-    noIndex: true
   }
 };
 

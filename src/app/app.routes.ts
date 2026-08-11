@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { localOnlyGuard } from './core/guards/local-only.guard';
 import { HomeComponent } from './features/home/home.component';
 import { ScheduleComponent } from './features/schedule/schedule.component';
 import { AboutLandingComponent } from './features/about/about-landing.component';
@@ -72,12 +71,6 @@ export const routes: Routes = [
     path: 'waiver',
     component: WaiverComponent,
     data: { seo: 'waiver' }
-  },
-  {
-    path: 'musica',
-    canActivate: [localOnlyGuard],
-    loadComponent: () => import('./features/musica/musica.component').then(m => m.MusicaComponent),
-    data: { seo: 'musica' }
   },
   {
     path: '**',
