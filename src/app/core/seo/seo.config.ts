@@ -100,6 +100,12 @@ export const PAGE_SEO: Record<string, PageSeo> = {
     description: 'Participation waiver for ABADÁ-Capoeira OC students.',
     path: '/waiver',
     noIndex: true
+  },
+
+  privacy: {
+    title: 'Privacy Policy | ABADÁ-Capoeira OC',
+    description: 'What ABADÁ-Capoeira OC collects through this website, why, and who else sees it.',
+    path: '/privacy'
   }
 };
 

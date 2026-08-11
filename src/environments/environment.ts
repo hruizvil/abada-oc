@@ -7,5 +7,5 @@ export const environment = {
   // Worker secret so it cannot be read out of the bundle and POSTed to directly,
   // which is what let the form spam start. See worker/README.md.
   contactWorkerUrl:  'YOUR_WORKER_URL',
-  turnstileSiteKey:  'YOUR_TURNSTILE_SITE_KEY'
+  turnstileSiteKey:  '0x4AAAAAAENZBzOwTb2xUjno'
 };
