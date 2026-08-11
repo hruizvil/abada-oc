@@ -37,13 +37,15 @@ Copy both keys:
 | **Site Key** | `src/environments/environment*.ts` | Yes — safe in the bundle |
 | **Secret Key** | Worker secret, step 5 | **No — never commit** |
 
-### 3. Rotate the Apps Script URL
+### 3. Create a new Apps Script deployment
 
 In the Apps Script editor: **Deploy → New deployment**. This produces a *new* `/exec`
-URL and retires the old one.
+URL.
 
-This step is not optional. Whatever has already scraped the current URL will keep
-using it, bypassing everything here, unless the URL changes.
+**This causes no downtime.** Apps Script runs deployments side by side — the old URL
+keeps serving the live site until you explicitly archive it, which happens last, in
+step 8. Nothing breaks in between, and the old URL stays available as a fallback if
+anything goes wrong during cutover.
 
 > Close the Apps Script editor tab afterwards — an open tab can autosave stale code
 > over a `clasp push`.
@@ -76,10 +78,37 @@ turnstileSiteKey:  '0x4AAA...'
 Until these are filled in, the forms still show their success screen but send
 nothing — the same guard the codebase already used for unset endpoints.
 
-### 6. Apps Script: tag suspected spam
+### 6. Deploy the site
 
-The Worker forwards a `suspectedSpam` boolean. Use it for the subject line only —
-do not drop the message:
+`npm run deploy`, when you're ready. That's your call, not a step to run blind.
+
+Until `contactWorkerUrl` is set, both forms show their success screen and send
+nothing — so do not deploy ahead of step 5, or real inquiries are dropped silently.
+
+### 7. Test a real submission
+
+Submit the contact form on the live site and confirm the email arrives. Watch it
+happen with `npx wrangler tail`. Do not proceed until this passes — the old URL is
+still your fallback.
+
+### 8. Archive the old Apps Script deployment
+
+Apps Script editor → **Deploy → Manage deployments** → archive the *old* one.
+
+**This is the step that actually closes the hole.** The old URL is the one that has
+been scraped; while it is live the bot reaches Apps Script directly, bypassing the
+Worker and Turnstile entirely, and nothing else in this document matters.
+
+Leaving it until last means there is no window where the forms are broken.
+
+## Not doing: spam subject tagging
+
+The Worker forwards a `suspectedSpam` boolean, but nothing acts on it. Turnstile
+catches effectively everything, so the letters-free-message heuristic is redundant
+in practice and the Apps Script change and Gmail filter were dropped.
+
+The flag still arrives, so if spam ever gets through — most plausibly during a
+Cloudflare outage, when the Worker fails open — the hook is already there:
 
 ```js
 const subject = data.suspectedSpam
@@ -87,12 +116,12 @@ const subject = data.suspectedSpam
   : `New Contact Inquiry — ${data.name}`;
 ```
 
-Then one Gmail filter — `Subject: [possible spam]` → Skip Inbox, Apply label — keeps
-it out of sight while staying recoverable. Never "Delete it".
+Pair that with a Gmail filter on `Subject: [possible spam]` → Skip Inbox, Apply
+label. Never "Delete it" — a mis-flagged inquiry has to stay recoverable.
 
-### 7. Deploy the site
-
-`npm run deploy`, when you're ready. That's your call, not a step to run blind.
+Note that the extra `suspectedSpam` field reaches Apps Script either way. If it
+writes named columns you will not notice; if it iterates over keys, expect a new
+column in the Sheet.
 
 ## How it decides
 
