@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   Public, indexable pages only.
-  Deliberately excluded: /waiver and /musica — both are noindex.
+  Deliberately excluded: /waiver — it is noindex.
   Keep this in sync with app.routes.ts and core/seo/seo.config.ts.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -116,6 +116,13 @@
     <lastmod>2026-08-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
+  </url>
+
+  <url>
+    <loc>https://abadaoc.com/privacy</loc>
+    <lastmod>2026-08-11</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
   </url>
 
 </urlset>
