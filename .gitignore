@@ -45,3 +45,6 @@ Thumbs.db
 
 # Local Claude Code tooling (not part of the build)
 .claude/
+
+# Windows/msys crash dumps
+*.stackdump
