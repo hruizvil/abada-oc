@@ -2,7 +2,11 @@ import { Component, signal, inject, ViewChild, ElementRef } from '@angular/core'
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from '../../../environments/environment';
-import { TurnstileService } from '../../core/services/turnstile.service';
+import {
+  TurnstileService,
+  VERIFICATION_UNAVAILABLE_MESSAGE,
+  DELIVERY_FAILED_MESSAGE
+} from '../../core/services/turnstile.service';
 
 interface SlotWeek {
   weekLabel: string;
@@ -50,9 +54,8 @@ export class BookComponent {
       interestedIn:   ['', Validators.required],
       firstClassSlot: ['', Validators.required],
       comments:       [''],
-      // Honeypot. Hidden from people and from screen readers, so anything that
-      // fills it is automated. The Worker drops those without sending an email.
-      website:        ['']
+      // Honeypot — see the note in ContactComponent on why the name is nonsense.
+      refCode:        ['']
     });
 
     this.registrationForm.get('interestedIn')!.valueChanges.subscribe(value => {
@@ -117,23 +120,23 @@ export class BookComponent {
     this.isSubmitting.set(true);
     this.submitError.set(null);
 
-    const v = this.registrationForm.value;
+    const v = this.registrationForm.value as Record<string, string>;
 
-    // Confirm to the visitor straight away — see the note in ContactComponent.
-    // Delivery runs in the background so nobody waits on Turnstile or the network.
-    this.submitSuccess.set(true);
-    this.isSubmitting.set(false);
-    this.registrationForm.reset();
-    this.availableSlots.set([]);
-    this.scrollToForm();
-
-    void this.deliver(v);
-  }
-
-  private async deliver(v: Record<string, string>): Promise<void> {
-    if (!environment.contactWorkerUrl || environment.contactWorkerUrl.startsWith('YOUR_')) return;
+    // Verify before promising anything — see the note in ContactComponent. A
+    // booking is the most valuable submission on the site, so it is the last
+    // place we want a success screen that quietly went nowhere.
+    if (!environment.contactWorkerUrl || environment.contactWorkerUrl.startsWith('YOUR_')) {
+      this.finishSuccessfully();
+      return;
+    }
 
     const turnstileToken = await this.turnstile.getToken(this.turnstileHost?.nativeElement);
+
+    if (!turnstileToken && this.turnstile.isEnabled()) {
+      this.isSubmitting.set(false);
+      this.submitError.set(VERIFICATION_UNAVAILABLE_MESSAGE);
+      return;
+    }
 
     const payload = {
       formType:       'booking',
@@ -143,7 +146,7 @@ export class BookComponent {
       interestedIn:   v['interestedIn'],
       firstClassSlot: v['firstClassSlot'],
       comments:       v['comments'] || '',
-      website:        v['website'] ?? '',
+      refCode:        v['refCode'] ?? '',
       submittedAt:    new Date().toISOString(),
       turnstileToken
     };
@@ -154,12 +157,29 @@ export class BookComponent {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
+
       if (!res.ok) {
         console.error('Booking form was rejected by the Worker', res.status);
+        this.isSubmitting.set(false);
+        this.submitError.set(DELIVERY_FAILED_MESSAGE);
+        return;
       }
     } catch (err) {
       console.error('Booking form could not be delivered', err);
+      this.isSubmitting.set(false);
+      this.submitError.set(DELIVERY_FAILED_MESSAGE);
+      return;
     }
+
+    this.finishSuccessfully();
+  }
+
+  private finishSuccessfully(): void {
+    this.submitSuccess.set(true);
+    this.isSubmitting.set(false);
+    this.registrationForm.reset();
+    this.availableSlots.set([]);
+    this.scrollToForm();
   }
 
   isFieldInvalid(fieldName: string): boolean {

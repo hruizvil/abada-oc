@@ -69,8 +69,13 @@ export default {
     }
 
     // Honeypot. The form renders a hidden field no human can see or tab into,
-    // so anything that fills it is automated. Costs nothing to check.
-    if (body.website) {
+    // so anything that fills it is automated. Returns ok so a bot learns nothing.
+    //
+    // The field is named refCode rather than something meaningful on purpose:
+    // it was 'website' first, which password managers and browser autofill
+    // actively look for, and a filled honeypot discards the submission. Never
+    // give this field a name any autofill heuristic recognises.
+    if (body.refCode) {
       return jsonResponse({ ok: true }, 200, origin);
     }
 
@@ -79,14 +84,20 @@ export default {
     const verdict = await verifyTurnstile(body.turnstileToken, clientIp, env.TURNSTILE_SECRET);
 
     if (verdict === 'failed') {
-      // Proven bot. Never reaches Apps Script, so no email and no quota spent.
+      // No token, or one Cloudflare rejected. Either way this never reaches Apps
+      // Script, so no email is sent and no send quota is spent.
+      //
+      // Rejecting a tokenless request is the deliberate, standard choice. It is
+      // only safe because the form waits for its token before claiming success:
+      // a visitor whose extension blocks the challenge is told so and given the
+      // phone number, rather than shown a success screen over a discarded
+      // message. Do not relax this without revisiting that, or silent data loss
+      // comes straight back.
       return jsonResponse({ ok: false, error: 'challenge_failed' }, 403, origin);
     }
-    // verdict === 'unavailable' means Cloudflare itself did not answer. We fail
-    // OPEN and let the submission through. The site shows "Message received!"
-    // without waiting for us, so failing closed during an outage would lose a
-    // real inquiry with no trace on either end. A short spam window is cheaper.
-    // Flip this to a 403 if that trade ever stops being worth it.
+    // verdict === 'unavailable' means the browser produced a token but Cloudflare
+    // did not answer when we tried to check it. That is Cloudflare's outage, not
+    // evidence about this visitor, so the submission goes through.
 
     // --- Check 3: Content ----------------------------------------------------
     const suspectedSpam = looksLikeSpam(body);
@@ -194,7 +205,10 @@ function corsHeaders(origin) {
     'Access-Control-Allow-Origin': ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0],
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Max-Age': '86400'
+    'Access-Control-Max-Age': '86400',
+    // The header above depends on the request's Origin, so anything caching this
+    // response has to key on it too, or one origin can be served another's.
+    'Vary': 'Origin'
   };
 }
 

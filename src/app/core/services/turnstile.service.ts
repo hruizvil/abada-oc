@@ -31,17 +31,38 @@ declare global {
 
 const SCRIPT_URL = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
 
-// If Cloudflare has not answered by now, give up and submit without a token.
-// The Worker fails open on a missing token from an allowed origin, so a real
-// parent still gets through during an outage. Losing their message silently
-// would be a worse failure than briefly letting spam past.
+// If Cloudflare has not answered by now, stop waiting and report failure to the
+// caller. The Worker rejects a tokenless submission, so the form must not claim
+// success without one — it tells the visitor instead, and offers the phone and
+// email as a way through. An ad blocker usually fails much faster than this:
+// the script load itself errors, so this ceiling only covers a slow network.
 const TOKEN_TIMEOUT_MS = 6000;
+
+/** Shown when the challenge could not run — almost always a blocking extension. */
+export const VERIFICATION_UNAVAILABLE_MESSAGE =
+  "We couldn't verify your browser, which usually means an ad blocker or privacy " +
+  'extension is blocking it. Please try again, or reach us directly at ' +
+  'capoeiraoc@gmail.com or (562) 340-9801.';
+
+/** Shown when the request itself failed after verification passed. */
+export const DELIVERY_FAILED_MESSAGE =
+  'Something went wrong sending your message. Please try again, or reach us ' +
+  'directly at capoeiraoc@gmail.com or (562) 340-9801.';
 
 @Injectable({ providedIn: 'root' })
 export class TurnstileService {
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private scriptPromise: Promise<void> | null = null;
   private widgetIds = new WeakMap<HTMLElement, string>();
+
+  /**
+   * True when a real site key is present. Callers use this to tell "Turnstile is
+   * switched off in this environment" apart from "Turnstile ran and failed" —
+   * only the latter should stop a submission.
+   */
+  isEnabled(): boolean {
+    return this.isBrowser && this.isConfigured();
+  }
 
   /** Resolves with a token, or null if Turnstile is unavailable or unconfigured. */
   async getToken(container: HTMLElement | null | undefined): Promise<string | null> {
