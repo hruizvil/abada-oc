@@ -6,6 +6,6 @@ export const environment = {
   // Apps Script URL is deliberately absent from this file: it lives only as a
   // Worker secret so it cannot be read out of the bundle and POSTed to directly,
   // which is what let the form spam start. See worker/README.md.
-  contactWorkerUrl:  'YOUR_WORKER_URL',
+  contactWorkerUrl:  'https://abadaoc-contact.capoeiraoc.workers.dev',
   turnstileSiteKey:  '0x4AAAAAAENZBzOwTb2xUjno'
 };
