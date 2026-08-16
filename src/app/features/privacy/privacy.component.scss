@@ -98,4 +98,47 @@
       outline-offset: 2px;
     }
   }
+
+  // Contact details, set as a small card so the label / value pairs line up
+  // and read clearly instead of running together on wrapped lines.
+  .contact-card {
+    margin: $spacing-md 0 0;
+    padding: $spacing-lg;
+    background: $gray-100;
+    border: 1px solid $gray-200;
+    border-radius: 10px;
+    border-left: 4px solid $primary-color;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+
+  .contact-row {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    align-items: baseline;
+    gap: $spacing-md;
+
+    dt {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: $text-secondary;
+    }
+
+    dd {
+      margin: 0;
+      color: $text-color;
+
+      a {
+        text-decoration: none;
+        font-weight: 500;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
 }
