@@ -1,74 +1,81 @@
 {
-  "upcomingEvent": {
-    "id": "batizado-2026",
-    "title": "Southern California Youth Capoeira Festival 2026",
-    "subtitle": "Batizado & Troca de Cordas",
-    "dates": "April 22–26, 2026",
-    "description": "Our annual graduation ceremony this year features not only the graduation ceremony and the exchange of ranks, but also our very first Youth Capoeira Festival. A great opportunity to introduce youth to the competition atmosphere without the pressure of competing to win.",
-    "guestOfHonor": "Mestrando Coala (Rio de Janeiro, Brazil)",
-    "specialGuests": ["Professor Veio (Porto Alegre, Brazil)"],
-    "presentedBy": "Professor Mosquito & ABADÁ OC Team",
-    "regionalCoordinator": "Mestra Marcia Cigarra",
-    "supervisedBy": "Mestre Camisa",
-    "schedule": [
-      {
-        "date": "Wednesday, April 22",
-        "label": "Workshop Day 1",
-        "location": "8552 Warner Ave, Fountain Valley, CA 92708",
-        "events": [
-          { "time": "5:00 PM", "description": "Kids/Youth Class" },
-          { "time": "6:30 PM", "description": "All Level Adults Class" }
-        ]
-      },
-      {
-        "date": "Thursday, April 23",
-        "label": "Workshop Day 2",
-        "location": "8552 Warner Ave, Fountain Valley, CA 92708",
-        "events": [
-          { "time": "5:00 PM", "description": "Kids/Youth Class" },
-          { "time": "6:30 PM", "description": "All Level Adults Class" }
-        ]
-      },
-      {
-        "date": "Friday, April 24",
-        "label": "Workshop Day 3",
-        "location": "8552 Warner Ave, Fountain Valley, CA 92708",
-        "events": [
-          { "time": "5:00 PM", "description": "Kids/Youth Class" },
-          { "time": "6:30 PM", "description": "All Level Adults Class" }
-        ]
-      },
-      {
-        "date": "Saturday, April 25",
-        "label": "Youth Capoeira Festival Day",
-        "events": [
-          { "time": "9:00 AM", "description": "Youth Capoeira Festival", "location": "17967 Bushard St, Fountain Valley, CA 92708" },
-          { "time": "12:00 PM", "description": "Performance — Earth Moves Event (all must attend)", "location": "4700 Griffin Ave, Los Angeles, CA 90031" },
-          { "time": "6:00 PM", "description": "Adults All Level Class", "location": "8552 Warner Ave, Fountain Valley, CA 92708" }
-        ]
-      },
-      {
-        "date": "Sunday, April 26",
-        "label": "Batizado & Graduation",
-        "location": "17967 Bushard St, Fountain Valley, CA 92708",
-        "events": [
-          { "time": "9:30 AM", "description": "Batizado & Graduation Ceremony" }
-        ]
-      }
-    ],
-    "pricing": [
-      { "label": "1 student", "price": "$220" },
-      { "label": "2 students per family", "price": "$200 each" },
-      { "label": "3 or more students per family", "price": "$180 each" }
-    ],
-    "payment": {
-      "methods": ["Cash", "Venmo (@Abada-Oc)", "Zelle (capoeiraoc@gmail.com)", "Check (Orange County Capoeira)"],
-      "qrCode": "/assets/images/batizado-2026/batizado-qrcode-for-payment.jpg"
+  "events": [
+    {
+      "id": "prego-guest-2026-08",
+      "title": "Class with Professor Prego",
+      "flyer": "/assets/images/events/prego.jpeg",
+      "alt": "Class with special guest Professor Prego flyer",
+      "startDate": "2026-08-27",
+      "endDate": "2026-08-29",
+      "dateLabel": "Thu Aug 27 & Sat Aug 29",
+      "location": "The studio · Kids & Adults",
+      "badges": [
+        { "type": "guest", "label": "★ Special guest" }
+      ]
     },
-    "flyers": {
-      "general": "/assets/images/batizado-2026/batizado-2026-general.jpg",
-      "workshops": "/assets/images/batizado-2026/batizado-2026-workshops.jpg",
-      "instructors": "/assets/images/batizado-2026/batizado-2026-instructors.jpg"
+    {
+      "id": "open-roda-2026-08-29",
+      "title": "Open Roda",
+      "flyer": "/assets/images/events/open-roda.jpeg",
+      "alt": "Open Roda flyer",
+      "startDate": "2026-08-29",
+      "endDate": "2026-08-29",
+      "dateLabel": "Sat Aug 29 · 1:00 PM",
+      "location": "The studio · all ages",
+      "badges": [
+        { "type": "free", "label": "Free · everyone welcome" }
+      ]
+    },
+    {
+      "id": "werdum-venice-classes",
+      "title": "Capoeira Classes — Werdum Center",
+      "flyer": "/assets/images/events/werdum-venice.jpeg",
+      "alt": "Capoeira classes at Werdum Training Center, Venice flyer",
+      "ongoing": true,
+      "startDate": "2026-09-01",
+      "dateLabel": "Tue & Thu · 8:30 PM · from Sep 1",
+      "location": "Venice, CA · a separate ABADÁ program",
+      "badges": [
+        { "type": "ongoing", "label": "◆ Ongoing · weekly" },
+        { "type": "where", "label": "Venice" }
+      ]
+    },
+    {
+      "id": "camping-2026",
+      "title": "4th Annual ABADÁ Camping",
+      "flyer": "/assets/images/events/camping.jpeg",
+      "alt": "4th Annual ABADÁ Capoeira Camping flyer",
+      "startDate": "2026-09-11",
+      "endDate": "2026-09-13",
+      "dateLabel": "Sep 11–13",
+      "location": "O'Neil Regional Park, Trabuco Canyon",
+      "badges": [
+        { "type": "paid", "label": "$40 per family" }
+      ]
+    },
+    {
+      "id": "capoeira-in-the-park-2026-09-27",
+      "title": "Capoeira in the Park",
+      "flyer": "/assets/images/events/capoeira-in-the-park.jpeg",
+      "alt": "ABADÁ-Capoeira in the Park at Willow Springs flyer",
+      "startDate": "2026-09-27",
+      "endDate": "2026-09-27",
+      "dateLabel": "Sun Sep 27 · 3:00 PM",
+      "location": "Willow Springs Park, Long Beach",
+      "badges": [
+        { "type": "free", "label": "Free · reservations rec." },
+        { "type": "where", "label": "Long Beach" }
+      ]
+    },
+    {
+      "id": "batizado-2026",
+      "title": "Youth Festival & Batizado",
+      "flyer": "/assets/images/batizado-2026/batizado-2026-general.jpg",
+      "alt": "SoCal Youth Capoeira Festival & Batizado 2026 flyer",
+      "startDate": "2026-04-22",
+      "endDate": "2026-04-26",
+      "dateLabel": "Apr 22–26, 2026",
+      "badges": []
     }
-  }
+  ]
 }
