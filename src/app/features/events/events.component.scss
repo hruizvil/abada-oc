@@ -5,7 +5,7 @@
 }
 
 .container {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 0 1rem;
 
@@ -14,7 +14,7 @@
   }
 }
 
-// Hero Section
+// Hero
 .events-hero {
   background: linear-gradient(135deg, $primary-color 0%, $primary-dark 100%);
   color: white;
@@ -40,418 +40,213 @@
   }
 }
 
-// ─── Two-Column Main Section ─────────────────────────────────────────────────
-
-.event-main-section {
+// ─── Event sections ──────────────────────────────────────────────────────────
+.events-section {
   padding: 3rem 0;
   background: white;
 
   @include tablet {
     padding: 4rem 0;
   }
-}
 
-.event-main-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-  align-items: start;
-
-  @include desktop {
-    grid-template-columns: 45fr 55fr;
-    gap: 3rem;
+  &.alt {
+    background: $background-light;
   }
 }
 
-.event-info-col {
-  // no extra styles needed — content styles below handle it
-}
-
-.event-form-col {
-  order: -1; // form first on mobile
-
-  @include desktop {
-    order: 0; // back to right column on desktop
-    position: sticky;
-    top: 1rem;
-  }
-}
-
-// Info column payment methods
-.info-payment {
-  margin-top: 1.5rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid #e8e8e8;
-
-  h3 {
-    font-size: 0.875rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: $text-light;
-    margin-bottom: 0.75rem;
-  }
-}
-
-
-.event-badge {
-  display: inline-block;
-  background: $secondary-color;
-  color: white;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 0.3rem 0.9rem;
-  border-radius: 20px;
-  margin-bottom: 1rem;
-
-  &.past { background: #888; }
-}
-
-.thankyou-card {
+.section-title {
   text-align: center;
-
-  .thankyou-icon {
-    font-size: 3rem;
-    margin-bottom: 0.75rem;
-  }
-
-  h2 { margin-bottom: 1rem; }
-
-  .thankyou-message {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: $text-light;
-    margin-bottom: 0.75rem;
-  }
-
-  .thankyou-submessage {
-    font-size: 0.9rem;
-    color: $text-light;
-    margin-bottom: 1.5rem;
-  }
-
-  .thankyou-social {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-bottom: 1.5rem;
-
-    .social-link-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.6rem 1.2rem;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      text-decoration: none;
-      color: white;
-
-      &.facebook { background: #1877f2; }
-      &.instagram { background: #e1306c; }
-    }
-  }
-}
-
-.event-subtitle {
-  font-size: 1.125rem;
-  color: $primary-color;
-  font-weight: 600;
-  margin-bottom: 1.25rem;
-}
-
-.event-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 1.25rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: $text-color;
+  margin: 0 0 0.4rem;
 
   @include tablet {
-    flex-direction: row;
-    gap: 1.5rem;
+    font-size: 1.75rem;
   }
 }
 
-.meta-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9375rem;
-  color: $text-light;
+.section-accent {
+  width: 56px;
+  height: 4px;
+  border-radius: 2px;
+  background: $secondary-color;
+  margin: 0 auto 1.5rem;
+}
 
-  svg {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
+.section-sub {
+  text-align: center;
+  color: $text-light;
+  margin: -0.4rem 0 1.8rem;
+  font-size: 0.98rem;
+}
+
+.empty-note {
+  text-align: center;
+  color: $text-light;
+  font-size: 1rem;
+}
+
+// ─── Poster wall ─────────────────────────────────────────────────────────────
+// Grid, not masonry: cards fill left-to-right, top-to-bottom, so an overflow
+// card starts a fresh row on the LEFT rather than tucking under the shortest
+// column on the right. align-items:start lets flyers keep their natural heights.
+.poster-wall {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.9rem 1.5rem;
+  align-items: start;
+
+  &.past {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+.poster-card {
+  &.ongoing .poster-img {
+    outline: 3px solid $primary-color;
+    outline-offset: 2px;
+  }
+}
+
+.poster-link {
+  display: block;
+  position: relative;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  transition: transform 0.16s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  &:focus-visible {
+    outline: 3px solid $primary-color;
+    outline-offset: 3px;
+  }
+}
+
+.poster-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+  transition: box-shadow 0.16s ease;
+
+  .poster-link:hover & {
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  }
+}
+
+.poster-corner {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: white;
+  background: $primary-color;
+  padding: 0.3rem 0.6rem;
+  border-radius: 100px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.poster-cap {
+  padding: 0.75rem 0.1rem 0;
+
+  h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: $text-color;
+  }
+
+  .cap-date {
+    font-size: 0.85rem;
+    color: $primary-color;
+    font-weight: 700;
+    margin: 0.25rem 0 0;
+  }
+
+  .cap-loc {
+    font-size: 0.8rem;
+    color: $text-light;
+    margin: 0.12rem 0 0;
+  }
+
+  .cap-badges {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+  }
+
+  &.small h3 {
+    font-size: 0.88rem;
+  }
+
+  &.small .cap-date {
+    color: $text-light;
+    font-size: 0.78rem;
+  }
+}
+
+.badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.26rem 0.6rem;
+  border-radius: 100px;
+  display: inline-block;
+
+  &.badge-guest {
+    background: rgba($secondary-color, 0.15);
+    color: $secondary-dark;
+  }
+
+  &.badge-free {
+    background: rgba(#2e7d5b, 0.13);
+    color: #2e7d5b;
+  }
+
+  &.badge-ongoing {
+    background: rgba($primary-color, 0.12);
     color: $primary-color;
   }
 
-  &.warning {
-    color: #c0392b;
-
-    svg {
-      color: #c0392b;
-    }
-  }
-}
-
-.event-description {
-  font-size: 1rem;
-  color: $text-light;
-  line-height: 1.7;
-  margin-bottom: 1.5rem;
-}
-
-.event-guests {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-
-  @include tablet {
-    flex-direction: row;
-    gap: 2rem;
-  }
-}
-
-.guest-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.guest-label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: $text-light;
-}
-
-.guest-name {
-  font-size: 1rem;
-  font-weight: 600;
-  color: $primary-color;
-}
-
-// Schedule Section
-.schedule-section {
-  padding: 3rem 0;
-  background: $background-light;
-
-  @include tablet {
-    padding: 4rem 0;
-  }
-
-  h2 {
-    font-size: 1.75rem;
-    color: $text-color;
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-}
-
-.schedule-grid {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: 1fr;
-
-  @include tablet {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @include desktop {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.schedule-card {
-  background: white;
-  border-radius: 12px;
-  padding: 1.25rem 1.5rem;
-  border-left: 4px solid $primary-color;
-}
-
-.schedule-label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: $primary-color;
-  margin-bottom: 0.2rem;
-}
-
-.schedule-date {
-  font-size: 1rem;
-  font-weight: 700;
-  color: $text-color;
-  margin-bottom: 0.5rem;
-}
-
-.schedule-location {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.35rem;
-  font-size: 0.8125rem;
-  color: $text-light;
-  margin-bottom: 0.75rem;
-  line-height: 1.4;
-
-  svg {
-    width: 14px;
-    height: 14px;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-}
-
-.schedule-events {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-
-  li {
-    display: flex;
-    gap: 0.75rem;
-    font-size: 0.9rem;
-  }
-}
-
-.event-time {
-  font-weight: 700;
-  color: $secondary-color;
-  white-space: nowrap;
-  min-width: 60px;
-}
-
-.event-desc {
-  color: $text-light;
-  line-height: 1.4;
-}
-
-.event-location {
-  display: block;
-  font-size: 0.8rem;
-  color: $primary-color;
-  opacity: 0.8;
-  margin-top: 0.2rem;
-}
-
-.qr-section {
-  text-align: center;
-
-  p {
-    font-size: 0.875rem;
+  &.badge-paid,
+  &.badge-where {
+    background: $gray-200;
     color: $text-light;
-    margin-bottom: 0.75rem;
   }
 }
 
-.qr-image {
-  width: 160px;
-  height: 160px;
-  object-fit: contain;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-  &:hover {
-    transform: scale(1.03);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  }
-}
-
-// Flyers Gallery
-.flyers-section {
-  padding: 3rem 0;
-  background: $background-light;
-
-  @include tablet {
-    padding: 4rem 0;
-  }
-
-  h2 {
-    font-size: 1.75rem;
-    color: $text-color;
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-}
-
-.flyers-grid {
-  display: grid;
-  gap: 1.5rem;
-  grid-template-columns: 1fr;
-
-  @include tablet {
-    grid-template-columns: repeat(2, minmax(0, 320px));
-    justify-content: center;
-  }
-}
-
-.flyer-item {
-  cursor: pointer;
-  border-radius: 12px;
-  overflow: hidden;
-  background: white;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  display: flex;
-  flex-direction: column;
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  }
-
-  img {
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
-    display: block;
-  }
-}
-
-.flyer-caption {
-  display: block;
-  text-align: center;
-  padding: 0.75rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: $text-light;
-  background: white;
-}
-
-.flyer-hint {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 400;
-  color: $primary-color;
-  opacity: 0.7;
-  margin-left: 0.3rem;
-}
-
-// Lightbox
+// ─── Lightbox ────────────────────────────────────────────────────────────────
 .lightbox {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.85);
+  background: rgba(0, 0, 0, 0.85);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
   padding: 1rem;
+  cursor: zoom-out;
 
   img {
     max-width: 90vw;
     max-height: 90vh;
     object-fit: contain;
     border-radius: 8px;
+    cursor: default;
   }
 }
 
@@ -459,7 +254,7 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.2);
   color: white;
   border: none;
   border-radius: 50%;
@@ -473,11 +268,11 @@
   transition: background 0.2s;
 
   &:hover {
-    background: rgba(255,255,255,0.35);
+    background: rgba(255, 255, 255, 0.35);
   }
 }
 
-// CTA Section
+// ─── CTA ─────────────────────────────────────────────────────────────────────
 .cta-section {
   background: linear-gradient(135deg, $primary-color 0%, $primary-dark 100%);
   color: white;
@@ -539,305 +334,5 @@
 
   &.instagram:hover {
     background: #e4405f;
-  }
-}
-
-// ─── Registration Form ────────────────────────────────────────────────────────
-
-.registration-card {
-  background: $background-light;
-  border-radius: 16px;
-  padding: 2rem;
-  border-top: 4px solid $secondary-color;
-
-  @include tablet {
-    padding: 2.5rem;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-    color: $text-color;
-    margin-bottom: 0.25rem;
-
-    @include tablet {
-      font-size: 1.75rem;
-    }
-  }
-}
-
-.registration-subtitle {
-  font-size: 0.9rem;
-  color: #c0392b;
-  margin-bottom: 1.75rem;
-}
-
-.form-section-label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: $primary-color;
-  margin-bottom: 0.75rem;
-  margin-top: 1.25rem;
-
-  &:first-of-type {
-    margin-top: 0;
-  }
-}
-
-.form-row {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: 1fr;
-
-  @include tablet {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  margin-bottom: 1rem;
-
-  label {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: $text-color;
-  }
-
-  input,
-  select {
-    padding: 0.7rem 0.9rem;
-    border: 1.5px solid #d0d0d0;
-    border-radius: 8px;
-    font-size: 1rem;
-    color: $text-color;
-    background: white;
-    transition: border-color 0.2s;
-    width: 100%;
-    box-sizing: border-box;
-
-    &:focus {
-      outline: none;
-      border-color: $primary-color;
-    }
-
-    &.error {
-      border-color: #c0392b;
-    }
-  }
-
-  select {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.9rem center;
-    padding-right: 2.5rem;
-  }
-}
-
-.required {
-  color: #c0392b;
-}
-
-.form-contact-note {
-  font-size: 0.8rem;
-  color: $text-light;
-  text-align: center;
-  margin-top: 1rem;
-  margin-bottom: 0;
-  line-height: 1.6;
-
-  a {
-    color: $primary-color;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
-.error-msg {
-  font-size: 0.8rem;
-  color: #c0392b;
-}
-
-// Pricing Summary
-.pricing-summary {
-  background: $primary-color;
-  color: white;
-  border-radius: 12px;
-  padding: 1.25rem 1.5rem;
-  margin: 1rem 0 1.5rem;
-}
-
-.pricing-summary-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 0.35rem;
-}
-
-.pricing-summary-total {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: $secondary-color;
-}
-
-.pricing-summary-note {
-  font-size: 0.8rem;
-  opacity: 0.8;
-  margin: 0;
-}
-
-// Submit
-.submit-error {
-  background: #fdf0ef;
-  border: 1px solid #e74c3c;
-  color: #c0392b;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
-}
-
-.submit-btn {
-  width: 100%;
-  background: $secondary-color;
-  color: white;
-  font-size: 1rem;
-  font-weight: 700;
-  padding: 0.9rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.2s, opacity 0.2s;
-
-  &:hover:not(:disabled) {
-    background: darken($secondary-color, 8%);
-  }
-
-  &:disabled {
-    opacity: 0.65;
-    cursor: not-allowed;
-  }
-}
-
-// Confirmation Screen
-.confirmation {
-  text-align: center;
-  padding: 1rem 0;
-}
-
-.confirmation-icon {
-  width: 64px;
-  height: 64px;
-  background: #27ae60;
-  color: white;
-  border-radius: 50%;
-  font-size: 2rem;
-  line-height: 64px;
-  margin: 0 auto 1rem;
-}
-
-.confirmation h3 {
-  font-size: 1.5rem;
-  color: $text-color;
-  margin-bottom: 0.5rem;
-}
-
-.confirmation > p {
-  color: $text-light;
-  margin-bottom: 1.5rem;
-}
-
-.confirmation-summary {
-  background: white;
-  border-radius: 12px;
-  padding: 1.25rem;
-  margin-bottom: 1.5rem;
-  text-align: left;
-}
-
-.summary-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-  padding: 0.6rem 0;
-  font-size: 0.9375rem;
-  color: $text-light;
-  border-bottom: 1px solid $background-light;
-
-  &:last-child {
-    border-bottom: none;
-  }
-
-  &.total {
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: $primary-color;
-
-    span:last-child {
-      color: $secondary-color;
-      font-size: 1.25rem;
-    }
-  }
-}
-
-.payment-confirmation {
-  background: $background-light;
-  border-radius: 12px;
-  padding: 1.25rem;
-  text-align: left;
-  margin-bottom: 1.5rem;
-
-  h4 {
-    font-size: 1rem;
-    color: $text-color;
-    margin-bottom: 0.75rem;
-  }
-}
-
-.payment-options-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-
-  li {
-    font-size: 0.9375rem;
-    color: $text-light;
-
-    &::before {
-      content: '✓ ';
-      color: $secondary-color;
-      font-weight: 700;
-    }
-  }
-}
-
-.register-again-btn {
-  background: transparent;
-  border: 2px solid $primary-color;
-  color: $primary-color;
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 0.6rem 1.5rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    background: $primary-color;
-    color: white;
   }
 }

@@ -16,14 +16,10 @@ export class HomeComponent implements OnInit {
   private dataService = inject(DataService);
 
   content = signal<HomeContent | null>(null);
-  upcomingEvent = signal<any>(null);
 
   ngOnInit() {
     this.dataService.getHomeContent().subscribe(data => {
       this.content.set(data);
-    });
-    this.dataService.getEvents().subscribe(data => {
-      this.upcomingEvent.set(data.upcomingEvent);
     });
   }
 }

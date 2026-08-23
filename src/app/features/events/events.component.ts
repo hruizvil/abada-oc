@@ -1,128 +1,91 @@
-import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../../core/services/data.service';
-import { environment } from '../../../environments/environment';
+
+interface EventBadge {
+  type: 'guest' | 'free' | 'ongoing' | 'paid' | 'where' | string;
+  label: string;
+}
+
+interface EventItem {
+  id: string;
+  title: string;
+  flyer: string;
+  alt?: string;
+  /** ISO yyyy-mm-dd. endDate falls back to startDate for single-day events. */
+  startDate?: string;
+  endDate?: string;
+  dateLabel?: string;
+  location?: string;
+  /** Recurring classes: always shown under Upcoming, never archived. */
+  ongoing?: boolean;
+  badges?: EventBadge[];
+}
 
 @Component({
   selector: 'app-events',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule],
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.scss']
 })
 export class EventsComponent implements OnInit {
   private dataService = inject(DataService);
-  private fb = inject(FormBuilder);
 
-  eventData = signal<any>(null);
+  private allEvents = signal<EventItem[]>([]);
   lightboxImage = signal<string | null>(null);
 
-  // Form state
-  registrationForm!: FormGroup;
-  isSubmitting = signal(false);
-  submitSuccess = signal(false);
-  submitError = signal<string | null>(null);
-  submittedData = signal<any>(null);
+  /**
+   * Everything still relevant: future one-time events plus every ongoing class,
+   * soonest first. This is the whole point of the date-driven page — nobody has
+   * to remember to move a finished event; it drops out on its own.
+   */
+  upcoming = computed(() =>
+    this.allEvents()
+      .filter(e => e.ongoing || !this.isPast(e))
+      .sort((a, b) => this.sortKey(a) - this.sortKey(b))
+  );
 
-  // Attendee count options
-  readonly attendeeOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  /** Finished one-time events, most recent first. Ongoing classes never land here. */
+  past = computed(() =>
+    this.allEvents()
+      .filter(e => !e.ongoing && this.isPast(e))
+      .sort((a, b) => this.sortKey(b) - this.sortKey(a))
+  );
 
-  // Signal-tracked attendee count so computed signals react to changes
-  attendeeCount = signal(1);
-
-  totalPrice = computed(() => {
-    const count = this.attendeeCount();
-    if (count === 1) return 220;
-    if (count === 2) return 400;
-    return count * 180;
-  });
-
-  pricePerPerson = computed(() => {
-    const count = this.attendeeCount();
-    if (count === 1) return 220;
-    if (count === 2) return 200;
-    return 180;
-  });
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.dataService.getEvents().subscribe(data => {
-      this.eventData.set(data.upcomingEvent);
-    });
-
-    this.registrationForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName:  ['', Validators.required],
-      apelido:   [''],
-      phone:     ['', Validators.required],
-      email:     ['', [Validators.required, Validators.email]],
-      attendeeCount: [1, Validators.required]
-    });
-
-    // React to attendee count changes
-    this.registrationForm.get('attendeeCount')!.valueChanges.subscribe(count => {
-      this.attendeeCount.set(Number(count));
+      this.allEvents.set(data?.events ?? []);
     });
   }
 
-  isFieldInvalid(fieldName: string): boolean {
-    const field = this.registrationForm.get(fieldName);
-    return !!(field?.invalid && field?.touched);
-  }
-
-  async onSubmit() {
-    if (this.registrationForm.invalid) {
-      this.registrationForm.markAllAsTouched();
-      return;
-    }
-
-    this.isSubmitting.set(true);
-    this.submitError.set(null);
-
-    const form = this.registrationForm.value;
-
-    const data = {
-      firstName:     form.firstName,
-      lastName:      form.lastName,
-      apelido:       form.apelido,
-      phone:         form.phone,
-      email:         form.email,
-      attendeeCount: Number(form.attendeeCount),
-      totalPrice:    this.totalPrice()
-    };
-
-    try {
-      // POST to Google Apps Script — handles both Sheets save + confirmation email.
-      // Uses fetch with no-cors + text/plain to avoid CORS preflight (Apps Script limitation).
-      await fetch(environment.googleSheetUrl, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(data)
-      });
-
-      this.submittedData.set(data);
-      this.submitSuccess.set(true);
-      this.registrationForm.reset({ attendeeCount: 1 });
-    } catch (error) {
-      this.submitError.set('An error occurred. Please try again.');
-    } finally {
-      this.isSubmitting.set(false);
-    }
-  }
-
-  resetForm() {
-    this.submitSuccess.set(false);
-    this.submittedData.set(null);
-    this.submitError.set(null);
-  }
-
-  openLightbox(src: string) {
+  openLightbox(src: string): void {
     this.lightboxImage.set(src);
   }
 
-  closeLightbox() {
+  closeLightbox(): void {
     this.lightboxImage.set(null);
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    if (this.lightboxImage()) this.closeLightbox();
+  }
+
+  /**
+   * An event is "past" once the day after its end has begun, in the visitor's
+   * own timezone. A dateless event (a pure ongoing class) is never past.
+   */
+  private isPast(e: EventItem): boolean {
+    const end = e.endDate || e.startDate;
+    if (!end) return false;
+    // Local end-of-day: "T23:59:59" (no Z) stays in the viewer's timezone, so an
+    // event isn't archived until its final day is genuinely over for them.
+    return new Date(`${end}T23:59:59`).getTime() < Date.now();
+  }
+
+  private sortKey(e: EventItem): number {
+    const d = e.startDate || e.endDate;
+    return d ? new Date(d).getTime() : 0;
   }
 }
