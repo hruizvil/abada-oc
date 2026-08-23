@@ -33,6 +33,16 @@ export const routes: Routes = [
     data: { seo: 'about' }
   },
   {
+    // Old, misspelled bio URL ("mestre", masculine) that the previous site
+    // exposed and Google still has cached — the correct slug is the feminine
+    // "mestra". Must sit before about/:page or the wildcard param would swallow
+    // it and render an empty About page. Google will drop the stale 404 on its
+    // own; this just lands any human with an old link on the right bio.
+    path: 'about/mestre-cigarra',
+    redirectTo: 'about/mestra-cigarra',
+    pathMatch: 'full'
+  },
+  {
     path: 'about/:page',
     component: AboutComponent,
     // Metadata depends on :page, so the component sets it itself.

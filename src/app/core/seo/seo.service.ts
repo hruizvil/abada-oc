@@ -18,7 +18,7 @@ export class SeoService {
 
   update(seo: PageSeo | undefined): void {
     const page = seo ?? DEFAULT_SEO;
-    const url = this.absolute(page.path);
+    const url = this.canonicalUrl(page.path);
     const image = this.absolute(page.image ?? DEFAULT_OG_IMAGE);
 
     this.title.setTitle(page.title);
@@ -44,6 +44,24 @@ export class SeoService {
     this.meta.updateTag({ name: 'twitter:title', content: page.title });
     this.meta.updateTag({ name: 'twitter:description', content: page.description });
     this.meta.updateTag({ name: 'twitter:image', content: image });
+  }
+
+  /**
+   * Full canonical URL for a route, always with a trailing slash.
+   *
+   * GitHub Pages serves every prerendered route from a folder index, so the live
+   * 200 URL is the trailing-slash form (/contact/) and the bare form
+   * 301-redirects to it. The canonical tag, og:url and sitemap must all point at
+   * that trailing-slash form; otherwise the tag points at a URL that redirects,
+   * which is what left pages stuck in Search Console's "Page with redirect" and
+   * "Discovered — currently not indexed" instead of getting indexed.
+   *
+   * Images are assets, not routes, so they keep going through absolute() and
+   * never pick up a slash.
+   */
+  private canonicalUrl(path: string): string {
+    const url = this.absolute(path);
+    return url.endsWith('/') ? url : `${url}/`;
   }
 
   /** Turns an app-relative path into a full https:// URL. */

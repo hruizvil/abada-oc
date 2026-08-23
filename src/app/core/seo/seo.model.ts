@@ -11,7 +11,11 @@ export interface PageSeo {
   title: string;
   /** The <meta name="description">. Aim for 140-160 characters. */
   description: string;
-  /** Route path, leading slash, no trailing slash. Used for canonical and og:url. */
+  /**
+   * Internal route path: leading slash, no trailing slash (e.g. '/contact').
+   * SeoService.canonicalUrl() adds the trailing slash for the canonical/og:url,
+   * to match the folder-index URL GitHub Pages actually serves.
+   */
   path: string;
   /** Social preview image, app-relative. Falls back to DEFAULT_OG_IMAGE. */
   image?: string;
