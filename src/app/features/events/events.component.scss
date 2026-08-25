@@ -229,6 +229,75 @@
   }
 }
 
+// ─── Mobile: compact list ────────────────────────────────────────────────────
+// On phones a full-width portrait flyer swallows the whole screen, so below the
+// tablet breakpoint the wall becomes a scannable list — small flyer thumbnail on
+// the left, details on the right. Tablet and desktop keep the poster grid above.
+@media (max-width: 767.98px) {
+  .poster-wall,
+  .poster-wall.past {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: none;
+    margin: 0;
+  }
+
+  .poster-card {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 1rem;
+    align-items: start;
+    width: 100%;          // fill the list row edge-to-edge, not shrink to content
+    padding: 0.9rem 0;
+    margin: 0;
+    border-bottom: 1px solid $gray-200;
+  }
+
+  // 1fr can otherwise blow out to content width; min-width:0 keeps it in bounds.
+  .poster-cap {
+    min-width: 0;
+  }
+
+  .poster-link {
+    width: 96px;
+
+    &:hover {
+      transform: none;
+    }
+  }
+
+  .poster-img {
+    border-radius: 8px;
+
+    .poster-link:hover & {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+    }
+  }
+
+  // The corner ribbon is redundant next to the "Ongoing" pill on a small thumb.
+  .poster-corner {
+    display: none;
+  }
+
+  .poster-card.ongoing .poster-img {
+    outline-width: 2px;
+    outline-offset: 1px;
+  }
+
+  .poster-cap {
+    padding: 0;
+
+    h3 {
+      font-size: 0.95rem;
+    }
+
+    &.small h3 {
+      font-size: 0.95rem;
+    }
+  }
+}
+
 // ─── Lightbox ────────────────────────────────────────────────────────────────
 .lightbox {
   position: fixed;
