@@ -39,12 +39,22 @@ export const PAGE_SEO: Record<string, PageSeo> = {
     path: '/about'
   },
 
-  classes: {
-    title: 'Capoeira Classes for Kids & Adults | Fountain Valley, CA',
+  // /classes redirects to /classes/kids, so it needs no metadata of its own.
+  // These two are real, indexable pages that double as the ad landing pages.
+  classesKids: {
+    title: 'Kids Martial Arts & Capoeira | Fountain Valley, CA',
     description:
-      'Capoeira classes for kids ages 5-12, adults 12+, and family groups in Fountain Valley. ' +
-      'No experience needed. First class is free.',
-    path: '/classes'
+      'Fun kids martial arts in Fountain Valley: capoeira builds focus, confidence and fitness ' +
+      'through movement, music and Brazilian culture. Ages 5-12, all levels. First class free.',
+    path: '/classes/kids'
+  },
+
+  classesAdults: {
+    title: 'Adult Martial Arts & Capoeira | Fountain Valley, CA',
+    description:
+      'Brazilian capoeira for teens and adults in Fountain Valley — a martial art blending ' +
+      'movement, music, culture and fitness. All levels, no experience needed. First class free.',
+    path: '/classes/adults'
   },
 
   schedule: {

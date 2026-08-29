@@ -126,7 +126,7 @@ export class BookComponent {
     // booking is the most valuable submission on the site, so it is the last
     // place we want a success screen that quietly went nowhere.
     if (!environment.contactWorkerUrl || environment.contactWorkerUrl.startsWith('YOUR_')) {
-      this.finishSuccessfully();
+      this.finishSuccessfully(v['interestedIn']);
       return;
     }
 
@@ -171,15 +171,37 @@ export class BookComponent {
       return;
     }
 
-    this.finishSuccessfully();
+    this.finishSuccessfully(v['interestedIn']);
   }
 
-  private finishSuccessfully(): void {
+  private finishSuccessfully(interestedIn?: string): void {
+    this.trackConversion(interestedIn ?? '');
     this.submitSuccess.set(true);
     this.isSubmitting.set(false);
     this.registrationForm.reset();
     this.availableSlots.set([]);
     this.scrollToForm();
+  }
+
+  /**
+   * Reports a completed booking to Google Analytics as a `free_trial_booked`
+   * event, which Google Ads imports as its conversion. This — not a page view —
+   * is what the ad campaigns optimise toward, so it fires only when someone
+   * reaches the "You're all set!" success screen. Browser-only and defensive:
+   * if the GA tag (in index.html) is blocked or still loading, it does nothing
+   * rather than throw.
+   *
+   * NOTE: for this to count in the campaigns, GA4 must be linked to Google Ads
+   * and this event imported as a conversion under Ads > Goals > Conversions.
+   */
+  private trackConversion(interestedIn: string): void {
+    if (typeof window === 'undefined') return;
+    const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag;
+    if (typeof gtag !== 'function') return;
+    gtag('event', 'free_trial_booked', {
+      event_category: 'booking',
+      interested_in: interestedIn || 'unknown'
+    });
   }
 
   isFieldInvalid(fieldName: string): boolean {

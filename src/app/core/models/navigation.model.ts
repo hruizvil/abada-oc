@@ -26,6 +26,7 @@ export interface MenuChild {
   label: string;
   route: string;
   order: number;
+  description?: string;
 }
 
 export interface ContactInfo {

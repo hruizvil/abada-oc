@@ -7,6 +7,7 @@ import navigationJson from '../../../assets/data/navigation.json';
 import homeContentJson from '../../../assets/data/home-content.json';
 import scheduleJson from '../../../assets/data/schedule.json';
 import kidsProgramJson from '../../../assets/data/kids-program.json';
+import adultsProgramJson from '../../../assets/data/adults-program.json';
 import eventsJson from '../../../assets/data/events.json';
 
 import aboutCapoeira from '../../../assets/data/about-capoeira.json';
@@ -57,6 +58,10 @@ export class DataService {
 
   getKidsProgram(): Observable<any> {
     return of(kidsProgramJson);
+  }
+
+  getAdultsProgram(): Observable<any> {
+    return of(adultsProgramJson);
   }
 
   getAboutContent(page: string): Observable<any> {

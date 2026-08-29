@@ -35,9 +35,9 @@
     gap: $spacing-2xl;
   }
 
-  // Desktop: 3 columns
+  // Desktop: 4 columns (brand, two link groups, connect)
   @include desktop {
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr 1.3fr;
   }
 }
 

@@ -65,7 +65,15 @@
                           routerLinkActive="active"
                           (click)="closeMobileMenu()"
                           class="dropdown-link">
-                          {{ child.label }}
+                          <span class="dl-text">
+                            <span class="dl-title">{{ child.label }}</span>
+                            @if (child.description) {
+                              <span class="dl-desc">{{ child.description }}</span>
+                            }
+                          </span>
+                          <svg class="dl-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                            <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
                         </a>
                       </li>
                     }

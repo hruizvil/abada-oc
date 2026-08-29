@@ -64,9 +64,22 @@ export const routes: Routes = [
     data: { seo: 'gallery' }
   },
   {
+    // The combined "Our Programs" page is gone — each audience gets a page that
+    // matches the ad and search that brought them here. Anyone landing on the
+    // bare /classes (typed, bookmarked, or the nav parent on desktop) goes to Kids.
     path: 'classes',
+    redirectTo: 'classes/kids',
+    pathMatch: 'full'
+  },
+  {
+    path: 'classes/kids',
     component: ClassesComponent,
-    data: { seo: 'classes' }
+    data: { seo: 'classesKids', audience: 'kids' }
+  },
+  {
+    path: 'classes/adults',
+    component: ClassesComponent,
+    data: { seo: 'classesAdults', audience: 'adults' }
   },
   {
     path: 'events',
