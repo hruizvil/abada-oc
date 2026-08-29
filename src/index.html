@@ -140,13 +140,16 @@
   }
   </script>
 
-  <!-- Google Analytics -->
+  <!-- Google Analytics (GA4) + Google Ads conversion tag, both on one gtag.js load. -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-4J3ZPPVWS8"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-4J3ZPPVWS8');
+    // Google Ads tag — activates the "Free Trial Booked" conversion (fired on the
+    // booking success screen, see book.component.ts). Same gtag.js load as GA4.
+    gtag('config', 'AW-993372252');
   </script>
   <link rel="icon" type="image/png" href="assets/images/abadaoc-logo.png">
   <!-- GitHub Pages SPA redirect handler -->

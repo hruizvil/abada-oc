@@ -184,15 +184,14 @@ export class BookComponent {
   }
 
   /**
-   * Reports a completed booking to Google Analytics as a `free_trial_booked`
-   * event, which Google Ads imports as its conversion. This — not a page view —
-   * is what the ad campaigns optimise toward, so it fires only when someone
-   * reaches the "You're all set!" success screen. Browser-only and defensive:
-   * if the GA tag (in index.html) is blocked or still loading, it does nothing
-   * rather than throw.
-   *
-   * NOTE: for this to count in the campaigns, GA4 must be linked to Google Ads
-   * and this event imported as a conversion under Ads > Goals > Conversions.
+   * Reports a completed booking to Google, so it fires only when someone reaches
+   * the "You're all set!" success screen — not on a page view. Two things fire:
+   *   1. a GA4 `free_trial_booked` event (analytics/reporting in GA4), and
+   *   2. the Google Ads "Free Trial Booked" conversion — this is what the ad
+   *      campaigns optimise toward. Its ID/label come from the conversion action
+   *      created in Ads > Goals; the AW- tag is activated in index.html.
+   * Browser-only and defensive: if the gtag library is blocked or still loading,
+   * it does nothing rather than throw.
    */
   private trackConversion(interestedIn: string): void {
     if (typeof window === 'undefined') return;
@@ -201,6 +200,9 @@ export class BookComponent {
     gtag('event', 'free_trial_booked', {
       event_category: 'booking',
       interested_in: interestedIn || 'unknown'
+    });
+    gtag('event', 'conversion', {
+      send_to: 'AW-993372252/W5qZCN3jkuocENzQ1tkD'
     });
   }
 
