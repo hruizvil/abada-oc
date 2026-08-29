@@ -31,7 +31,12 @@
       "label": "CLASSES",
       "route": "/classes",
       "icon": "users",
-      "order": 4
+      "order": 4,
+      "hasDropdown": true,
+      "children": [
+        { "id": "classes-kids", "label": "Kids", "route": "/classes/kids", "order": 1 },
+        { "id": "classes-adults", "label": "Teens & Adults", "route": "/classes/adults", "order": 2 }
+      ]
     },
     {
       "id": "schedule",

@@ -1,0 +1,35 @@
+{
+  "title": "ABADÁ-Capoeira Adults Program",
+  "subtitle": "Brazilian Capoeira for Teens & Adults of Every Level",
+  "introduction": {
+    "welcome": "Train Capoeira as a Teen or Adult — No Experience Needed",
+    "philosophy": "Capoeira is a Brazilian martial art that blends self-defense, acrobatics, movement, music and culture into one flowing game. Our adult classes welcome complete beginners and seasoned practitioners alike. You will build real fitness and skill while learning the movement, rhythm and traditions that make capoeira unlike any other martial art or workout."
+  },
+  "benefits": [
+    { "id": "fitness",   "title": "Full-Body Fitness" },
+    { "id": "strength",  "title": "Strength & Agility" },
+    { "id": "rhythm",    "title": "Rhythm & Music" },
+    { "id": "stress",    "title": "Stress Relief" },
+    { "id": "defense",   "title": "Practical Self-Defense" },
+    { "id": "community", "title": "A Welcoming Community" }
+  ],
+  "feature": {
+    "title": "More Than a Workout",
+    "description": "You won't just get in shape. You'll learn to move to live percussion, play the berimbau and sing, and take your place in the roda — the circle where capoeira comes alive. It is a workout, a skill, and a culture all at once."
+  },
+  "closing": {
+    "title": "Start Where You Are",
+    "description": "Every capoeirista started with a first class. All levels and beginners are welcome — no experience and no equipment required. Come as you are and we will take it from there.",
+    "callToAction": "Come try your first class free!"
+  },
+  "schedule": {
+    "title": "Adult Class Schedule",
+    "ageRange": "12 years old & up",
+    "classes": [
+      { "days": "Mondays & Wednesdays", "time": "7:00 PM" },
+      { "days": "Tuesdays & Thursdays", "time": "6:00 PM" },
+      { "days": "Saturday", "time": "11:00 AM" }
+    ],
+    "location": "8552 Warner Ave, Fountain Valley, CA 92708"
+  }
+}
