@@ -204,6 +204,22 @@
       window.addEventListener('unhandledrejection', function (e) {
         log('PROMISE-REJECT: ' + ((e.reason && e.reason.message) || e.reason));
       });
+      // Angular's global error handler routes errors to console.error, so window
+      // 'error' never sees them. Wrap console.error/warn to surface those.
+      ['error', 'warn'].forEach(function (k) {
+        var orig = console[k];
+        console[k] = function () {
+          try {
+            var parts = Array.prototype.map.call(arguments, function (a) {
+              if (a && a.stack) return String(a.message || a) + ' | ' + String(a.stack).split('\n').slice(0, 3).join(' <- ');
+              if (a && a.message) return String(a.message);
+              return (typeof a === 'object') ? JSON.stringify(a).slice(0, 200) : String(a);
+            });
+            log('CONSOLE.' + k.toUpperCase() + ': ' + parts.join(' ').slice(0, 400));
+          } catch (err) {}
+          return orig.apply(console, arguments);
+        };
+      });
       document.addEventListener('click', function (e) {
         var t = e.target || {};
         log('CLICK <' + (t.tagName || '?') + ' ' + ((t.getAttribute && (t.getAttribute('href') || t.className)) || '') + '>');
