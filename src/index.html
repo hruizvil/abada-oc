@@ -176,5 +176,50 @@
 </head>
 <body>
   <app-root></app-root>
+  <!--
+    Temporary on-screen debugger. Only runs when the URL has ?debug, so normal
+    visitors never see it. Used to diagnose the Safari-only interactivity issue.
+    Remove once resolved.
+  -->
+  <script>
+    (function () {
+      if (location.search.indexOf('debug') === -1) return;
+      var logs = [], el;
+      function render() {
+        if (!el) {
+          el = document.createElement('div');
+          el.style.cssText = 'position:fixed;left:0;right:0;bottom:0;max-height:52vh;overflow:auto;background:rgba(0,0,0,.9);color:#0f0;font:11px/1.5 monospace;z-index:2147483647;padding:8px;white-space:pre-wrap;-webkit-user-select:text';
+          (document.body || document.documentElement).appendChild(el);
+        }
+        el.textContent = logs.slice(-70).join('\n');
+        el.scrollTop = el.scrollHeight;
+      }
+      function ts() { var d = new Date(); return ('0'+d.getMinutes()).slice(-2)+':'+('0'+d.getSeconds()).slice(-2); }
+      function log(m) { logs.push(ts()+' '+m); try { render(); } catch (e) {} }
+      window.__dlog = log;
+      log('DEBUG ON — ' + navigator.userAgent);
+      window.addEventListener('error', function (e) {
+        log('JS-ERROR: ' + (e.message || e) + ' @' + ((e.filename || '').split('/').pop()) + ':' + (e.lineno || ''));
+      }, true);
+      window.addEventListener('unhandledrejection', function (e) {
+        log('PROMISE-REJECT: ' + ((e.reason && e.reason.message) || e.reason));
+      });
+      document.addEventListener('click', function (e) {
+        var t = e.target || {};
+        log('CLICK <' + (t.tagName || '?') + ' ' + ((t.getAttribute && (t.getAttribute('href') || t.className)) || '') + '>');
+      }, true);
+      document.addEventListener('touchend', function (e) {
+        var t = e.target || {};
+        log('TOUCHEND <' + (t.tagName || '?') + '>');
+      }, true);
+      setTimeout(function () {
+        log('BOOT: ng=' + (document.querySelector('[ng-version]') ? 'YES' : 'NO')
+          + ' zone=' + (typeof window.Zone !== 'undefined')
+          + ' gtagLib=' + (!!window.google_tag_manager)
+          + ' dataLayer=' + (window.dataLayer ? window.dataLayer.length : 'none')
+          + ' turnstile=' + (!!window.turnstile));
+      }, 2500);
+    })();
+  </script>
 </body>
 </html>
