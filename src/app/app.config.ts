@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { TitleStrategy, provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 
@@ -8,10 +8,6 @@ import { SeoTitleStrategy } from './core/seo/seo-title.strategy';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    // Angular 21 is zoneless by default; the app relies on zone.js's automatic
-    // change detection, so we opt back in. Without this, view updates after
-    // events (nav, dropdowns, the booking form) silently failed in Safari.
-    provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withInMemoryScrolling({ scrollPositionRestoration: 'enabled' })),
     // withFetch is required for prerendering: Node has no XMLHttpRequest, so the
     // default XHR backend cannot run during the server-side build.
