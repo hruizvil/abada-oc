@@ -1,5 +1,4 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
-import { provideClientHydration } from '@angular/platform-browser';
 import { TitleStrategy, provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 
@@ -17,10 +16,11 @@ export const appConfig: ApplicationConfig = {
     // withFetch is required for prerendering: Node has no XMLHttpRequest, so the
     // default XHR backend cannot run during the server-side build.
     provideHttpClient(withFetch()),
-    // Reuses the prerendered HTML instead of throwing it away and re-rendering.
-    // Without this, every page load painted the prerendered content, wiped it,
-    // then rebuilt it — the visible flash on refresh.
-    provideClientHydration(),
+    // Client hydration is intentionally OFF. Adopting the prerendered DOM crashed
+    // during hydration in Safari ("e.hasAttribute is not a function" — Angular hit
+    // a non-element node), which left the whole app's event wiring dead: taps fired
+    // but nothing responded. Rendering fresh on load avoids that entirely. Trade-off
+    // is a brief first-paint flash; prerendered HTML is still served for SEO.
     { provide: TitleStrategy, useClass: SeoTitleStrategy }
   ]
 };
