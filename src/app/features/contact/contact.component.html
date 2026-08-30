@@ -118,7 +118,10 @@
                 class="submit-button"
                 [disabled]="isSubmitting()">
                 @if (isSubmitting()) {
-                  <span>Sending...</span>
+                  <span class="submit-loading">
+                    <span class="spinner" aria-hidden="true"></span>
+                    <span>Sending...</span>
+                  </span>
                 } @else {
                   <span>Send Message</span>
                 }
