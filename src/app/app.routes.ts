@@ -11,6 +11,7 @@ import { GalleryComponent } from './features/gallery/gallery.component';
 import { WaiverComponent } from './features/waiver/waiver.component';
 import { BookComponent } from './features/book/book.component';
 import { PrivacyComponent } from './features/privacy/privacy.component';
+import { TermsComponent } from './features/terms/terms.component';
 
 // `data.seo` keys into PAGE_SEO in core/seo/seo.config.ts, where all the page
 // titles and descriptions live. SeoTitleStrategy applies them on navigation.
@@ -100,6 +101,11 @@ export const routes: Routes = [
     path: 'privacy',
     component: PrivacyComponent,
     data: { seo: 'privacy' }
+  },
+  {
+    path: 'terms',
+    component: TermsComponent,
+    data: { seo: 'terms' }
   },
   {
     path: '**',

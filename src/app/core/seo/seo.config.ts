@@ -116,6 +116,12 @@ export const PAGE_SEO: Record<string, PageSeo> = {
     title: 'Privacy Policy | ABADÁ-Capoeira OC',
     description: 'What ABADÁ-Capoeira OC collects through this website, why, and who else sees it.',
     path: '/privacy'
+  },
+
+  terms: {
+    title: 'Terms of Service | ABADÁ-Capoeira OC',
+    description: 'Terms for using the ABADÁ-Capoeira OC website and its text-message class reminders.',
+    path: '/terms'
   }
 };
 
