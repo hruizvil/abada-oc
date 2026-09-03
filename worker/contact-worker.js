@@ -127,6 +127,10 @@ export default {
       payload.interestedIn   = truncate(body.interestedIn, MAX_FIELD_LENGTHS.name);
       payload.firstClassSlot = truncate(body.firstClassSlot, MAX_FIELD_LENGTHS.name);
       payload.comments       = truncate(body.comments, MAX_FIELD_LENGTHS.message);
+      payload.phoneRaw       = truncate(body.phoneRaw, MAX_FIELD_LENGTHS.phone);
+      // smsConsent is the opt-in that gates SMS reminders downstream. It MUST
+      // survive the forward or Apps Script records FALSE and no text ever sends.
+      payload.smsConsent     = body.smsConsent === true;
     }
 
     try {
