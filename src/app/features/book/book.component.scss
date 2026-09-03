@@ -310,6 +310,15 @@
   }
 }
 
+.sms-consent-links {
+  font-size: 0.8rem;
+  color: $text-light;
+  margin: -1rem 0 1.25rem;
+  line-height: 1.5;
+
+  a { color: $primary-color; text-decoration: underline; }
+}
+
 .submit-button {
   width: 100%;
   padding: 1rem;
@@ -365,6 +374,26 @@
   .spinner {
     border-top-color: rgba(255, 255, 255, 0.45);
     animation: submit-pulse 1.1s ease-in-out infinite;
+  }
+}
+
+// SMS opt-in: a real checkbox that hugs its label, not a full-width control.
+.sms-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: $text-light;
+  cursor: pointer;
+
+  input[type="checkbox"] {
+    width: auto;
+    flex: none;
+    margin-top: 0.15rem;
+    accent-color: $primary-color;
+    cursor: pointer;
   }
 }
 

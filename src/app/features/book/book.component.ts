@@ -54,6 +54,7 @@ export class BookComponent {
       interestedIn:   ['', Validators.required],
       firstClassSlot: ['', Validators.required],
       comments:       [''],
+      smsConsent:     [false],
       // Honeypot — see the note in ContactComponent on why the name is nonsense.
       refCode:        ['']
     });
@@ -113,6 +114,22 @@ export class BookComponent {
     return Array.from(weekMap.values());
   }
 
+  /**
+   * Normalize a typed phone number to E.164 (+1XXXXXXXXXX) for SMS reminders.
+   * Returns the raw input untouched when it can't be confidently normalized —
+   * the reminder backend refuses to text anything that isn't valid E.164, so an
+   * unrecognized number lands in the bookings sheet for a human to fix rather
+   * than being silently mangled into a wrong number.
+   */
+  private toE164(raw: string): string {
+    const trimmed = (raw || '').trim();
+    const digits = trimmed.replace(/\D/g, '');
+    if (trimmed.startsWith('+')) return '+' + digits;
+    if (digits.length === 10) return '+1' + digits;
+    if (digits.length === 11 && digits.startsWith('1')) return '+' + digits;
+    return trimmed;
+  }
+
   async onSubmit() {
     this.registrationForm.markAllAsTouched();
     if (this.registrationForm.invalid) return;
@@ -141,11 +158,13 @@ export class BookComponent {
     const payload = {
       formType:       'booking',
       name:           v['name'],
-      phone:          v['phone'],
+      phone:          this.toE164(v['phone']),
+      phoneRaw:       v['phone'],
       email:          v['email'],
       interestedIn:   v['interestedIn'],
       firstClassSlot: v['firstClassSlot'],
       comments:       v['comments'] || '',
+      smsConsent:     !!v['smsConsent'],
       refCode:        v['refCode'] ?? '',
       submittedAt:    new Date().toISOString(),
       turnstileToken
