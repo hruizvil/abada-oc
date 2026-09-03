@@ -311,7 +311,7 @@
 }
 
 .sms-consent-links {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: $text-light;
   margin: 0.5rem 0 1.25rem;
   line-height: 1.5;
@@ -382,16 +382,17 @@
   display: flex;
   align-items: flex-start;
   gap: 0.6rem;
-  margin-top: 1rem;
-  font-size: 0.875rem;
+  margin-top: 20px;
+  font-size: 0.9375rem;
   line-height: 1.5;
   color: $text-light;
   cursor: pointer;
 
   input[type="checkbox"] {
-    width: auto;
+    width: 20px;
+    height: 20px;
     flex: none;
-    margin-top: 0.15rem;
+    margin-top: 0.4rem;
     accent-color: $primary-color;
     cursor: pointer;
   }
