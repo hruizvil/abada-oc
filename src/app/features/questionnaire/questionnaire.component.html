@@ -1,0 +1,144 @@
+<div class="q-page">
+  <section class="q-hero">
+    <div class="container">
+      <h1>Natural Potential Discovery</h1>
+      <p>ABADÁ-Capoeira OC — discover how you naturally move, learn and play</p>
+    </div>
+  </section>
+
+  <section class="q-section">
+    <div class="container">
+
+      <!-- SUCCESS -->
+      @if (submitSuccess()) {
+        <div class="q-success">
+          <div class="success-icon">✓</div>
+          <h2>All done — obrigado!</h2>
+          <p>Thank you, <strong>{{ headerForm.get('name')?.value }}</strong>. Your answers have been shared with Professor Mosquito to help guide your training.</p>
+          <p class="success-note">See you on the floor!</p>
+        </div>
+
+      <!-- INTRO -->
+      } @else if (step() === 0) {
+        @if (hasDraft()) {
+          <div class="draft-banner">
+            <p>You have a saved draft on this computer.</p>
+            <div class="draft-actions">
+              <button type="button" class="btn-primary" (click)="resumeDraft()">Resume</button>
+              <button type="button" class="btn-ghost" (click)="startOver()">Start over</button>
+            </div>
+          </div>
+        }
+        <div class="form-card intro-card">
+          <h2 class="intro-title">Before you begin</h2>
+          <p class="intro-lead">
+            This short questionnaire helps Professor Mosquito understand your natural
+            strengths in Capoeira — how you move, learn, play, and express yourself —
+            so he can guide your training in the way that fits you best.
+          </p>
+          <ul class="intro-facts">
+            <li><span class="fact-num">{{ totalParts }}</span> short parts</li>
+            <li><span class="fact-num">~10–15</span> minutes</li>
+            <li><span class="fact-num">✓</span> there are no wrong answers</li>
+          </ul>
+          <p class="intro-note">Please answer every question — there are no wrong answers, so go with your instinct.</p>
+
+          <form [formGroup]="headerForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Name <span class="required">*</span></label>
+                <input id="name" type="text" formControlName="name"
+                  [class.error]="isHeaderInvalid('name')" placeholder="Your name" />
+                @if (isHeaderInvalid('name')) { <span class="error-msg">Required</span> }
+              </div>
+              <div class="form-group">
+                <label for="apelido">Apelido (Capoeira nickname)</label>
+                <input id="apelido" type="text" formControlName="apelido" placeholder="Optional" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">Email <span class="required">*</span></label>
+                <input id="email" type="email" formControlName="email"
+                  [class.error]="isHeaderInvalid('email')" placeholder="you@example.com" />
+                @if (isHeaderInvalid('email')) { <span class="error-msg">Valid email required</span> }
+              </div>
+              <div class="form-group">
+                <label for="age">Age <span class="required">*</span></label>
+                <input id="age" type="number" min="1" formControlName="age"
+                  [class.error]="isHeaderInvalid('age')" placeholder="Age" />
+                @if (isHeaderInvalid('age')) { <span class="error-msg">Required</span> }
+              </div>
+            </div>
+          </form>
+
+          <button type="button" class="btn-primary" (click)="start()">Start questionnaire</button>
+        </div>
+
+      <!-- A PART -->
+      } @else {
+        <div class="q-progress">
+          <div class="q-progress-top">
+            <span class="q-progress-label">Part {{ step() }} of {{ totalParts }}</span>
+            <span class="q-progress-count">{{ answeredCount() }} of {{ totalQuestions }} answered</span>
+          </div>
+          <div class="q-progress-bar"><span [style.width.%]="(step() / totalParts) * 100"></span></div>
+        </div>
+
+        <div class="form-card">
+          <h3 class="part-title">{{ currentPart.title }}</h3>
+
+          @for (q of currentPart.questions; track q.id) {
+            <div class="question">
+              <p class="q-text">{{ q.text }}</p>
+              @if (q.type === 'multi') {
+                <p class="q-hint">{{ q.maxSelect ? 'Choose up to ' + q.maxSelect : 'Choose all that apply' }}</p>
+              } @else if (q.type === 'single' || q.type === 'scale') {
+                <p class="q-hint">Choose one</p>
+              }
+
+              @if (q.type === 'text') {
+                <textarea rows="3" [value]="getText(q.id)"
+                  (input)="setText(q.id, $any($event.target).value)"
+                  placeholder="Type your answer…"></textarea>
+              } @else {
+                <div class="options">
+                  @for (opt of q.options; track opt) {
+                    <button type="button" class="option"
+                      [class.selected]="isSelected(q.id, opt)"
+                      [class.disabled]="!isSelected(q.id, opt) && atMax(q)"
+                      (click)="toggle(q, opt)">
+                      <span class="box" [class.radio]="q.type !== 'multi'"></span>
+                      <span class="opt-text">{{ opt }}</span>
+                    </button>
+                  }
+                </div>
+                @if (q.allowOther) {
+                  <input class="other-input" type="text" [value]="getOther(q.id)"
+                    (input)="setOther(q.id, $any($event.target).value)"
+                    placeholder="Other (write in)…" />
+                }
+              }
+
+              @if (showErrors() && !isAnswered(q)) {
+                <span class="error-msg q-required">{{ q.type === 'text' ? 'Please answer this question' : 'Please choose at least one' }}</span>
+              }
+            </div>
+          }
+        </div>
+
+        @if (showErrors() && !canAdvance) {
+          <div class="q-banner">Please answer every question in this section to continue.</div>
+        }
+
+        <div class="q-nav">
+          <button type="button" class="btn-ghost" (click)="back()">Back</button>
+          <button type="button" class="btn-primary grow" (click)="next()">
+            {{ step() === totalParts ? 'Finish' : 'Continue' }}
+          </button>
+        </div>
+      }
+
+    </div>
+  </section>
+</div>

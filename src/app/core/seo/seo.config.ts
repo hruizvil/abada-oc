@@ -112,6 +112,14 @@ export const PAGE_SEO: Record<string, PageSeo> = {
     noIndex: true
   },
 
+  // Enrolled-students-only form, reached by direct link. Kept out of search.
+  questionnaire: {
+    title: 'Natural Potential Discovery | ABADÁ-Capoeira OC',
+    description: 'Capoeira natural-potential questionnaire for ABADÁ-Capoeira OC students.',
+    path: '/questionnaire',
+    noIndex: true
+  },
+
   privacy: {
     title: 'Privacy Policy | ABADÁ-Capoeira OC',
     description: 'What ABADÁ-Capoeira OC collects through this website, why, and who else sees it.',

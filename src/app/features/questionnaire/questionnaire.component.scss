@@ -1,0 +1,180 @@
+@import '../../../assets/styles/variables';
+
+.q-hero {
+  background: linear-gradient(135deg, $primary-color 0%, darken($primary-color, 15%) 100%);
+  color: white;
+  padding: 3rem 1.5rem 2rem;
+  text-align: center;
+
+  h1 { font-size: 1.8rem; margin: 0 0 0.5rem; @include tablet { font-size: 2.2rem; } }
+  p  { margin: 0; opacity: 0.85; font-size: 1rem; }
+}
+
+.q-section {
+  padding: 2rem 1rem 4rem;
+  background: #f7f7f7;
+  .container { max-width: 720px; margin: 0 auto; }
+}
+
+.form-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+// ---- intro ----
+.intro-title { margin: 0 0 0.75rem; font-size: 1.4rem; color: $text-color; }
+.intro-lead  { margin: 0 0 1.25rem; color: $text-light; line-height: 1.6; }
+
+.intro-facts {
+  list-style: none; margin: 0 0 1.25rem; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 0.75rem;
+  li {
+    flex: 1 1 30%; min-width: 120px;
+    background: $background-light; border-radius: 10px;
+    padding: 0.85rem; text-align: center; font-size: 0.85rem; color: $text-light;
+  }
+  .fact-num { display: block; font-size: 1.25rem; font-weight: 700; color: $primary-color; margin-bottom: 0.15rem; }
+}
+
+.intro-note { font-size: 0.85rem; color: $text-light; margin: 0 0 1.5rem; }
+
+// ---- shared form fields (mirrors waiver) ----
+.form-row {
+  display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 1rem;
+  @include tablet { grid-template-columns: 1fr 1fr; }
+}
+.form-group {
+  display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem;
+  label { font-size: 0.875rem; font-weight: 600; color: $text-color; }
+  input {
+    padding: 0.65rem 0.9rem; border: 1.5px solid #ddd; border-radius: 8px;
+    font-size: 1rem; transition: border-color 0.2s;
+    &:focus { outline: none; border-color: $primary-color; }
+    &.error { border-color: #e53e3e; }
+  }
+}
+.required { color: $secondary-color; }
+.error-msg { font-size: 0.8rem; color: #e53e3e; }
+
+// ---- draft resume banner ----
+.draft-banner {
+  background: #fff;
+  border: 1.5px solid $primary-light;
+  border-left: 4px solid $primary-color;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+
+  p { margin: 0 0 0.75rem; color: $text-color; font-weight: 600; }
+  .draft-actions { display: flex; gap: 0.75rem; }
+  .btn-primary, .btn-ghost { padding: 0.6rem 1.25rem; }
+}
+
+// ---- progress ----
+.q-progress { margin-bottom: 1rem; }
+.q-progress-top { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.5rem; }
+.q-progress-count { font-size: 0.75rem; color: $text-light; font-weight: 600; white-space: nowrap; }
+.q-progress-label { font-size: 0.8rem; font-weight: 700; color: $primary-color; text-transform: uppercase; letter-spacing: 0.06em; }
+.q-progress-bar {
+  height: 8px; background: #e6e0ea; border-radius: 99px; overflow: hidden;
+  span { display: block; height: 100%; background: $primary-color; border-radius: 99px; transition: width 0.3s ease; }
+}
+
+.part-title { margin: 0 0 1.25rem; font-size: 1.25rem; color: $primary-color; }
+
+// ---- questions ----
+.question { padding: 1.25rem 0; border-top: 1px solid #f0f0f0; }
+.question:first-of-type { padding-top: 0; border-top: none; }
+.q-text { margin: 0 0 0.25rem; font-weight: 600; color: $text-color; line-height: 1.4; }
+.q-hint { margin: 0 0 0.85rem; font-size: 0.8rem; color: #aaa; }
+
+.options { display: flex; flex-direction: column; gap: 0.5rem; }
+.option {
+  display: flex; align-items: center; gap: 0.75rem;
+  width: 100%; text-align: left;
+  padding: 0.75rem 0.9rem; min-height: 48px;
+  background: white; border: 1.5px solid #e0e0e0; border-radius: 10px;
+  font-size: 0.95rem; color: $text-color; cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+
+  &:hover { border-color: $primary-light; }
+  &.selected { border-color: $primary-color; background: rgba($primary-color, 0.06); font-weight: 600; }
+  &.disabled { opacity: 0.45; cursor: not-allowed; }
+
+  .box {
+    box-sizing: border-box;
+    flex: none; width: 22px; height: 22px; border: 2px solid #ccc; border-radius: 6px;
+    position: relative; transition: all 0.15s;
+    &.radio { border-radius: 50%; }
+  }
+  &.selected .box {
+    border-color: $primary-color; background: $primary-color;
+    // Centered check: translate keeps it centered regardless of box size; the
+    // -60% vertical nudge accounts for the checkmark's optical centre.
+    &::after {
+      content: ''; position: absolute; left: 50%; top: 50%;
+      width: 5px; height: 9px; border: solid white; border-width: 0 2px 2px 0;
+      transform: translate(-50%, -60%) rotate(45deg);
+    }
+    &.radio::after {
+      width: 8px; height: 8px; border: none; border-radius: 50%; background: white;
+      transform: translate(-50%, -50%);
+    }
+  }
+  .opt-text { flex: 1; }
+}
+
+textarea, .other-input {
+  width: 100%; box-sizing: border-box;
+  padding: 0.75rem 0.9rem; border: 1.5px solid #e0e0e0; border-radius: 10px;
+  font-size: 0.95rem; font-family: $font-primary; resize: vertical;
+  &:focus { outline: none; border-color: $primary-color; }
+}
+.other-input { margin-top: 0.5rem; }
+
+// ---- buttons / nav ----
+.btn-primary {
+  padding: 0.9rem 1.5rem; background: $secondary-color; color: white;
+  border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer;
+  transition: background 0.2s;
+  &:hover { background: darken($secondary-color, 8%); }
+  &.grow { flex: 1; }
+}
+.intro-card .btn-primary { width: 100%; }
+
+.btn-ghost {
+  padding: 0.9rem 1.25rem; background: white; color: $primary-color;
+  border: 1.5px solid #ddd; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer;
+  &:hover { border-color: $primary-color; }
+}
+
+.q-required { display: block; margin-top: 0.6rem; }
+
+.q-banner {
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  color: #c53030;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.q-nav { display: flex; gap: 0.75rem; }
+
+// ---- success ----
+.q-success {
+  background: white; border-radius: 12px; padding: 3rem 2rem; text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  .success-icon {
+    width: 64px; height: 64px; background: #38a169; color: white; border-radius: 50%;
+    font-size: 2rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;
+  }
+  h2 { margin: 0 0 1rem; }
+  p { color: $text-light; line-height: 1.6; margin-bottom: 0.5rem; }
+  .success-note { color: $primary-color; font-weight: 600; }
+}

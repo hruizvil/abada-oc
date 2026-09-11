@@ -12,6 +12,7 @@ import { WaiverComponent } from './features/waiver/waiver.component';
 import { BookComponent } from './features/book/book.component';
 import { PrivacyComponent } from './features/privacy/privacy.component';
 import { TermsComponent } from './features/terms/terms.component';
+import { QuestionnaireComponent } from './features/questionnaire/questionnaire.component';
 
 // `data.seo` keys into PAGE_SEO in core/seo/seo.config.ts, where all the page
 // titles and descriptions live. SeoTitleStrategy applies them on navigation.
@@ -96,6 +97,13 @@ export const routes: Routes = [
     path: 'waiver',
     component: WaiverComponent,
     data: { seo: 'waiver' }
+  },
+  {
+    // Enrolled-students-only questionnaire. Unlinked (not in navigation.json) and
+    // reached by direct link, exactly like the waiver.
+    path: 'questionnaire',
+    component: QuestionnaireComponent,
+    data: { seo: 'questionnaire' }
   },
   {
     path: 'privacy',
