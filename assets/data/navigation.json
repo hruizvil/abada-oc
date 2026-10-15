@@ -20,10 +20,11 @@
       "order": 2
     },
     {
-      "id": "gallery",
-      "label": "GALLERY",
-      "route": "/gallery",
-      "icon": "images",
+      "id": "music",
+      "label": "MUSIC",
+      "url": "https://abada-musica.vercel.app/",
+      "external": true,
+      "icon": "music",
       "order": 3
     },
     {
