@@ -14,10 +14,12 @@ export interface Brand {
 export interface MenuItem {
   id: string;
   label: string;
-  route: string;
+  route?: string;
   icon?: string;
   order: number;
   hasDropdown?: boolean;
+  external?: boolean;
+  url?: string;
   children?: MenuChild[];
 }
 
