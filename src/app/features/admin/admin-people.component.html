@@ -1,0 +1,102 @@
+<div class="ph">
+  <div>
+    <h1>Members</h1>
+    <p>
+      @if (dir.people(); as people) {
+        {{ people.length }} {{ people.length === 1 ? 'account' : 'accounts' }} · {{ dir.holders().length }} active cardholders · {{ dir.classesLeft() }} classes left on cards
+      } @else { Loading accounts… }
+    </p>
+  </div>
+</div>
+
+<div class="toolbar">
+  <label class="search">
+    <app-icon name="search" />
+    <input type="search" placeholder="Search by name or email" aria-label="Search members"
+           [value]="q()" (input)="q.set($any($event.target).value)" />
+  </label>
+  <div class="chips">
+    @for (f of filters; track f.key) {
+      <button type="button" class="chip" [class.on]="filter() === f.key" [attr.aria-pressed]="filter() === f.key"
+              (click)="filter.set(f.key)">{{ f.label }}<span>{{ counts()[f.key] }}</span></button>
+    }
+  </div>
+</div>
+
+<section class="card">
+  @if (dir.people() === null) {
+    <p class="empty">Loading…</p>
+  } @else {
+    <div class="tblwrap">
+      <table class="tbl">
+        <thead>
+          <tr><th>Member</th><th>Plan</th><th>Classes left</th><th>Waiver</th><th>Last check-in</th><th></th></tr>
+        </thead>
+        <tbody>
+          @for (r of visible(); track r.uid) {
+            <tr>
+              <td>
+                <div class="who">
+                  <span class="av" [ngClass]="tone(r.name)">{{ initials(r.name) }}</span>
+                  <div>
+                    <div class="r-t">{{ r.name }} @if (r.isAdmin) { <span class="pill grey">Admin</span> }</div>
+                    <div class="em">{{ r.email }}</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                @if (r.plan) { <span class="pill">{{ r.plan }}</span> } @else { <span class="pill grey">No card</span> }
+                @if (r.active.length > 1) { <span class="dim"> +{{ r.active.length - 1 }}</span> }
+              </td>
+              <td>
+                @if (r.plan) {
+                  <span class="bar" [class.low]="r.left <= 2">
+                    <span class="num">{{ r.left }} left</span>
+                    <span class="track"><span class="fill" [style.width.%]="pct(r)"></span></span>
+                    @if (r.left <= 2) { <span class="pill warn">Low</span> }
+                  </span>
+                } @else { <span class="dim">—</span> }
+              </td>
+              <td>
+                @switch (r.waiver) {
+                  @case (true) { <span class="pill ok">Signed</span> }
+                  @case (false) { <span class="pill crit">Missing</span> }
+                  @default { <span class="dim">—</span> }
+                }
+              </td>
+              <td class="dim num">{{ r.lastCheckin ? shortDate(r.lastCheckin) : 'Not yet' }}</td>
+              <td class="r">
+                <button type="button" class="lnk" (click)="toggle(r.uid)" [attr.aria-expanded]="open() === r.uid">
+                  {{ open() === r.uid ? 'Hide' : 'View' }}
+                </button>
+              </td>
+            </tr>
+            @if (open() === r.uid) {
+              <tr class="detail">
+                <td colspan="6">
+                  @if (r.cards.length === 0) {
+                    <span class="dim">No cards bought yet.</span>
+                  } @else {
+                    <ul class="cardlist">
+                      @for (c of r.cards; track c.id) {
+                        <li [class.spent]="isSpent(c)">
+                          {{ c.label }} · {{ c.creditsRemaining }} of {{ c.creditsTotal }} left · expires {{ expiry(c) }}
+                          @if (isSpent(c)) { (used up or expired) }
+                        </li>
+                      }
+                    </ul>
+                  }
+                </td>
+              </tr>
+            }
+          } @empty {
+            <tr><td colspan="6" class="dim">No members match.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>
+@if (dir.people(); as people) {
+  <p class="tfoot">Showing {{ visible().length }} of {{ people.length }} · bars show what's left on each member's active cards. Waivers are matched by email or name.</p>
+}

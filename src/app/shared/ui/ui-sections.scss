@@ -1,0 +1,169 @@
+// ---- Signed-in app (admin + member): shared page styles, loaded once per shell by UiThemeComponent ----
+// Scoped under .app-ui (each shell's content area) so nothing leaks onto the public site.
+@use 'tokens' as *;
+
+.app-ui {
+  color: $ink;
+  font-size: 14px;
+
+  .muted, .dim { color: $muted; }
+  .num { font-variant-numeric: tabular-nums; }
+  .loading { color: $muted; padding: 0.5rem 0; }
+  .note-error {
+    background: #fff8ec; border: 1px solid #f1e0b8; border-radius: 12px;
+    padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: #85661a;
+  }
+
+  // ---- page header ----
+  .ph { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+  .ph h1 { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.015em; color: $ink; }
+  .ph p { margin: 5px 0 0; color: $muted; font-size: 13.5px; }
+  .ph .acts { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+
+  // ---- cards ----
+  .card { background: #fff; border: 1px solid $line; border-radius: 12px; margin-bottom: 16px; min-width: 0; }
+  .card-h { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid $line-2; flex-wrap: wrap; }
+  .card-h h2 { margin: 0; font-size: 14.5px; font-weight: 650; color: $ink; }
+  .card-h .meta { font-size: 12.5px; color: $muted; }
+  .card-h .right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+  .empty { padding: 16px 18px; color: $muted; font-size: 13.5px; }
+  .badge {
+    font-size: 11.5px; font-weight: 650; border-radius: 6px; padding: 1px 7px;
+    background: #ebe8ef; color: $muted; font-variant-numeric: tabular-nums;
+    &.warn { background: $warn-bg; color: $warn; }
+    &.crit { background: $crit-bg; color: $crit; }
+  }
+  .grid2 { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+  .grid2.even { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid2 > .card, .stack > .card { margin-bottom: 0; }
+  .stack { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+
+  // ---- buttons & links ----
+  .btn {
+    border: 1px solid $line; background: #fff; color: $ink-2; font: inherit; font-size: 13px; font-weight: 600;
+    border-radius: 8px; padding: 7px 12px; cursor: pointer; white-space: nowrap; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px; line-height: 1.3;
+    &:hover:not(:disabled) { border-color: #d8d3df; }
+    &:disabled { opacity: 0.5; cursor: default; }
+    &.primary { background: $brand; border-color: $brand; color: #fff; &:hover:not(:disabled) { background: #7a2399; } }
+    &.sm { padding: 5px 10px; font-size: 12.5px; }
+    &.quiet { border-color: transparent; background: transparent; color: $muted; &:hover:not(:disabled) { color: $crit; } }
+    app-icon { width: 14px; height: 14px; }
+  }
+  .lnk {
+    color: $brand-ink; font: inherit; font-weight: 600; font-size: 13px; text-decoration: none;
+    cursor: pointer; background: none; border: 0; padding: 0; white-space: nowrap;
+    &:hover { text-decoration: underline; }
+  }
+
+  // ---- spinner (inside a primary button) ----
+  .spin {
+    width: 13px; height: 13px; border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.45); border-top-color: #fff;
+    animation: app-ui-spin 0.8s linear infinite;
+  }
+  .btn:not(.primary) .spin { border-color: $line; border-top-color: $brand; }
+
+  // ---- stat cards ----
+  .stats { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .stats.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .stat { background: #fff; border: 1px solid $line; border-radius: 12px; padding: 14px 15px; min-width: 0; }
+  .stat-l { font-size: 12px; color: $muted; }
+  .stat-n { font-size: 26px; font-weight: 600; letter-spacing: -0.02em; margin-top: 6px; font-variant-numeric: tabular-nums; color: $ink; }
+  .stat-s { font-size: 12px; color: $muted; margin-top: 4px; }
+  .stat.crit .stat-n, .stat.crit .stat-s { color: $crit; }
+
+  // ---- rows ----
+  .rows { display: flex; flex-direction: column; }
+  .row { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-top: 1px solid $line-2; min-width: 0; }
+  .row:first-child { border-top: 0; }
+  .av {
+    width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; flex: 0 0 auto;
+    font-size: 11.5px; font-weight: 650; background: $brand-pill; color: $brand-ink;
+    &.c2 { background: #e3f3f1; color: #23756c; }
+    &.c3 { background: #fcefe1; color: #9a5b14; }
+    &.c4 { background: #e8eefc; color: #3655a8; }
+    &.c5 { background: #fbe9ed; color: #a8334f; }
+  }
+  .r-main { min-width: 0; flex: 1; }
+  .r-t { font-weight: 600; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; overflow-wrap: anywhere; color: $ink; }
+  .r-s { font-size: 12.5px; color: $muted; margin-top: 2px; overflow-wrap: anywhere; }
+  .r-right { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: $muted; }
+
+  .dotrow { display: flex; align-items: center; gap: 10px; padding: 11px 18px; border-top: 1px solid $line-2; font-size: 13.5px; }
+  .dotrow:first-child { border-top: 0; }
+  .dotrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: $brand; flex: 0 0 auto; }
+  .dotrow .t { flex: 1; min-width: 0; color: $ink-2; overflow-wrap: anywhere; }
+  .dotrow .w { color: $faint; font-size: 12.5px; white-space: nowrap; }
+
+  // ---- pills ----
+  .pill {
+    font-size: 11.5px; font-weight: 600; border-radius: 6px; padding: 2px 8px; white-space: nowrap;
+    background: $brand-pill; color: $brand-ink;
+    &.ok { background: $ok-bg; color: $ok; }
+    &.warn { background: $warn-bg; color: $warn; }
+    &.crit { background: $crit-bg; color: $crit; }
+    &.grey { background: #f0eef3; color: $muted; }
+  }
+
+  // ---- table ----
+  .tblwrap { overflow-x: auto; }
+  .tbl { width: 100%; border-collapse: collapse; }
+  .tbl th {
+    text-align: left; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    color: $faint; padding: 12px 14px; border-bottom: 1px solid $line-2; white-space: nowrap;
+  }
+  .tbl td { padding: 11px 14px; border-top: 1px solid $line-2; vertical-align: middle; }
+  .tbl tbody tr:first-child td { border-top: 0; }
+  .tbl .who { display: flex; align-items: center; gap: 11px; }
+  .tbl .em { font-size: 12.5px; color: $muted; overflow-wrap: anywhere; }
+  .tbl .r { text-align: right; }
+  .tbl tr.detail td { background: #fbfafc; padding: 6px 14px 14px 57px; border-top: 0; }
+  .bar {
+    display: inline-flex; align-items: center; gap: 10px;
+    .track { width: 72px; height: 4px; background: #eeebf1; border-radius: 4px; overflow: hidden; }
+    .fill { display: block; height: 100%; background: $brand; border-radius: 4px; }
+    &.low .fill { background: #e0892a; }
+  }
+  .tfoot { font-size: 12px; color: $faint; padding: 12px 2px 0; margin: 0; }
+
+  // ---- search / filters ----
+  .toolbar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+  .search {
+    display: flex; align-items: center; gap: 8px; flex: 1 1 260px; max-width: 360px;
+    border: 1px solid $line; border-radius: 9px; padding: 8px 11px; background: #fff; color: $faint;
+    input { border: 0; outline: 0; font: inherit; font-size: 13.5px; color: $ink; width: 100%; background: transparent; }
+    app-icon { width: 15px; height: 15px; }
+    &:focus-within { border-color: $brand; }
+    &.full { max-width: none; }
+    &.compact { padding: 6px 10px; flex: 0 1 220px; }
+  }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
+  .chip {
+    border: 1px solid $line; background: #fff; color: $ink-2; font: inherit; font-size: 12.5px; font-weight: 500;
+    border-radius: 999px; padding: 5px 11px; cursor: pointer; white-space: nowrap;
+    span { color: $faint; margin-left: 3px; }
+    &.on { border-color: $brand; color: $brand-ink; background: $brand-wash; font-weight: 600; span { color: $brand; } }
+  }
+
+  // ---- info note ----
+  .note {
+    display: flex; gap: 10px; align-items: flex-start; background: #fff; border: 1px solid $line; border-radius: 12px;
+    padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: $ink-2; line-height: 1.5;
+    app-icon { width: 17px; height: 17px; color: $brand; margin-top: 1px; }
+    b { color: $ink; }
+  }
+
+  @media (max-width: 1100px) {
+    .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (max-width: 900px) {
+    .stats, .stats.three { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid2, .grid2.even { grid-template-columns: minmax(0, 1fr); }
+    .chips { margin-left: 0; }
+    .ph h1 { font-size: 21px; }
+  }
+}
+
+@keyframes app-ui-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .app-ui .spin { animation-duration: 2s; } }

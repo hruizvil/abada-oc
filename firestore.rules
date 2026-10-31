@@ -1,0 +1,59 @@
+rules_version = '2';
+
+// ABADA OC class-card system. Clients read only their own data; credit-bearing docs
+// are never client-writable — the server (service account) writes them, bypassing rules.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() { return request.auth != null; }
+    function isOwner(uid) { return isSignedIn() && request.auth.uid == uid; }
+
+    // Admin = member doc with role 'admin'. Set out-of-band (console/server); clients
+    // can never set their own role (see members rules), so it can't be self-granted.
+    function isAdmin() {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/members/$(request.auth.uid))
+        && get(/databases/$(database)/documents/members/$(request.auth.uid)).data.role == 'admin';
+    }
+    function ownsResource() { return isSignedIn() && resource.data.memberUid == request.auth.uid; }
+
+    // Profiles, keyed by auth uid. Owner reads/writes own; role can't be self-changed.
+    match /members/{uid} {
+      allow read:   if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid)
+                    && (!('role' in request.resource.data) || request.resource.data.role == 'member');
+      allow update: if isOwner(uid)
+                    && request.resource.data.role == resource.data.role;
+      allow delete: if isAdmin();
+    }
+
+    // Credit-bearing records: read own (or admin), never client-writable.
+    match /cards/{cardId} {
+      allow read:  if isAdmin() || ownsResource();
+      allow write: if false;
+    }
+    match /ledger/{entryId} {
+      allow read:  if isAdmin() || ownsResource();
+      allow write: if false;
+    }
+    match /reservations/{resId} {
+      allow read:  if isAdmin() || ownsResource();
+      allow write: if false;
+    }
+
+    // Bookable weekly class slots: read-only reference.
+    match /schedule/{slotId} {
+      allow read:  if isSignedIn();
+      allow write: if false;
+    }
+
+    // Buyable card products: any signed-in member reads; only an admin edits.
+    match /catalog/{productId} {
+      allow read:  if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    match /{document=**} { allow read, write: if false; }
+  }
+}

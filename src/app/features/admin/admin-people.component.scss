@@ -1,0 +1,5 @@
+@use '../../shared/ui/tokens' as *;
+
+// A member's cards, in the expanded table row.
+.cardlist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: $ink-2; }
+.cardlist .spent { color: $faint; }

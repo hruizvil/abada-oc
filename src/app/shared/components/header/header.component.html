@@ -22,19 +22,6 @@
       </a>
     </div>
 
-    <!-- Mobile Menu Toggle -->
-    <button
-      class="mobile-menu-toggle"
-      (click)="toggleMobileMenu()"
-      [attr.aria-expanded]="isMobileMenuOpen()"
-      [attr.aria-label]="isMobileMenuOpen() ? 'Close menu' : 'Open menu'">
-      <span class="hamburger-icon" [class.open]="isMobileMenuOpen()">
-        <span></span>
-        <span></span>
-        <span></span>
-      </span>
-    </button>
-
     <!-- Navigation -->
     <nav class="nav-menu" [class.mobile-open]="isMobileMenuOpen()">
       @if (navigationData(); as nav) {
@@ -118,6 +105,25 @@
         </a>
       }
     </nav>
+
+    <!-- Right-side actions: account control (always visible, mobile + desktop) and
+         the mobile menu toggle. Grouped so the account control stays in the top bar
+         on mobile instead of hiding inside the slide-in menu. -->
+    <div class="header-actions">
+      <app-account-control></app-account-control>
+
+      <button
+        class="mobile-menu-toggle"
+        (click)="toggleMobileMenu()"
+        [attr.aria-expanded]="isMobileMenuOpen()"
+        [attr.aria-label]="isMobileMenuOpen() ? 'Close menu' : 'Open menu'">
+        <span class="hamburger-icon" [class.open]="isMobileMenuOpen()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+    </div>
 
     <!-- Overlay for mobile menu -->
     @if (isMobileMenuOpen()) {

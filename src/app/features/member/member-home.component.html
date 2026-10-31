@@ -1,0 +1,157 @@
+<div class="ph">
+  <div>
+    <h1>{{ greeting() }}</h1>
+    <p>{{ subline() }}</p>
+  </div>
+  <div class="acts"><a class="btn" routerLink="/member/buy">Buy classes</a></div>
+</div>
+
+@if (s.showNamePrompt()) {
+  <section class="card">
+    <div class="card-h">
+      <h2>What should we call you?</h2>
+      <div class="right"><span class="meta">This is the name Mosquito sees on the class roster</span></div>
+    </div>
+    <form class="nameform" (submit)="$event.preventDefault(); saveName()">
+      <label class="f"><span>First name</span>
+        <input type="text" autocomplete="given-name" [value]="nameFirst()" (input)="nameFirst.set($any($event.target).value)" />
+      </label>
+      <label class="f"><span>Last name (optional)</span>
+        <input type="text" autocomplete="family-name" [value]="nameLast()" (input)="nameLast.set($any($event.target).value)" />
+      </label>
+      <button class="btn primary" type="submit" [disabled]="!nameFirst().trim() || s.savingName()">
+        {{ s.savingName() ? 'Saving…' : 'Save' }}
+      </button>
+    </form>
+  </section>
+}
+
+@switch (s.state()) {
+  @case ('loading') {
+    <p class="loading">Loading your account…</p>
+  }
+
+  @case ('new') {
+    <section class="hero">
+      <small>New here?</small>
+      <h2>Your first class is free</h2>
+      <p>Come try a class with us, no card needed. Book a time and we'll see you on the floor.</p>
+      <a class="btn lg" routerLink="/book">Book your free class</a>
+    </section>
+    <div class="grid2">
+      <ng-container [ngTemplateOutlet]="today" [ngTemplateOutletContext]="{ canCheckIn: false }"></ng-container>
+      <section class="card">
+        <div class="card-h"><h2>Ready to keep going?</h2></div>
+        <p class="empty">After your trial, pick a class card and check in from your phone each time you come.</p>
+        <div class="pad"><a class="btn primary" routerLink="/member/buy">See class cards</a></div>
+      </section>
+    </div>
+  }
+
+  @case ('inactive') {
+    <div class="note warn">
+      <app-icon name="info" />
+      <div><b>Your classes have run out.</b> Grab another card to keep checking in.</div>
+      <span class="note-act"><a class="btn primary sm" routerLink="/member/buy">Buy classes</a></span>
+    </div>
+    <div class="stats three">
+      <div class="stat hero-stat">
+        <div class="stat-l">Classes left</div><div class="stat-n">0</div>
+        <div class="stat-s">@if (lastUsedUp()) { Last class {{ lastUsedUp() }} } @else { Time for a new card }</div>
+      </div>
+      <div class="stat"><div class="stat-l">Classes this month</div><div class="stat-n">{{ s.classesThisMonth() }}</div><div class="stat-s">Checked in</div></div>
+      <div class="stat"><div class="stat-l">Member since</div><div class="stat-n small">{{ memberSince() }}</div><div class="stat-s">Axé!</div></div>
+    </div>
+    <ng-container [ngTemplateOutlet]="today" [ngTemplateOutletContext]="{ canCheckIn: false }"></ng-container>
+  }
+
+  @case ('active') {
+    <div class="stats three">
+      <div class="stat hero-stat">
+        <div class="stat-l">Classes left</div>
+        <div class="stat-n">{{ s.classesLeft() }}</div>
+        <div class="stat-s">{{ s.liveCards().length > 1 ? 'Across ' + s.liveCards().length + ' cards' : next()?.label }}</div>
+      </div>
+      @if (next(); as n) {
+        <div class="stat">
+          <div class="stat-l">Next to expire</div>
+          <div class="stat-n small">{{ expires(n) || 'No expiry' }}</div>
+          <div class="stat-s">{{ n.label }} · {{ n.creditsRemaining }} left</div>
+        </div>
+      }
+      <div class="stat"><div class="stat-l">Classes this month</div><div class="stat-n">{{ s.classesThisMonth() }}</div><div class="stat-s">Checked in</div></div>
+    </div>
+
+    @if (s.classesLeft() <= 2) {
+      <div class="note warn">
+        <app-icon name="info" />
+        <div><b>Only {{ s.classesLeft() }} {{ s.classesLeft() === 1 ? 'class' : 'classes' }} left.</b> Grab another card so you don't miss a class.</div>
+        <span class="note-act"><a class="btn primary sm" routerLink="/member/buy">Buy classes</a></span>
+      </div>
+    }
+
+    <div class="grid2">
+      <ng-container [ngTemplateOutlet]="today" [ngTemplateOutletContext]="{ canCheckIn: true }"></ng-container>
+      <section class="card">
+        <div class="card-h">
+          <h2>Your cards</h2>
+          @if (s.liveCards().length > 1) { <div class="right"><span class="meta">Check-ins use the card that expires first</span></div> }
+        </div>
+        <div class="rows">
+          @for (c of s.liveCards(); track c.id; let first = $first) {
+            <div class="row">
+              <div class="r-main">
+                <div class="r-t">{{ c.label }} @if (first && s.liveCards().length > 1) { <span class="pill">Used next</span> }</div>
+                <div class="r-s">{{ c.creditsRemaining }} of {{ c.creditsTotal }} left@if (expires(c)) { · expires {{ expires(c) }} }</div>
+                <div class="meter" [class.low]="c.creditsRemaining <= 2"><span [style.width.%]="pct(c)"></span></div>
+              </div>
+            </div>
+          }
+        </div>
+      </section>
+    </div>
+  }
+}
+
+<ng-template #today let-canCheckIn="canCheckIn">
+  <section class="card">
+    <div class="card-h">
+      <h2>Today's classes</h2>
+      <div class="right"><span class="meta">Check in when you arrive · uses 1 class</span></div>
+    </div>
+    @if (s.slots() === null) {
+      <p class="empty">Loading the schedule…</p>
+    } @else if (s.todaySlots().length === 0) {
+      <p class="empty">No class today. <a class="lnk" routerLink="/member/schedule">See this week's schedule</a></p>
+    } @else {
+      <div class="rows">
+        @for (slot of s.todaySlots(); track slot.id) {
+          <div class="row">
+            <span class="dot" [style.background-color]="slot.color"></span>
+            <div class="r-main">
+              <div class="r-t">{{ slot.classTitle }}</div>
+              <div class="r-s">{{ slot.time }} · 8552 Warner Ave</div>
+            </div>
+            <div class="r-right">
+              @if (!canCheckIn) {
+                <span class="pill grey">Buy a card to check in</span>
+              } @else if (s.isCheckedIn(slot)) {
+                <span class="pill ok">Checked in@if (s.checkedInAt(slot); as at) { · {{ clock(at) }} }</span>
+              } @else if (s.checkingInId() === slot.id) {
+                <button class="btn primary sm" type="button" disabled><span class="spin"></span>Checking in…</button>
+              } @else if (s.armingSlotId() === slot.id) {
+                <span class="confirm">
+                  <span class="q">Use 1 class?</span>
+                  <button class="btn primary sm" type="button" (click)="s.confirmCheckIn(slot)">Use 1 class</button>
+                  <button class="lnk" type="button" (click)="s.cancelCheckIn()">Cancel</button>
+                </span>
+              } @else {
+                <button class="btn primary sm" type="button" (click)="s.armCheckIn(slot)">Check in</button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </section>
+</ng-template>

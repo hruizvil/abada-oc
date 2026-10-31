@@ -1,0 +1,33 @@
+<div class="ph">
+  <div>
+    <h1>Profile</h1>
+    <p>How you show up on the class roster</p>
+  </div>
+</div>
+
+<section class="card">
+  <div class="card-h"><h2>Your name</h2></div>
+  <form class="form" (submit)="$event.preventDefault(); save()">
+    <div class="fields">
+      <label class="f"><span>First name</span>
+        <input type="text" autocomplete="given-name" [value]="first()" (input)="first.set($any($event.target).value)" />
+      </label>
+      <label class="f"><span>Last name</span>
+        <input type="text" autocomplete="family-name" [value]="last()" (input)="last.set($any($event.target).value)" />
+      </label>
+    </div>
+    <div class="actions">
+      <button class="btn primary" type="submit" [disabled]="!first().trim() || s.savingName()">
+        {{ s.savingName() ? 'Saving…' : 'Save' }}
+      </button>
+      @if (saved()) { <span class="saved" role="status">Saved</span> }
+    </div>
+  </form>
+</section>
+
+<section class="card">
+  <div class="card-h"><h2>Account</h2></div>
+  <div class="kv"><span>Signed in with Google</span><b>{{ email() }}</b></div>
+  @if (memberSince()) { <div class="kv"><span>Member since</span><b>{{ memberSince() }}</b></div> }
+  <div class="pad"><button class="btn" type="button" (click)="signOut()">Sign out</button></div>
+</section>

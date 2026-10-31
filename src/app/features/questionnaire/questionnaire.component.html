@@ -131,6 +131,12 @@
           <div class="q-banner">Please answer every question in this section to continue.</div>
         }
 
+        @if (submitError()) {
+          <div class="q-banner">{{ submitError() }}</div>
+        }
+        <!-- Cloudflare Turnstile renders here (invisible/managed) for the final submit. -->
+        <div #turnstileHost></div>
+
         <div class="q-nav">
           <button type="button" class="btn-ghost" (click)="back()">Back</button>
           <button type="button" class="btn-primary grow" (click)="next()">

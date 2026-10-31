@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { DataService } from '../../../core/services/data.service';
 import { NavigationData, MenuItem } from '../../../core/models/navigation.model';
+import { AccountControlComponent } from '../account-control/account-control.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, AccountControlComponent],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })

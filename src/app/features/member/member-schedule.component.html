@@ -1,0 +1,42 @@
+<div class="ph">
+  <div>
+    <h1>Schedule</h1>
+    <p>Weekly classes · 8552 Warner Ave, Fountain Valley</p>
+  </div>
+</div>
+
+<section class="card">
+  @if (s.slots() === null) {
+    <p class="empty">Loading the schedule…</p>
+  } @else if (days().length === 0) {
+    <p class="empty">The schedule isn't available right now.</p>
+  } @else {
+    <div class="tblwrap">
+      <table class="tbl wk">
+        <thead>
+          <tr>
+            <th>Day</th>
+            @for (c of columns(); track c.key) {
+              <th><span class="dot" [style.background-color]="c.color"></span>{{ c.key }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of days(); track row.day) {
+            <tr [class.today]="row.today">
+              <td class="day">{{ row.day }}@if (row.today) { <span class="today-tag">today</span> }</td>
+              @for (c of columns(); track c.key) {
+                <td class="num">{{ times(row, c.key) }}</td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>
+
+<div class="note">
+  <app-icon name="pin" />
+  <div><b>8552 Warner Ave, Fountain Valley, CA 92708.</b> Check in from Home when you arrive at class.</div>
+</div>

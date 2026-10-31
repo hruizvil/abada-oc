@@ -1,0 +1,37 @@
+@if (auth.isSignedIn()) {
+  <div class="acct">
+    <button
+      type="button"
+      class="acct-trigger avatar"
+      (click)="onAvatarClick()"
+      [attr.aria-expanded]="menuOpen()"
+      aria-haspopup="menu"
+      aria-label="Account menu">
+      {{ initials() }}
+    </button>
+
+    @if (menuOpen()) {
+      <div class="acct-menu" role="menu">
+        <div class="acct-head">
+          @if (auth.user()?.displayName; as name) {
+            <span class="acct-name">{{ name }}</span>
+          }
+          <span class="acct-email">{{ auth.user()?.email }}</span>
+        </div>
+        @if (auth.isAdmin()) {
+          <a routerLink="/admin" role="menuitem" (click)="closeMenu()">Admin</a>
+        } @else {
+          <a routerLink="/member" role="menuitem" (click)="closeMenu()">My account</a>
+        }
+        <button type="button" role="menuitem" (click)="signOut()">Sign out</button>
+      </div>
+    }
+  </div>
+} @else {
+  <a routerLink="/member" class="acct-trigger icon" aria-label="Sign in">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2" />
+      <path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+    </svg>
+  </a>
+}

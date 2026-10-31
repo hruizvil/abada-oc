@@ -1,0 +1,132 @@
+<div class="ph">
+  <div>
+    <h1>Catalog</h1>
+    <p>Class cards members can buy · Stripe test mode</p>
+  </div>
+  <div class="acts">
+    <a class="btn" routerLink="/member">Preview member page</a>
+    <button type="button" class="btn primary" (click)="startAdd()" [disabled]="mode() === 'add'">+ Add card</button>
+  </div>
+</div>
+
+<div class="note">
+  <app-icon name="info" />
+  <div>
+    <b>Purchases work end to end.</b> Cards are paid through Stripe, the classes land on the member's account
+    right away, and they check in from their phone. Changing a price or class count here updates what members see.
+  </div>
+</div>
+
+@if (error(); as e) {
+  <p class="note-error" role="alert">{{ e }}</p>
+}
+
+@if (mode() === 'add') {
+  <section class="card editor">
+    <div class="card-h"><h2>New card</h2></div>
+    <ng-container [ngTemplateOutlet]="formTpl"></ng-container>
+  </section>
+}
+
+@if (products() === null) {
+  <p class="loading">Loading…</p>
+} @else if (products()!.length === 0) {
+  <section class="card"><p class="empty">No cards yet. Add one to start selling.</p></section>
+} @else {
+  <div class="prices">
+    @for (p of products(); track p.id) {
+      @if (mode() === 'edit' && editId() === p.id) {
+        <section class="card editor wide">
+          <div class="card-h"><h2>Edit {{ p.label }}</h2></div>
+          <ng-container [ngTemplateOutlet]="formTpl"></ng-container>
+        </section>
+      } @else {
+        <article class="price" [class.best]="p.highlight && p.active" [class.off]="!p.active">
+          <div class="top">
+            <h3>{{ p.label }}</h3>
+            @if (tag(p); as t) { <span class="pill" [ngClass]="t.cls">{{ t.text }}</span> }
+          </div>
+          <div class="amt">${{ p.priceUsd }}<small>{{ perClass(p) }}</small></div>
+          <ul>
+            @for (f of features(p); track f) {
+              <li><app-icon name="tick" />{{ f }}</li>
+            }
+          </ul>
+          <div class="foot">
+            <span>{{ holders(p) }} active {{ holders(p) === 1 ? 'cardholder' : 'cardholders' }}</span>
+            <span class="acts">
+              <button type="button" class="btn sm" (click)="startEdit(p)">Edit</button>
+              <button type="button" class="btn sm quiet" (click)="remove(p)" [disabled]="busy()">Delete</button>
+            </span>
+          </div>
+        </article>
+      }
+    }
+  </div>
+}
+
+<ng-template #formTpl>
+  <form class="form" (ngSubmit)="save()">
+    <div class="fields">
+      <label class="f">
+        <span>ID</span>
+        <input type="text" name="id" [(ngModel)]="model.id" [disabled]="mode() === 'edit'" placeholder="classes-30">
+      </label>
+      <label class="f">
+        <span>Label</span>
+        <input type="text" name="label" [(ngModel)]="model.label" placeholder="30-class card">
+      </label>
+      <label class="f">
+        <span>Kind</span>
+        <select name="kind" [(ngModel)]="model.kind">
+          <option value="classes">Class pack</option>
+          <option value="gift">Gift credit</option>
+        </select>
+      </label>
+      <label class="f">
+        <span>Price (USD)</span>
+        <input type="number" name="price" [(ngModel)]="model.priceUsd" min="0">
+      </label>
+      @if (model.kind === 'gift') {
+        <label class="f">
+          <span>Credit value (USD)</span>
+          <input type="number" name="valueUsd" [(ngModel)]="model.valueUsd" min="0">
+        </label>
+      } @else {
+        <label class="f">
+          <span>Classes</span>
+          <input type="number" name="credits" [(ngModel)]="model.credits" min="0">
+        </label>
+      }
+      <label class="f">
+        <span>Valid for (months)</span>
+        <input type="number" name="validity" [(ngModel)]="model.validityMonths" min="0">
+      </label>
+      <label class="f">
+        <span>Where it's sold</span>
+        <select name="visibility" [(ngModel)]="model.visibility">
+          <option value="public">In the store</option>
+          <option value="private">By private link</option>
+        </select>
+      </label>
+      <label class="f">
+        <span>Sort order</span>
+        <input type="number" name="sort" [(ngModel)]="model.sortOrder">
+      </label>
+    </div>
+
+    <div class="checks">
+      <label class="c"><input type="checkbox" name="active" [(ngModel)]="model.active"> Active</label>
+      <label class="c"><input type="checkbox" name="highlight" [(ngModel)]="model.highlight"> Best value</label>
+      @if (model.kind !== 'gift') {
+        <label class="c"><input type="checkbox" name="once" [(ngModel)]="model.oncePerAccount"> One per account</label>
+        <label class="c"><input type="checkbox" name="shared" [(ngModel)]="model.shared"> Shared by a family</label>
+      }
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn primary" [disabled]="busy()">{{ busy() ? 'Saving…' : 'Save' }}</button>
+      <button type="button" class="btn" (click)="cancel()" [disabled]="busy()">Cancel</button>
+    </div>
+  </form>
+</ng-template>

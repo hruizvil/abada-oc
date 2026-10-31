@@ -1,0 +1,24 @@
+<div class="ph">
+  <div>
+    <h1>Tools</h1>
+    <p>Quick links · each opens in a new tab</p>
+  </div>
+</div>
+
+@if (cc.error(); as e) {
+  <p class="note-error">{{ e }}</p>
+}
+
+<div class="grid2 even">
+  @for (col of columns(); track $index) {
+    <section class="card">
+      @for (t of col; track t.title) {
+        <a class="linkrow" [href]="t.url" target="_blank" rel="noopener">
+          <span class="ico" [style.background]="t.bg" [style.color]="t.fg"><app-icon [name]="t.icon" /></span>
+          <span class="r-main"><span class="r-t">{{ t.title }}</span><span class="r-s">{{ t.sub }}</span></span>
+          <app-icon class="ext" name="ext" />
+        </a>
+      }
+    </section>
+  }
+</div>

@@ -3,6 +3,11 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import SignaturePad from 'signature_pad';
 import { environment } from '../../../environments/environment';
+import {
+  TurnstileService,
+  VERIFICATION_UNAVAILABLE_MESSAGE,
+  DELIVERY_FAILED_MESSAGE
+} from '../../core/services/turnstile.service';
 
 @Component({
   selector: 'app-waiver',
@@ -14,8 +19,10 @@ import { environment } from '../../../environments/environment';
 export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestroy {
   @ViewChild('signatureCanvas') signatureCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('guardianSignatureCanvas') guardianSignatureCanvas?: ElementRef<HTMLCanvasElement>;
+  @ViewChild('turnstileHost') turnstileHost?: ElementRef<HTMLElement>;
 
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  private turnstile = inject(TurnstileService);
 
   private signaturePad!: SignaturePad;
   private guardianSignaturePad?: SignaturePad;
@@ -47,7 +54,8 @@ export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestr
       emergencyRelationship: ['', Validators.required],
       parentName:            [''],
       parentEmail:           [''],
-      agreeToTerms:          [false, Validators.requiredTrue]
+      agreeToTerms:          [false, Validators.requiredTrue],
+      refCode:               ['']
     });
 
     this.waiverForm.get('dateOfBirth')!.valueChanges.subscribe(dob => {
@@ -160,6 +168,21 @@ export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestr
     this.submitError.set('');
 
     const formValue = this.waiverForm.value;
+
+    // Nothing configured (local dev): skip the network and show success.
+    if (!environment.contactWorkerUrl || environment.contactWorkerUrl.startsWith('YOUR_')) {
+      this.submitSuccess.set(true);
+      this.isSubmitting.set(false);
+      return;
+    }
+
+    const turnstileToken = await this.turnstile.getToken(this.turnstileHost?.nativeElement);
+    if (!turnstileToken && this.turnstile.isEnabled()) {
+      this.isSubmitting.set(false);
+      this.submitError.set(VERIFICATION_UNAVAILABLE_MESSAGE);
+      return;
+    }
+
     const payload = {
       firstName:        formValue.firstName,
       lastName:         formValue.lastName,
@@ -176,17 +199,32 @@ export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestr
       formType:         'waiver',
       signature:        this.signaturePad.toDataURL('image/png'),
       guardianSignature: this.isMinor() ? (this.guardianSignaturePad?.toDataURL('image/png') || '') : '',
-      agreedAt:         new Date().toISOString()
+      agreedAt:         new Date().toISOString(),
+      refCode:          formValue.refCode ?? '',
+      turnstileToken
     };
 
-    if (environment.waiverSheetUrl && !environment.waiverSheetUrl.startsWith('YOUR_')) {
-      fetch(environment.waiverSheetUrl, {
+    // Through the Cloudflare Worker (Turnstile-gated), never straight to the Apps
+    // Script — the waiver endpoint must not ship in the site bundle.
+    try {
+      const res = await fetch(environment.contactWorkerUrl, {
         method: 'POST',
-        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
+      if (!res.ok) {
+        console.error('Waiver was rejected by the Worker', res.status);
+        this.isSubmitting.set(false);
+        this.submitError.set(DELIVERY_FAILED_MESSAGE);
+        return;
+      }
+    } catch (err) {
+      console.error('Waiver could not be delivered', err);
+      this.isSubmitting.set(false);
+      this.submitError.set(DELIVERY_FAILED_MESSAGE);
+      return;
     }
+
     this.submitSuccess.set(true);
     this.isSubmitting.set(false);
   }

@@ -1,0 +1,72 @@
+<div class="ph">
+  <div>
+    <h1>Questionnaires</h1>
+    <p>
+      @if (cc.data(); as d) {
+        {{ d.stats.newQuestionnaires }} new this week · {{ respondents().length }} in total · pick a name to read their answers
+      } @else { Loading responses… }
+    </p>
+  </div>
+</div>
+
+@if (cc.error(); as e) {
+  <p class="note-error">{{ e }}</p>
+}
+
+@if (cc.data()) {
+  @if (respondents().length === 0) {
+    <section class="card"><p class="empty">No questionnaire responses yet.</p></section>
+  } @else {
+    <div class="qgrid">
+      <section class="card">
+        <div class="card-h">
+          <label class="search full">
+            <app-icon name="search" />
+            <input type="search" placeholder="Search respondents" aria-label="Search respondents"
+                   [value]="q()" (input)="q.set($any($event.target).value)" />
+          </label>
+        </div>
+        <div class="rows">
+          @for (p of filtered(); track p.i) {
+            <button type="button" class="row qitem" [class.sel]="selected()?.i === p.i" (click)="select(p.i)">
+              <span class="av" [ngClass]="tone(p.name)">{{ initials(p.name) }}</span>
+              <span class="r-main">
+                <span class="r-t">{{ p.name }}</span>
+                <span class="r-s">@if (p.apelido) { “{{ p.apelido }}” · }@if (p.age) { age {{ p.age }} }</span>
+              </span>
+              <span class="when">{{ p.submitted }}</span>
+            </button>
+          } @empty {
+            <p class="empty">No one matches.</p>
+          }
+        </div>
+      </section>
+
+      @if (selected(); as s) {
+        <section class="card">
+          <div class="qhead">
+            <span class="av" [ngClass]="tone(s.name)">{{ initials(s.name) }}</span>
+            <div>
+              <b>{{ s.name }}</b>
+              <div class="sub">
+                @if (s.apelido) { “{{ s.apelido }}” · }@if (s.age) { age {{ s.age }} · }sent {{ s.submitted }}
+                @if (hasWaiver()) { <span class="pill ok">Waiver signed</span> } @else { <span class="pill crit">No waiver</span> }
+              </div>
+            </div>
+            @if (trial(); as t) {
+              <div class="right"><span class="pill grey">Trial {{ t.today ? 'today' : t.day + ' ' + t.dateLabel }} {{ t.time }} {{ t.ampm }}</span></div>
+            }
+          </div>
+          <div class="answers">
+            @for (x of answers(); track $index) {
+              <div class="ans" [ngClass]="x.kind">
+                <div class="q">{{ x.kind === 'med' ? x.q + ' · share with instructor' : x.q }}</div>
+                <div class="a">{{ x.a }}</div>
+              </div>
+            }
+          </div>
+        </section>
+      }
+    </div>
+  }
+}

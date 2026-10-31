@@ -106,6 +106,85 @@ export const routes: Routes = [
     data: { seo: 'questionnaire' }
   },
   {
+    // Member area (class-card system). Kept out of search; lazy-loaded so the Firebase SDK
+    // ships only to visitors of this area. The shell handles sign-in; each page is a child route.
+    path: 'member',
+    loadComponent: () =>
+      import('./features/member/member-shell.component').then((m) => m.MemberShellComponent),
+    data: { seo: 'member' },
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./features/member/member-home.component').then((m) => m.MemberHomeComponent)
+      },
+      {
+        path: 'buy',
+        loadComponent: () => import('./features/member/member-buy.component').then((m) => m.MemberBuyComponent)
+      },
+      {
+        path: 'schedule',
+        loadComponent: () => import('./features/member/member-schedule.component').then((m) => m.MemberScheduleComponent)
+      },
+      {
+        path: 'history',
+        loadComponent: () => import('./features/member/member-history.component').then((m) => m.MemberHistoryComponent)
+      },
+      {
+        path: 'profile',
+        loadComponent: () => import('./features/member/member-profile.component').then((m) => m.MemberProfileComponent)
+      }
+    ]
+  },
+  {
+    // Admin area. The app shell (sidebar / bottom tabs + top bar) gates access in-component
+    // so Firestore ships only to this lazy area; each section is a child route.
+    path: 'admin',
+    loadComponent: () => import('./shared/layout/shell.component').then((m) => m.ShellComponent),
+    data: { seo: 'admin' },
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./features/admin/admin-overview.component').then((m) => m.AdminOverviewComponent)
+      },
+      {
+        path: 'people',
+        loadComponent: () =>
+          import('./features/admin/admin-people.component').then((m) => m.AdminPeopleComponent)
+      },
+      {
+        path: 'roster',
+        loadComponent: () =>
+          import('./features/admin/admin-roster.component').then((m) => m.AdminRosterComponent)
+      },
+      {
+        path: 'catalog',
+        loadComponent: () =>
+          import('./features/admin/admin-catalog.component').then((m) => m.AdminCatalogComponent)
+      },
+      {
+        path: 'questionnaires',
+        loadComponent: () =>
+          import('./features/admin/admin-questionnaires.component').then((m) => m.AdminQuestionnairesComponent)
+      },
+      {
+        path: 'waivers',
+        loadComponent: () =>
+          import('./features/admin/admin-waivers.component').then((m) => m.AdminWaiversComponent)
+      },
+      {
+        path: 'followups',
+        loadComponent: () =>
+          import('./features/admin/admin-followups.component').then((m) => m.AdminFollowupsComponent)
+      },
+      {
+        path: 'tools',
+        loadComponent: () =>
+          import('./features/admin/admin-tools.component').then((m) => m.AdminToolsComponent)
+      }
+    ]
+  },
+  {
     path: 'privacy',
     component: PrivacyComponent,
     data: { seo: 'privacy' }

@@ -1,0 +1,85 @@
+<div class="ph">
+  <div>
+    <h1>Post-trial follow-ups</h1>
+    <p>Notes go out on their own after each trial · #2 is skipped if they reply or buy a card</p>
+  </div>
+</div>
+
+@if (cc.error(); as e) {
+  <p class="note-error">{{ e }}</p>
+} @else if (cc.loading() && !cc.data()) {
+  <p class="loading">Loading follow-ups…</p>
+}
+
+@if (f(); as f) {
+  <div class="stats three">
+    <div class="stat"><div class="stat-l">Post-trial notes sent</div><div class="stat-n">{{ f.stats.fuSent7d }}</div><div class="stat-s">Last 7 days</div></div>
+    <div class="stat"><div class="stat-l">Email reminders sent</div><div class="stat-n">{{ f.stats.remEmail7d }}</div><div class="stat-s">Last 7 days</div></div>
+    <div class="stat"><div class="stat-l">Text reminders sent</div><div class="stat-n">{{ f.stats.remSms7d }}</div><div class="stat-s">Last 7 days</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="stack">
+      <section class="card">
+        <div class="card-h"><h2>Going out soon</h2><span class="badge">{{ due().length }}</span></div>
+        @if (due().length === 0 && skipped().length === 0) {
+          <p class="empty">Nobody is mid-sequence right now.</p>
+        } @else {
+          <div class="rows">
+            @for (s of due(); track $index) {
+              <div class="row">
+                <span class="av" [ngClass]="tone(s.name)">{{ initials(s.name) }}</span>
+                <div class="r-main">
+                  <div class="r-t">{{ s.name }}</div>
+                  <div class="r-s">{{ s.program }}@if (s.step1) { · got note #1 {{ s.step1 }} }@if (s.due) { · #2 goes out {{ s.due }} }</div>
+                </div>
+                <span class="pill warn">Note #2</span>
+              </div>
+            }
+            @for (s of skipped(); track $index) {
+              <div class="row">
+                <span class="av" [ngClass]="tone(s.name)">{{ initials(s.name) }}</span>
+                <div class="r-main">
+                  <div class="r-t">{{ s.name }}</div>
+                  <div class="r-s">{{ s.program }} · #2 skipped, {{ s.note || 'they responded' }}</div>
+                </div>
+                <span class="pill grey">Skipped</span>
+              </div>
+            }
+          </div>
+        }
+      </section>
+
+      <section class="card">
+        <div class="card-h"><h2>Completed</h2></div>
+        @if (f.completed.length === 0) {
+          <p class="empty">No one has finished the sequence recently.</p>
+        } @else {
+          <div class="rows">
+            @for (c of f.completed; track $index) {
+              <div class="row">
+                <span class="av" [ngClass]="tone(c.name)">{{ initials(c.name) }}</span>
+                <div class="r-main">
+                  <div class="r-t">{{ c.name }}</div>
+                  <div class="r-s">{{ c.program }} · both notes sent {{ c.done }}</div>
+                </div>
+                <span class="pill ok">Done</span>
+              </div>
+            }
+          </div>
+        }
+      </section>
+    </div>
+
+    <section class="card">
+      <div class="card-h"><h2>Recent messages</h2></div>
+      @if (f.activity.length === 0) {
+        <p class="empty">No messages sent recently.</p>
+      } @else {
+        @for (a of f.activity; track $index) {
+          <div class="dotrow"><span class="t">{{ a.text }}</span><span class="w">{{ a.when }}</span></div>
+        }
+      }
+    </section>
+  </div>
+}

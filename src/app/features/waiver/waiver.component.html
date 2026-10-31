@@ -203,6 +203,12 @@
           }
 
           <!-- Submit -->
+          <!-- Honeypot: off-screen, no human sees it; a bot that fills it is dropped by the Worker. -->
+          <input type="text" formControlName="refCode" tabindex="-1" autocomplete="off" aria-hidden="true"
+                 style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden" />
+          <!-- Cloudflare Turnstile renders here (invisible/managed). -->
+          <div #turnstileHost></div>
+
           @if (submitError()) {
             <div class="submit-error">{{ submitError() }}</div>
           }

@@ -120,6 +120,22 @@ export const PAGE_SEO: Record<string, PageSeo> = {
     noIndex: true
   },
 
+  // Member area (class-card system), reached by direct link. Kept out of search.
+  member: {
+    title: 'Member Area | ABADÁ-Capoeira OC',
+    description: 'Sign in to buy class cards and book your classes at ABADÁ-Capoeira OC.',
+    path: '/member',
+    noIndex: true
+  },
+
+  // Admin command center, reached by direct link and gated by role. Kept out of search.
+  admin: {
+    title: 'Admin | ABADÁ-Capoeira OC',
+    description: 'Staff command center for ABADÁ-Capoeira OC.',
+    path: '/admin',
+    noIndex: true
+  },
+
   privacy: {
     title: 'Privacy Policy | ABADÁ-Capoeira OC',
     description: 'What ABADÁ-Capoeira OC collects through this website, why, and who else sees it.',

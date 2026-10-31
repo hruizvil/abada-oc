@@ -1,0 +1,40 @@
+<div class="ph">
+  <div>
+    <h1>History</h1>
+    <p>Your check-ins and purchases</p>
+  </div>
+</div>
+
+@if (s.history() === null) {
+  <p class="loading">Loading your history…</p>
+} @else if (s.history()!.length === 0) {
+  <section class="card"><p class="empty">Nothing yet. Your check-ins and card purchases will show up here.</p></section>
+} @else {
+  <div class="stats three">
+    <div class="stat"><div class="stat-l">Classes this month</div><div class="stat-n">{{ s.classesThisMonth() }}</div><div class="stat-s">{{ monthName }}</div></div>
+    <div class="stat"><div class="stat-l">Classes all time</div><div class="stat-n">{{ s.checkins().length }}</div><div class="stat-s">@if (firstClass()) { Since {{ firstClass() }} } @else { No classes yet }</div></div>
+    <div class="stat"><div class="stat-l">Cards bought</div><div class="stat-n">{{ s.purchases().length }}</div><div class="stat-s">${{ spent() }} total</div></div>
+  </div>
+
+  <section class="card">
+    <div class="card-h"><h2>Activity</h2></div>
+    <div class="rows">
+      @for (e of s.history(); track e.id) {
+        <div class="row">
+          <span class="dot" [class.buy]="e.type === 'purchase'"></span>
+          <div class="r-main">
+            <div class="r-t">{{ e.type === 'purchase' ? 'Bought a ' + s.cardLabel(e) : 'Checked in · ' + (e.classTitle || 'class') }}</div>
+            <div class="r-s">{{ when(e) }}</div>
+          </div>
+          <div class="r-right">
+            @if (e.type === 'purchase') {
+              @if (e.amountUsd) { <span class="pill ok">${{ e.amountUsd }}</span> }
+            } @else {
+              {{ s.cardLabel(e) }}
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+}

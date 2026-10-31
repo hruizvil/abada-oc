@@ -3,6 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { QUESTIONNAIRE, Part, Question } from './questionnaire.questions';
 import { environment } from '../../../environments/environment';
+import { DELIVERY_FAILED_MESSAGE } from '../../core/services/turnstile.service';
 
 /**
  * Shared state and answer logic for the questionnaire wizard.
@@ -36,6 +37,7 @@ export abstract class QuestionnaireBase {
 
   isSubmitting = signal(false);
   submitSuccess = signal(false);
+  submitError = signal('');
 
   // ---- answer helpers -------------------------------------------------------
 
@@ -133,11 +135,12 @@ export abstract class QuestionnaireBase {
    * multi -> "a; b; c", single/scale -> the choice, text -> the text, and any
    * allowOther write-in is appended as "…; Other: <text>".
    */
-  submit(): void {
+  async submit(turnstileToken: string | null): Promise<void> {
     this.headerForm.markAllAsTouched();
     if (this.headerForm.invalid) return;
 
     this.isSubmitting.set(true);
+    this.submitError.set('');
 
     const flat: Record<string, string> = {};
     for (const part of this.parts) {
@@ -158,16 +161,37 @@ export abstract class QuestionnaireBase {
       ...flat,
       formType: 'questionnaire',
       submittedAt: new Date().toISOString(),
+      turnstileToken,
     };
 
-    const url = environment.questionnaireSheetUrl;
-    if (this.isBrowser && url && !url.startsWith('YOUR_')) {
-      fetch(url, {
+    const url = environment.contactWorkerUrl;
+    // Local dev / unconfigured: skip the network and show success.
+    if (!this.isBrowser || !url || url.startsWith('YOUR_')) {
+      this.isSubmitting.set(false);
+      this.submitSuccess.set(true);
+      this.scrollTop();
+      return;
+    }
+
+    // Through the Cloudflare Worker (Turnstile-gated), never straight to the Apps
+    // Script — the questionnaire endpoint must not ship in the site bundle.
+    try {
+      const res = await fetch(url, {
         method: 'POST',
-        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
+      if (!res.ok) {
+        console.error('Questionnaire was rejected by the Worker', res.status);
+        this.isSubmitting.set(false);
+        this.submitError.set(DELIVERY_FAILED_MESSAGE);
+        return;
+      }
+    } catch (err) {
+      console.error('Questionnaire could not be delivered', err);
+      this.isSubmitting.set(false);
+      this.submitError.set(DELIVERY_FAILED_MESSAGE);
+      return;
     }
 
     this.isSubmitting.set(false);

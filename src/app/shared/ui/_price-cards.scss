@@ -1,0 +1,35 @@
+// Pricing cards shared by the admin Catalog and the member store.
+@use 'tokens' as *;
+
+.prices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: start; }
+
+.price {
+  background: #fff; border: 1px solid $line; border-radius: 12px; padding: 18px;
+  display: flex; flex-direction: column; min-width: 0;
+
+  &.best { border-color: #cdb0df; box-shadow: 0 0 0 3px #f5edfa; }
+  &.off { opacity: 0.6; }
+
+  .top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  h3 { margin: 0; font-size: 14.5px; font-weight: 650; color: $ink; }
+  .amt {
+    margin-top: 10px; font-size: 28px; font-weight: 650; letter-spacing: -0.02em; color: $brand-ink;
+    font-variant-numeric: tabular-nums;
+    small { margin-left: 4px; font-size: 12.5px; font-weight: 500; letter-spacing: 0; color: $muted; }
+  }
+  ul { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 7px; flex: 1; }
+  li { display: flex; gap: 8px; font-size: 13px; color: $ink-2; }
+  li app-icon { width: 15px; height: 15px; color: $ok; margin-top: 1px; }
+  .foot {
+    display: flex; align-items: center; gap: 8px; margin-top: 16px; padding-top: 12px;
+    border-top: 1px solid $line-2; font-size: 12.5px; color: $muted;
+  }
+  .foot .acts { margin-left: auto; display: flex; gap: 4px; }
+}
+
+@media (max-width: 1100px) {
+  .prices { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  .prices { grid-template-columns: minmax(0, 1fr); }
+}

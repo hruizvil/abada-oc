@@ -1,0 +1,82 @@
+<div class="ph">
+  <div>
+    <h1>Waivers</h1>
+    <p>
+      @if (cc.data(); as d) {
+        {{ d.waivers.length }} signed · {{ missing().length }} missing before upcoming trials
+      } @else { Loading waivers… }
+    </p>
+  </div>
+</div>
+
+@if (cc.error(); as e) {
+  <p class="note-error">{{ e }}</p>
+}
+
+@if (cc.data(); as d) {
+  <section class="card">
+    <div class="card-h">
+      <h2>Missing, needs a waiver</h2>
+      <span class="badge" [class.crit]="missing().length > 0">{{ missing().length }}</span>
+      <div class="right"><span class="meta">Soonest trial first</span></div>
+    </div>
+    @if (missing().length === 0) {
+      <p class="empty">Everyone booked has signed.</p>
+    } @else {
+      <div class="rows">
+        @for (t of missing(); track t.when + t.name) {
+          <div class="row">
+            <span class="av" [ngClass]="tone(t.name)">{{ initials(t.name) }}</span>
+            <div class="r-main">
+              <div class="r-t">{{ t.name }}</div>
+              <div class="r-s">{{ t.program }}@if (t.phone || t.email) { · {{ t.phone || t.email }} }</div>
+            </div>
+            <div class="r-right">
+              <span class="pill warn">{{ trialLabel(t) }}</span>
+              <button type="button" class="btn sm" (click)="copyLink(t.when + t.name)">
+                {{ copied() === t.when + t.name ? 'Copied' : 'Copy waiver link' }}
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </section>
+
+  <section class="card">
+    <div class="card-h">
+      <h2>Signed</h2>
+      <span class="badge">{{ d.waivers.length }}</span>
+      <div class="right">
+        <label class="search compact">
+          <app-icon name="search" />
+          <input type="search" placeholder="Search" aria-label="Search signed waivers"
+                 [value]="q()" (input)="q.set($any($event.target).value)" />
+        </label>
+      </div>
+    </div>
+    <div class="tblwrap">
+      <table class="tbl">
+        <thead><tr><th>Student</th><th>Type</th><th>Signed</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+          @for (w of signed(); track $index) {
+            <tr>
+              <td>
+                <div class="who">
+                  <span class="av" [ngClass]="tone(w.name)">{{ initials(w.name) }}</span>
+                  <div class="r-t">{{ w.name }}@if (w.apelido) { <span class="dim" style="font-weight: 400">“{{ w.apelido }}”</span> }</div>
+                </div>
+              </td>
+              <td><span class="pill grey">{{ w.minor ? 'Minor' : 'Adult' }}</span></td>
+              <td class="dim num">{{ w.agreed || '—' }}</td>
+              <td><span class="pill ok">Signed</span></td>
+              <td class="r">@if (w.pdf) { <a class="lnk" [href]="w.pdf" target="_blank" rel="noopener">View PDF ↗</a> }</td>
+            </tr>
+          } @empty {
+            <tr><td colspan="5" class="dim">No matches.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+}

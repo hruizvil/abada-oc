@@ -1,0 +1,58 @@
+<div class="ph">
+  <div>
+    <h1>{{ offset() === 0 ? "Today's roster" : 'Roster' }}</h1>
+    <p>{{ dayLabel() }} · {{ checkedIn() }} checked in</p>
+  </div>
+  <div class="acts">
+    <button type="button" class="btn sm" (click)="step(1)"><app-icon name="chevL" /> Earlier</button>
+    <button type="button" class="btn sm" (click)="step(-1)" [disabled]="offset() === 0">Later <app-icon name="chevR" /></button>
+  </div>
+</div>
+
+<div class="note">
+  <app-icon name="phone" />
+  <div>
+    <b>Members check in on their own phone.</b> There's no iPad at the front desk, so each student taps
+    "Check in" on their account and it uses their soonest-to-expire class. Today's booked trials show here too.
+  </div>
+</div>
+
+@if (blocks() === null) {
+  <p class="loading">Loading the roster…</p>
+} @else if (blocks()!.length === 0) {
+  <section class="card"><p class="empty">No classes on {{ dayLabel().split(',')[0] }}.</p></section>
+} @else {
+  @for (b of blocks(); track b.key) {
+    <section class="card">
+      <div class="card-h">
+        <h2>{{ b.title }}</h2>
+        @if (b.time) { <span class="time">{{ b.time }}</span> }
+        <div class="right"><span class="meta">{{ countIn(b) }} checked in</span></div>
+      </div>
+      @if (b.rows.length === 0) {
+        <p class="empty">No one checked in.</p>
+      } @else {
+        <div class="rows">
+          @for (r of b.rows; track r.key) {
+            <div class="row">
+              <span class="check" [class.empty]="!r.at">@if (r.at) { <app-icon name="tick" /> }</span>
+              <span class="av" [ngClass]="tone(r.name)">{{ initials(r.name) }}</span>
+              <div class="r-main">
+                <div class="r-t">
+                  {{ r.name }}
+                  @if (r.trial) { <span class="pill">Trial</span> }
+                  @if (r.trial && !r.waiver) { <span class="pill crit">No waiver</span> }
+                </div>
+                <div class="r-s">{{ r.sub }}</div>
+              </div>
+              <div class="r-right">
+                @if (r.at) { <span class="pill ok">Checked in · {{ clock(r.at) }}</span> }
+                @else { <span class="dim">Not checked in</span> }
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </section>
+  }
+}

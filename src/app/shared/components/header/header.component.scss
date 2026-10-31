@@ -17,7 +17,9 @@
 }
 
 .header-container {
-  max-width: 1400px;
+  // Widened from 1400px: at ~1440-1600px viewports the old cap left dead side
+  // margins while the row itself was cramped, which forced the brand text to wrap.
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0.5rem 1rem;
   display: flex;
@@ -26,18 +28,36 @@
   position: relative;
 
   @include tablet {
+    padding: 0.75rem 1.5rem;
+  }
+
+  @include wide {
     padding: 0.75rem 2rem;
   }
 }
 
 // Logo - Mobile first
 .header-logo {
+  // Never let the logo + brand text shrink; the nav absorbs tight space instead,
+  // so "ABADÁ-Capoeira OC" and its tagline always stay on their own single lines.
+  flex-shrink: 0;
+
+  @include desktop {
+    // Guarantee breathing room before the nav even when the auto-margin collapses
+    // at tight widths (~1024-1080), so the brand text never touches "HOME".
+    margin-right: 1.25rem;
+  }
+
   .logo-link {
     text-decoration: none;
     color: white;
     display: flex;
     align-items: center;
     gap: 0.75rem;
+
+    @include desktop {
+      gap: 0.5rem;
+    }
 
     &:hover {
       opacity: 0.9;
@@ -55,6 +75,11 @@
     }
 
     @include desktop {
+      height: 76px;
+      margin: -12px 0 -18px 0;
+    }
+
+    @include wide {
       height: 85px;
       margin: -15px 0 -22px 0;
     }
@@ -63,6 +88,8 @@
   .logo-text {
     // Hide text on very small screens since logo has text
     display: none;
+    // Keep the name and tagline each on a single line — never wrap.
+    white-space: nowrap;
 
     @include tablet {
       display: block;
@@ -198,6 +225,23 @@
     display: flex;
     align-items: center;
     overflow: visible;
+    // Push the nav (and the account control after it) to the right, keeping the
+    // logo on the left, now that header-actions is a third flex child.
+    margin-left: auto;
+  }
+}
+
+// Right-side actions group: account control + mobile menu toggle.
+// Mobile: sits in the top bar next to the hamburger (the nav itself is off-canvas),
+// so the account control is always visible without opening the menu.
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  @include desktop {
+    // Comes after the nav on desktop; a small gap off the Contact Us link.
+    margin-left: 0.4rem;
   }
 }
 
@@ -257,7 +301,7 @@
   touch-action: manipulation; // Improves touch responsiveness
 
   @include desktop {
-    padding: 0.4rem 0.5rem;
+    padding: 0.4rem 0.3rem;
     border-radius: 6px;
     font-size: 0.7rem;
     width: auto;
@@ -265,7 +309,7 @@
   }
 
   @include wide {
-    padding: 0.6rem 0.9rem;
+    padding: 0.6rem 0.8rem;
     font-size: 0.85rem;
   }
 
@@ -457,8 +501,8 @@
     align-items: center;
     justify-content: center;
     width: auto;
-    margin: 0 0 0 0.5rem;
-    padding: 0.4rem 0.85rem;
+    margin: 0 0 0 0.4rem;
+    padding: 0.4rem 0.65rem;
     font-size: 0.7rem;
     border-radius: 20px;
     order: 1;
@@ -467,9 +511,9 @@
   }
 
   @include wide {
-    padding: 0.55rem 1.1rem;
+    padding: 0.55rem 1rem;
     font-size: 0.85rem;
-    margin-left: 0.75rem;
+    margin-left: 0.6rem;
   }
 }
 

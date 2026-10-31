@@ -1,0 +1,26 @@
+@use '../../shared/ui/tokens' as *;
+
+.form { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 14px; max-width: 540px; }
+.fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.f {
+  display: flex; flex-direction: column; gap: 5px;
+  span { font-size: 12px; font-weight: 600; color: $muted; }
+  input {
+    font: inherit; font-size: 14px; color: $ink; padding: 9px 11px; border: 1px solid $line; border-radius: 8px; background: #fff;
+    &:focus { outline: none; border-color: $brand; box-shadow: 0 0 0 3px rgba($brand, 0.12); }
+  }
+}
+.actions { display: flex; align-items: center; gap: 12px; }
+.saved { font-size: 13px; font-weight: 600; color: $ok; }
+.kv {
+  display: flex; justify-content: space-between; gap: 12px; padding: 12px 18px;
+  border-top: 1px solid $line-2; font-size: 13.5px;
+  &:first-of-type { border-top: 0; }
+  span { color: $muted; }
+  b { overflow-wrap: anywhere; text-align: right; font-weight: 600; }
+}
+.pad { padding: 12px 18px 16px; border-top: 1px solid $line-2; }
+
+@media (max-width: 760px) {
+  .fields { grid-template-columns: minmax(0, 1fr); }
+}

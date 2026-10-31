@@ -1,0 +1,116 @@
+<div class="ph">
+  <div>
+    <h1>{{ greeting() }}</h1>
+    <p>
+      {{ today }}
+      @if (cc.data(); as d) { · {{ d.stats.today }} {{ d.stats.today === 1 ? 'trial' : 'trials' }} today }
+      @if (attention().length) { · {{ attention().length }} {{ attention().length === 1 ? 'thing needs' : 'things need' }} you }
+    </p>
+  </div>
+</div>
+
+@if (cc.error(); as e) {
+  <p class="note-error">{{ e }}</p>
+}
+
+<div class="stats">
+  <div class="stat">
+    <div class="stat-l">Trials this week</div>
+    <div class="stat-n">{{ cc.data()?.stats?.trialsThisWeek ?? '–' }}</div>
+    <div class="stat-s">Booked</div>
+  </div>
+  <div class="stat">
+    <div class="stat-l">Trials today</div>
+    <div class="stat-n">{{ cc.data()?.stats?.today ?? '–' }}</div>
+    <div class="stat-s">{{ cc.data() ? todaysClasses() : ' ' }}</div>
+  </div>
+  <div class="stat" [class.crit]="(cc.data()?.stats?.missingWaivers ?? 0) > 0">
+    <div class="stat-l">Missing waivers</div>
+    <div class="stat-n">{{ cc.data()?.stats?.missingWaivers ?? '–' }}</div>
+    <div class="stat-s">{{ (cc.data()?.stats?.missingWaivers ?? 0) > 0 ? 'Needs action' : 'All signed' }}</div>
+  </div>
+  <div class="stat">
+    <div class="stat-l">New questionnaires</div>
+    <div class="stat-n">{{ cc.data()?.stats?.newQuestionnaires ?? '–' }}</div>
+    <div class="stat-s">This week</div>
+  </div>
+  <div class="stat">
+    <div class="stat-l">Cardholders</div>
+    <div class="stat-n">{{ dir.people() ? dir.holders().length : '–' }}</div>
+    <div class="stat-s">Active cards</div>
+  </div>
+  <div class="stat">
+    <div class="stat-l">Classes left on cards</div>
+    <div class="stat-n">{{ dir.people() ? dir.classesLeft() : '–' }}</div>
+    <div class="stat-s">Across all members</div>
+  </div>
+</div>
+
+<div class="grid2">
+  <div class="stack">
+    <section class="card">
+      <div class="card-h">
+        <h2>Needs your attention</h2>
+        @if (attention().length) { <span class="badge warn">{{ attention().length }}</span> }
+      </div>
+      @if (cc.loading() && !cc.data()) {
+        <p class="empty">Loading…</p>
+      } @else if (attention().length === 0) {
+        <p class="empty">Nothing needs you right now.</p>
+      } @else {
+        <div class="rows">
+          @for (a of attention(); track a.title) {
+            <div class="row">
+              <span class="av" [ngClass]="a.tone">{{ a.badge }}</span>
+              <div class="r-main">
+                <div class="r-t">{{ a.title }}</div>
+                <div class="r-s">{{ a.sub }}</div>
+              </div>
+              <a class="btn sm" [routerLink]="a.link">{{ a.action }}</a>
+            </div>
+          }
+        </div>
+      }
+    </section>
+
+    <section class="card">
+      <div class="card-h">
+        <h2>Upcoming trial classes</h2>
+        <div class="right"><a class="lnk" routerLink="/admin/waivers">See waivers</a></div>
+      </div>
+      @if (cc.loading() && !cc.data()) {
+        <p class="empty">Loading…</p>
+      } @else if (upcoming().length === 0) {
+        <p class="empty">No trial classes booked.</p>
+      } @else {
+        <div class="rows">
+          @for (t of upcoming(); track t.when + t.name) {
+            <div class="row">
+              <span class="av" [ngClass]="tone(t.name)">{{ initials(t.name) }}</span>
+              <div class="r-main">
+                <div class="r-t">{{ t.name }} @if (t.program) { <span class="pill grey">{{ t.program }}</span> }</div>
+                <div class="r-s">{{ when(t) }}@if (t.phone) { · {{ t.phone }} }</div>
+              </div>
+              <div class="r-right">
+                @if (t.waiver) { <span class="pill ok">Waiver signed</span> } @else { <span class="pill crit">No waiver</span> }
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </section>
+  </div>
+
+  <section class="card">
+    <div class="card-h"><h2>Recent activity</h2></div>
+    @if (cc.loading() && !cc.data()) {
+      <p class="empty">Loading…</p>
+    } @else if (activity().length === 0) {
+      <p class="empty">Nothing recent.</p>
+    } @else {
+      @for (a of activity(); track $index) {
+        <div class="dotrow"><span class="t">{{ a.text }}</span><span class="w">{{ a.when }}</span></div>
+      }
+    }
+  </section>
+</div>

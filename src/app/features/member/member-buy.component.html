@@ -1,0 +1,65 @@
+<div class="ph">
+  <div>
+    <h1>Buy classes</h1>
+    <p>Class cards and monthly memberships</p>
+  </div>
+</div>
+
+<div class="seg" role="group" aria-label="What to buy">
+  <button type="button" [attr.aria-pressed]="tab() === 'cards'" (click)="tab.set('cards')">Class cards</button>
+  <button type="button" [attr.aria-pressed]="tab() === 'memberships'" (click)="tab.set('memberships')">Monthly memberships</button>
+</div>
+
+@if (tab() === 'cards') {
+  @if (s.catalog() === null) {
+    <p class="loading">Loading…</p>
+  } @else if (s.catalog()!.length === 0) {
+    <section class="card"><p class="empty">Class cards aren't available to buy just yet. Check back soon.</p></section>
+  } @else {
+    <div class="prices">
+      @for (p of s.catalog(); track p.id) {
+        <article class="price" [class.best]="p.highlight">
+          <div class="top">
+            <h3>{{ p.label }}</h3>
+            @if (tag(p); as t) { <span class="pill" [class.grey]="!p.highlight">{{ t }}</span> }
+          </div>
+          <div class="amt">${{ p.priceUsd }}<small>{{ perClass(p) }}</small></div>
+          <ul>
+            @for (f of features(p); track f) { <li><app-icon name="tick" />{{ f }}</li> }
+          </ul>
+          @if (s.starterUsed(p)) {
+            <button class="btn" type="button" disabled>Already used</button>
+          } @else if (!p.stripePriceId) {
+            <button class="btn" type="button" disabled>Available soon</button>
+          } @else {
+            <button class="btn" [class.primary]="p.highlight" type="button"
+                    [disabled]="!!s.buyingId()" (click)="s.buy(p)">
+              @if (s.buyingId() === p.id) { <span class="spin"></span>Opening… } @else { Buy }
+            </button>
+          }
+        </article>
+      }
+    </div>
+    <p class="fine">You'll pay securely on Stripe and come straight back here. Classes land on your account right away.</p>
+  }
+} @else {
+  <div class="prices">
+    @for (m of memberships; track m.name) {
+      <article class="price ms" [class.best]="m.popular">
+        <div class="top">
+          <h3>{{ m.name }}</h3>
+          @if (m.popular) { <span class="pill">Most popular</span> }
+        </div>
+        <div class="amt">${{ m.price }}<small>/ month</small></div>
+        <ul>
+          <li><app-icon name="tick" />Kids and adults, same rate</li>
+          <li><app-icon name="tick" />Billed monthly</li>
+        </ul>
+      </article>
+    }
+  </div>
+  <div class="note">
+    <app-icon name="info" />
+    <div><b>Memberships are set up in person.</b> Talk to Mosquito before or after class to join.</div>
+  </div>
+}
