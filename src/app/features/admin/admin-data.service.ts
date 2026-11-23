@@ -24,7 +24,7 @@ export class AdminDataService {
 
   private loaded = false;
 
-  /** Load the payload (once). Pass force to refetch. No-op on the server / when signed out. */
+  /** Load the payload (once). Pass force to refetch, bypassing the script's 60 s cache. No-op on the server / when signed out. */
   async load(force = false): Promise<void> {
     if (typeof document === 'undefined') return;
     if (this._loading() || (this.loaded && !force)) return;
@@ -35,7 +35,7 @@ export class AdminDataService {
     this._error.set(null);
     try {
       const token = await user.getIdToken();
-      const res = await this.fetch(token);
+      const res = await this.fetch(token, force);
       if (res.ok && res.data) {
         this._data.set(res.data);
         this.loaded = true;
@@ -53,7 +53,7 @@ export class AdminDataService {
     }
   }
 
-  private fetch(token: string): Promise<FetchResult> {
+  private fetch(token: string, fresh = false): Promise<FetchResult> {
     return new Promise((resolve) => {
       const frame = document.createElement('iframe');
       frame.name = 'abada-admin-' + Date.now();
@@ -94,6 +94,7 @@ export class AdminDataService {
       };
       field('action', 'data');
       field('idToken', token);
+      if (fresh) field('fresh', '1');
       document.body.appendChild(form);
       form.submit();
       form.remove();

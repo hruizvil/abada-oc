@@ -20,6 +20,7 @@ export class AdminWaiversComponent {
   protected readonly q = signal('');
 
   protected readonly missing = computed(() => [...(this.cc.data()?.missing ?? [])].sort((a, b) => a.when - b.when));
+  protected readonly pastMissing = computed(() => this.cc.data()?.pastNoWaiver ?? []);
 
   protected readonly signed = computed(() => {
     const d = this.cc.data();

@@ -6,6 +6,7 @@ import SignaturePad from 'signature_pad';
 import { environment } from '../../../environments/environment';
 import { DELIVERY_FAILED_MESSAGE } from '../../core/services/turnstile.service';
 import { AuthService } from '../../core/services/auth.service';
+import { AdminDataService } from '../admin/admin-data.service';
 
 @Component({
   selector: 'app-waiver',
@@ -21,6 +22,7 @@ export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestr
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly route = inject(ActivatedRoute);
   private readonly auth = inject(AuthService);
+  private readonly adminData = inject(AdminDataService);
 
   /** Served from inside the admin area (studio device), not the public site. */
   readonly kiosk = this.route.snapshot.data['kiosk'] === true;
@@ -251,6 +253,8 @@ export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestr
       return;
     }
 
+    // The admin Waivers page should show this signer right away, not on the next reload.
+    if (this.kiosk) void this.adminData.load(true);
     this.submitSuccess.set(true);
     this.isSubmitting.set(false);
   }

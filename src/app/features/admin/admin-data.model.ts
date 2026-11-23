@@ -59,6 +59,8 @@ export interface AdminData {
   trialsToday: AdminTrial[];
   trialsLater: AdminTrial[];
   missing: AdminTrial[];
+  /** Trials in the last 30 days that passed without a signed waiver, most recent first. */
+  pastNoWaiver?: AdminTrial[];
   activity: AdminActivity[];
   waivers: AdminWaiver[];
   questionnaire: { headers: string[]; rows: string[][] };

@@ -83,6 +83,13 @@ export default {
     const clientIp = request.headers.get('CF-Connecting-IP');
     const verdict = await verifyTurnstile(body.turnstileToken, clientIp, env.TURNSTILE_SECRET);
 
+    if (verdict === 'misconfigured') {
+      // Cloudflare rejected OUR secret (missing/wrong), not the visitor. Fail loudly instead of waving
+      // everything through: this is how a mis-named secret disabled the check unnoticed for months.
+      console.error('Turnstile is misconfigured: TURNSTILE_SECRET is missing or invalid');
+      return jsonResponse({ ok: false, error: 'verification_misconfigured' }, 503, origin);
+    }
+
     if (verdict === 'failed') {
       // No token, or one Cloudflare rejected. Either way this never reaches Apps
       // Script, so no email is sent and no send quota is spent.
@@ -157,11 +164,12 @@ export default {
 /**
  * Asks Cloudflare whether this token is one it issued, for our site, just now.
  *
- * Returns 'passed' | 'failed' | 'unavailable'. The third case is deliberate:
- * "we could not ask" is a different situation from "the answer was no", and the
- * caller treats them differently.
+ * Returns 'passed' | 'failed' | 'unavailable' | 'misconfigured'. 'unavailable'
+ * is deliberate: "we could not ask" differs from "the answer was no". But a
+ * rejected secret is our mistake, not an outage, so it is 'misconfigured'.
  */
 async function verifyTurnstile(token, clientIp, secret) {
+  if (!secret) return 'misconfigured';
   if (!token) return 'failed';
 
   const form = new FormData();
@@ -176,10 +184,14 @@ async function verifyTurnstile(token, clientIp, secret) {
       signal: AbortSignal.timeout(5000)
     });
 
-    if (!res.ok) return 'unavailable';
+    // Only Cloudflare's own trouble (5xx, timeout, network) counts as an outage. A 4xx is an answer.
+    if (res.status >= 500) return 'unavailable';
 
     const outcome = await res.json();
-    return outcome.success ? 'passed' : 'failed';
+    if (outcome.success) return 'passed';
+    const codes = outcome['error-codes'] || [];
+    if (codes.includes('missing-input-secret') || codes.includes('invalid-input-secret')) return 'misconfigured';
+    return 'failed';
   } catch {
     return 'unavailable';
   }

@@ -44,6 +44,31 @@
     }
   </section>
 
+  @if (pastMissing().length) {
+    <section class="card">
+      <div class="card-h">
+        <h2>Trial already passed, still no waiver</h2>
+        <span class="badge crit">{{ pastMissing().length }}</span>
+        <div class="right"><span class="meta">Last 30 days · most recent first</span></div>
+      </div>
+      <div class="rows">
+        @for (t of pastMissing(); track t.when + t.name) {
+          <div class="row">
+            <span class="av" [ngClass]="tone(t.name)">{{ initials(t.name) }}</span>
+            <div class="r-main">
+              <div class="r-t">{{ t.name }}</div>
+              <div class="r-s">{{ t.program }}@if (t.phone || t.email) { · {{ t.phone || t.email }} }</div>
+            </div>
+            <div class="r-right">
+              <span class="pill grey">Trial {{ t.dateLabel }}</span>
+              <a class="btn sm primary" [routerLink]="['/admin/waivers/sign']" [queryParams]="signParams(t)">Sign now</a>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+  }
+
   <section class="card">
     <div class="card-h">
       <h2>Signed</h2>
