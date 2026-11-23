@@ -1,13 +1,11 @@
 import { Component, signal, ViewChild, ElementRef, AfterViewInit, AfterViewChecked, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import SignaturePad from 'signature_pad';
 import { environment } from '../../../environments/environment';
-import {
-  TurnstileService,
-  VERIFICATION_UNAVAILABLE_MESSAGE,
-  DELIVERY_FAILED_MESSAGE
-} from '../../core/services/turnstile.service';
+import { DELIVERY_FAILED_MESSAGE } from '../../core/services/turnstile.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-waiver',
@@ -19,10 +17,13 @@ import {
 export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestroy {
   @ViewChild('signatureCanvas') signatureCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('guardianSignatureCanvas') guardianSignatureCanvas?: ElementRef<HTMLCanvasElement>;
-  @ViewChild('turnstileHost') turnstileHost?: ElementRef<HTMLElement>;
 
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
-  private turnstile = inject(TurnstileService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly auth = inject(AuthService);
+
+  /** Served from inside the admin area (studio device), not the public site. */
+  readonly kiosk = this.route.snapshot.data['kiosk'] === true;
 
   private signaturePad!: SignaturePad;
   private guardianSignaturePad?: SignaturePad;
@@ -54,8 +55,7 @@ export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestr
       emergencyRelationship: ['', Validators.required],
       parentName:            [''],
       parentEmail:           [''],
-      agreeToTerms:          [false, Validators.requiredTrue],
-      refCode:               ['']
+      agreeToTerms:          [false, Validators.requiredTrue]
     });
 
     this.waiverForm.get('dateOfBirth')!.valueChanges.subscribe(dob => {
@@ -75,6 +75,18 @@ export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestr
       parentName.updateValueAndValidity();
       parentEmail.updateValueAndValidity();
     });
+
+    // Prefill from the admin "Sign now" link (the booked prospect's details).
+    const qp = this.route.snapshot.queryParamMap;
+    const name = qp.get('name');
+    if (name) {
+      const parts = name.trim().split(/\s+/);
+      this.waiverForm.patchValue({ firstName: parts.shift() ?? '', lastName: parts.join(' ') });
+    }
+    const email = qp.get('email');
+    if (email) this.waiverForm.patchValue({ email });
+    const phone = qp.get('phone');
+    if (phone) this.waiverForm.patchValue({ phone });
   }
 
   ngAfterViewInit(): void {
@@ -170,16 +182,24 @@ export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestr
     const formValue = this.waiverForm.value;
 
     // Nothing configured (local dev): skip the network and show success.
-    if (!environment.contactWorkerUrl || environment.contactWorkerUrl.startsWith('YOUR_')) {
+    if (!environment.waiverUrl || environment.waiverUrl.startsWith('YOUR_')) {
       this.submitSuccess.set(true);
       this.isSubmitting.set(false);
       return;
     }
 
-    const turnstileToken = await this.turnstile.getToken(this.turnstileHost?.nativeElement);
-    if (!turnstileToken && this.turnstile.isEnabled()) {
+    // The waiver lives behind the admin login, so the admin's Firebase token is
+    // what authorises it inside the waiver Apps Script (replacing the old human-check). Fetched
+    // here, at submit time, so the SDK hands back a freshly refreshed token.
+    let authToken = '';
+    try {
+      authToken = (await this.auth.user()?.getIdToken()) ?? '';
+    } catch {
+      authToken = '';
+    }
+    if (!authToken) {
       this.isSubmitting.set(false);
-      this.submitError.set(VERIFICATION_UNAVAILABLE_MESSAGE);
+      this.submitError.set('Your session has expired — please sign in again, then resubmit.');
       return;
     }
 
@@ -200,22 +220,28 @@ export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestr
       signature:        this.signaturePad.toDataURL('image/png'),
       guardianSignature: this.isMinor() ? (this.guardianSignaturePad?.toDataURL('image/png') || '') : '',
       agreedAt:         new Date().toISOString(),
-      refCode:          formValue.refCode ?? '',
-      turnstileToken
+      authToken
     };
 
-    // Through the Cloudflare Worker (Turnstile-gated), never straight to the Apps
-    // Script — the waiver endpoint must not ship in the site bundle.
+    // Straight to the waiver Apps Script, which checks the admin token itself. text/plain keeps it a
+    // simple CORS request, so its JSON reply ({ result: 'ok' } or { result: 'error', error }) is readable.
     try {
-      const res = await fetch(environment.contactWorkerUrl, {
+      const res = await fetch(environment.waiverUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload)
       });
-      if (!res.ok) {
-        console.error('Waiver was rejected by the Worker', res.status);
+      let reply: { result?: string; error?: string } | null = null;
+      try { reply = await res.json(); } catch { /* not JSON: treated as a failed delivery */ }
+      if (!res.ok || reply?.result !== 'ok') {
+        console.error('Waiver was not saved', res.status, reply);
         this.isSubmitting.set(false);
-        this.submitError.set(DELIVERY_FAILED_MESSAGE);
+        // not_authorized: the signed-in account isn't an admin in Firestore (members/{uid}.role).
+        this.submitError.set(
+          reply?.error === 'not_authorized'
+            ? 'This account is not authorized to collect waivers. Sign in with the studio admin account.'
+            : DELIVERY_FAILED_MESSAGE
+        );
         return;
       }
     } catch (err) {

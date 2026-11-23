@@ -1,10 +1,12 @@
-<div class="waiver-page">
-  <section class="waiver-hero">
-    <div class="container">
-      <h1>Registration Form, Waiver of Liability,<br>Assumption of Risk & Indemnity Agreement,<br>and Photo/Video Consent</h1>
-      <p>ABADÁ-Capoeira OC — Please read carefully and sign below</p>
-    </div>
-  </section>
+<div class="waiver-page" [class.kiosk]="kiosk">
+  @if (!kiosk) {
+    <section class="waiver-hero">
+      <div class="container">
+        <h1>Registration Form, Waiver of Liability,<br>Assumption of Risk & Indemnity Agreement,<br>and Photo/Video Consent</h1>
+        <p>ABADÁ-Capoeira OC — Please read carefully and sign below</p>
+      </div>
+    </section>
+  }
 
   <section class="waiver-section">
     <div class="container">
@@ -203,12 +205,6 @@
           }
 
           <!-- Submit -->
-          <!-- Honeypot: off-screen, no human sees it; a bot that fills it is dropped by the Worker. -->
-          <input type="text" formControlName="refCode" tabindex="-1" autocomplete="off" aria-hidden="true"
-                 style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden" />
-          <!-- Cloudflare Turnstile renders here (invisible/managed). -->
-          <div #turnstileHost></div>
-
           @if (submitError()) {
             <div class="submit-error">{{ submitError() }}</div>
           }

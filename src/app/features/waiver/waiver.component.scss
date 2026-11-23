@@ -30,6 +30,9 @@
   }
 }
 
+// In the admin kiosk there is no hero above the form; tighten the top gap.
+.waiver-page.kiosk .waiver-section { padding-top: 1.5rem; }
+
 .form-card {
   background: white;
   border-radius: 12px;

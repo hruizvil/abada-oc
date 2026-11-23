@@ -49,6 +49,19 @@ export interface Card {
   expiresAt?: Timestamp | null;
 }
 
+/** A bank payment at pendingPayments/{sessionId}, server-written. Display only; the card is created when it clears. */
+export interface PendingPayment {
+  id: string;
+  memberUid: string;
+  model: string;
+  label: string;
+  credits: number;
+  amountUsd: number;
+  status: 'pending' | 'cleared' | 'failed';
+  startedAt: Date | null;
+  updatedAt: Date | null;
+}
+
 export type CardKind = 'classes' | 'gift';
 export type CardVisibility = 'public' | 'private';
 

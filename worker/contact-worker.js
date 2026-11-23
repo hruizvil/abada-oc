@@ -31,7 +31,7 @@ const ALLOWED_ORIGINS = [
 
 const TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
-const ALLOWED_FORM_TYPES = ['contact', 'booking', 'waiver', 'questionnaire'];
+const ALLOWED_FORM_TYPES = ['contact', 'booking'];
 
 // Anything longer than this is not a person filling in a contact form.
 const MAX_FIELD_LENGTHS = {
@@ -112,47 +112,29 @@ export default {
       return jsonResponse({ ok: false, error: 'unknown_form_type' }, 400, origin);
     }
 
-    // Each form has its own Apps Script deployment, held here as a secret so the
-    // URL never ships in the site bundle (a readable URL is what let the spam in).
-    // contact + booking share one; waiver and questionnaire each have their own.
-    let upstreamUrl;
-    let payload;
-    if (body.formType === 'contact' || body.formType === 'booking') {
-      upstreamUrl = env.APPS_SCRIPT_URL;
-      payload = {
-        formType:    body.formType,
-        name:        truncate(body.name, MAX_FIELD_LENGTHS.name),
-        phone:       truncate(body.phone, MAX_FIELD_LENGTHS.phone),
-        email:       truncate(body.email, MAX_FIELD_LENGTHS.email),
-        submittedAt: body.submittedAt || new Date().toISOString(),
-        suspectedSpam
-      };
-      if (body.formType === 'contact') {
-        payload.message = truncate(body.message, MAX_FIELD_LENGTHS.message);
-      } else {
-        payload.interestedIn   = truncate(body.interestedIn, MAX_FIELD_LENGTHS.name);
-        payload.firstClassSlot = truncate(body.firstClassSlot, MAX_FIELD_LENGTHS.name);
-        payload.comments       = truncate(body.comments, MAX_FIELD_LENGTHS.message);
-        payload.phoneRaw       = truncate(body.phoneRaw, MAX_FIELD_LENGTHS.phone);
-        // smsConsent is the opt-in that gates SMS reminders downstream. It MUST
-        // survive the forward or Apps Script records FALSE and no text ever sends.
-        payload.smsConsent     = body.smsConsent === true;
-      }
-    } else {
-      // waiver / questionnaire carry variable, larger shapes (signature data
-      // URLs, per-question keys), so the submission is forwarded as-is apart from
-      // the two fields that are only meaningful to this Worker.
-      upstreamUrl = body.formType === 'waiver' ? env.WAIVER_SCRIPT_URL : env.QUESTIONNAIRE_SCRIPT_URL;
-      const { turnstileToken: _t, refCode: _r, ...rest } = body;
-      payload = { ...rest, submittedAt: body.submittedAt || new Date().toISOString(), suspectedSpam };
-    }
+    const payload = {
+      formType:    body.formType,
+      name:        truncate(body.name, MAX_FIELD_LENGTHS.name),
+      phone:       truncate(body.phone, MAX_FIELD_LENGTHS.phone),
+      email:       truncate(body.email, MAX_FIELD_LENGTHS.email),
+      submittedAt: body.submittedAt || new Date().toISOString(),
+      suspectedSpam
+    };
 
-    if (!upstreamUrl) {
-      return jsonResponse({ ok: false, error: 'upstream_not_configured' }, 500, origin);
+    if (body.formType === 'contact') {
+      payload.message = truncate(body.message, MAX_FIELD_LENGTHS.message);
+    } else {
+      payload.interestedIn   = truncate(body.interestedIn, MAX_FIELD_LENGTHS.name);
+      payload.firstClassSlot = truncate(body.firstClassSlot, MAX_FIELD_LENGTHS.name);
+      payload.comments       = truncate(body.comments, MAX_FIELD_LENGTHS.message);
+      payload.phoneRaw       = truncate(body.phoneRaw, MAX_FIELD_LENGTHS.phone);
+      // smsConsent is the opt-in that gates SMS reminders downstream. It MUST
+      // survive the forward or Apps Script records FALSE and no text ever sends.
+      payload.smsConsent     = body.smsConsent === true;
     }
 
     try {
-      const upstream = await fetch(upstreamUrl, {
+      const upstream = await fetch(env.APPS_SCRIPT_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

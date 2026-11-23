@@ -22,6 +22,8 @@
 }
 
 .note-act { margin-left: auto; align-self: center; }
+.note.pay .pill { margin-left: 4px; vertical-align: 1px; }
+.note.pay.failed app-icon { color: $crit; }
 .pad { padding: 0 18px 16px; }
 
 .nameform {

@@ -22,6 +22,14 @@ $header-h: 76px; // site header height on desktop (the sidebar sticks just under
   min-height: calc(100vh - #{$header-h});
 }
 
+// ---- kiosk (in-person waiver): no sidebar; the form provides its own exit ----
+.kiosk {
+  display: block;
+  min-width: 0;
+  background: $page;
+  min-height: calc(100vh - #{$header-h});
+}
+
 // ---- sidebar ----
 .side {
   position: sticky;

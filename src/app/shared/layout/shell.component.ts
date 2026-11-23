@@ -1,6 +1,7 @@
 import { Component, PLATFORM_ID, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { User } from 'firebase/auth';
 import { AuthService } from '../../core/services/auth.service';
 import { MemberService } from '../../features/member/member.service';
@@ -43,6 +44,10 @@ export class ShellComponent {
   /** null = checking access; false = not allowed (redirecting); true = admin. */
   protected readonly authorized = signal<boolean | null>(null);
 
+  /** True on a route marked `data.kiosk` (the in-person waiver): hide the sidebar
+   *  so the studio device can be handed to a student without the admin nav. */
+  protected readonly kiosk = signal(false);
+
   private readonly followupsDue = computed(
     () => this.cc.data()?.followups.sequence.filter((s) => !s.skipped).length ?? 0
   );
@@ -84,6 +89,16 @@ export class ShellComponent {
       }
       void this.gate(user);
     });
+
+    const syncKiosk = () => {
+      let r: ActivatedRoute | null = this.router.routerState.root;
+      while (r?.firstChild) r = r.firstChild;
+      this.kiosk.set(r?.snapshot?.data?.['kiosk'] === true);
+    };
+    this.router.events.pipe(takeUntilDestroyed()).subscribe((e) => {
+      if (e instanceof NavigationEnd) syncKiosk();
+    });
+    syncKiosk();
   }
 
   private async gate(user: User): Promise<void> {

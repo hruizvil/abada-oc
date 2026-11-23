@@ -17,6 +17,8 @@ import { clock, fullDate, longDay, shortDate } from '../../shared/ui/format';
 export class MemberHomeComponent {
   protected readonly s = inject(MemberStore);
   protected readonly clock = clock;
+  protected readonly shortDate = shortDate;
+  protected readonly money = (usd: number) => `$${usd}`;
   protected readonly nameFirst = signal('');
   protected readonly nameLast = signal('');
 

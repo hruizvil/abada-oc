@@ -26,6 +26,28 @@
   </section>
 }
 
+@for (p of s.payments(); track p.id) {
+  @if (p.status === 'failed') {
+    <div class="note pay failed">
+      <app-icon name="info" />
+      <div>
+        <b>{{ p.label }} · payment didn't go through</b> <span class="pill crit">Not charged</span><br />
+        Your bank didn't complete the {{ money(p.amountUsd) }} payment, so no classes were added. Try again, ideally with a card.
+      </div>
+      <span class="note-act"><a class="btn primary sm" routerLink="/member/buy">Buy classes</a></span>
+    </div>
+  } @else {
+    <div class="note pay">
+      <app-icon name="info" />
+      <div>
+        <b>{{ p.label }}</b> <span class="pill grey">Payment pending</span><br />
+        {{ money(p.amountUsd) }} bank payment{{ p.startedAt ? ' from ' + shortDate(p.startedAt) : '' }}. Your classes are added once
+        your bank clears it, usually 3–5 business days.
+      </div>
+    </div>
+  }
+}
+
 @switch (s.state()) {
   @case ('loading') {
     <p class="loading">Loading your account…</p>
@@ -133,10 +155,11 @@
               <div class="r-s">{{ slot.time }} · 8552 Warner Ave</div>
             </div>
             <div class="r-right">
-              @if (!canCheckIn) {
-                <span class="pill grey">Buy a card to check in</span>
-              } @else if (s.isCheckedIn(slot)) {
+              <!-- Checked in wins over the balance: spending your last class must not hide that you're in. -->
+              @if (s.isCheckedIn(slot)) {
                 <span class="pill ok">Checked in@if (s.checkedInAt(slot); as at) { · {{ clock(at) }} }</span>
+              } @else if (!canCheckIn) {
+                <span class="pill grey">Buy a card to check in</span>
               } @else if (s.checkingInId() === slot.id) {
                 <button class="btn primary sm" type="button" disabled><span class="spin"></span>Checking in…</button>
               } @else if (s.armingSlotId() === slot.id) {

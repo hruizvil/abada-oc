@@ -1,11 +1,16 @@
 export const environment = {
   production: false,
-  // Every form (contact, booking, waiver, questionnaire) posts to the Cloudflare
-  // Worker, never to Apps Script directly. The Apps Script URLs live only as
-  // Worker secrets so they cannot be read out of the bundle and POSTed to
-  // directly, which is what let the form spam start. See worker/wrangler.toml.
+  // Contact and booking post to the Cloudflare Worker (Turnstile-gated), never to Apps Script
+  // directly: their Apps Script URL lives only as a Worker secret, since a readable URL is what
+  // let the form spam start. See worker/wrangler.toml.
   contactWorkerUrl:  'https://abadaoc-contact.capoeiraoc.workers.dev',
   turnstileSiteKey:  '0x4AAAAAAENZBzOwTb2xUjno',
+
+  // Waiver Apps Script (/exec). Safe to ship: it rejects any request without a signed-in
+  // admin's Firebase ID token (members/{uid}.role === 'admin'), checked inside the script.
+  waiverUrl: 'https://script.google.com/macros/s/AKfycbxpXsJIaZcGoDpSzDJYFCy7n06PByPjkZUZy4Ye9HNuublgnCD05d6_949LKE7ClyQkLg/exec',
+  // Questionnaire Apps Script (/exec). Public by design, like the questionnaire page itself.
+  questionnaireUrl: 'https://script.google.com/macros/s/AKfycbyAGqpMWer2xiJ9mM-h_gFBltexh9hbiWiXX2hrhNRwI2lphsBQWoL9R6E4_3GZULc/exec',
 
   // Firebase (project "abada-oc", on Mosquito's Google account). These are the
   // public client config values — they are meant to ship in the browser bundle,

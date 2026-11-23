@@ -1,8 +1,7 @@
-import { Component, signal, effect, inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { QuestionnaireBase } from './questionnaire.base';
-import { TurnstileService, VERIFICATION_UNAVAILABLE_MESSAGE } from '../../core/services/turnstile.service';
 
 /** localStorage key for the in-progress draft (bump the suffix to invalidate). */
 const DRAFT_KEY = 'abada-questionnaire-draft-v1';
@@ -29,9 +28,6 @@ const DRAFT_KEY = 'abada-questionnaire-draft-v1';
 })
 export class QuestionnaireComponent extends QuestionnaireBase {
   step = signal(0);
-
-  @ViewChild('turnstileHost') turnstileHost?: ElementRef<HTMLElement>;
-  private turnstile = inject(TurnstileService);
 
   /** Reveals per-question "please answer" hints once a student tries to advance
    *  a Part that still has unanswered questions. */
@@ -110,12 +106,7 @@ export class QuestionnaireComponent extends QuestionnaireBase {
       this.step.update(s => s + 1);
       this.scrollTop();
     } else {
-      const token = await this.turnstile.getToken(this.turnstileHost?.nativeElement);
-      if (!token && this.turnstile.isEnabled()) {
-        this.submitError.set(VERIFICATION_UNAVAILABLE_MESSAGE);
-        return;
-      }
-      await this.submit(token);
+      await this.submit();
       if (this.submitSuccess()) this.clearDraft();
     }
   }

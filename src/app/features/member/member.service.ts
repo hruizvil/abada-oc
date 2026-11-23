@@ -14,7 +14,7 @@ import {
 } from 'firebase/firestore';
 import { FirestoreService } from '../../core/services/firestore.service';
 import { AuthService } from '../../core/services/auth.service';
-import { Card, CardProduct, LedgerEntry, MemberProfile } from './member.model';
+import { Card, CardProduct, LedgerEntry, MemberProfile, PendingPayment } from './member.model';
 
 /**
  * Member-area data access (profile + class cards). Lives under features/member and is
@@ -86,6 +86,24 @@ export class MemberService {
         return { ...x, id: d.id, at: x.at?.toDate?.() ?? null };
       })
       .sort((a, b) => (b.at?.getTime() ?? 0) - (a.at?.getTime() ?? 0));
+  }
+
+  /** The member's bank payments still clearing, or failed in the last 14 days, newest first. */
+  async getPendingPayments(uid: string): Promise<PendingPayment[]> {
+    const db = this.fs.db;
+    if (!db) return [];
+    const snap = await getDocs(query(collection(db, 'pendingPayments'), where('memberUid', '==', uid)));
+    const failedCutoff = Date.now() - 14 * 24 * 60 * 60 * 1000;
+    return snap.docs
+      .map((d) => {
+        const x = d.data() as Omit<PendingPayment, 'id' | 'startedAt' | 'updatedAt'> & {
+          startedAt?: Timestamp | null;
+          updatedAt?: Timestamp | null;
+        };
+        return { ...x, id: d.id, startedAt: x.startedAt?.toDate?.() ?? null, updatedAt: x.updatedAt?.toDate?.() ?? null };
+      })
+      .filter((p) => p.status === 'pending' || (p.status === 'failed' && (p.updatedAt?.getTime() ?? 0) > failedCutoff))
+      .sort((a, b) => (b.startedAt?.getTime() ?? 0) - (a.startedAt?.getTime() ?? 0));
   }
 
   /** Buyable card products shown in the store: active, public, ordered. */

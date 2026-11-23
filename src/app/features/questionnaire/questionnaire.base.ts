@@ -126,16 +126,15 @@ export abstract class QuestionnaireBase {
   }
 
   /**
-   * Posts directly to the questionnaire Apps Script (waiver pattern: no Worker,
-   * no Turnstile), which appends one row to the "Questionnaire Responses" sheet.
-   * `no-cors` means we can't read the response, so — like the waiver — we show
-   * success as soon as the request is dispatched.
+   * Posts directly to the questionnaire Apps Script (no Worker, no Turnstile), which appends
+   * one row to the "Questionnaire Responses" sheet and replies "OK" (or "ERROR" if it couldn't).
+   * Sent as text/plain so it's a simple CORS request whose reply we can read.
    *
    * Each answer is flattened to one string column keyed by question id:
    * multi -> "a; b; c", single/scale -> the choice, text -> the text, and any
    * allowOther write-in is appended as "…; Other: <text>".
    */
-  async submit(turnstileToken: string | null): Promise<void> {
+  async submit(): Promise<void> {
     this.headerForm.markAllAsTouched();
     if (this.headerForm.invalid) return;
 
@@ -161,10 +160,9 @@ export abstract class QuestionnaireBase {
       ...flat,
       formType: 'questionnaire',
       submittedAt: new Date().toISOString(),
-      turnstileToken,
     };
 
-    const url = environment.contactWorkerUrl;
+    const url = environment.questionnaireUrl;
     // Local dev / unconfigured: skip the network and show success.
     if (!this.isBrowser || !url || url.startsWith('YOUR_')) {
       this.isSubmitting.set(false);
@@ -173,16 +171,15 @@ export abstract class QuestionnaireBase {
       return;
     }
 
-    // Through the Cloudflare Worker (Turnstile-gated), never straight to the Apps
-    // Script — the questionnaire endpoint must not ship in the site bundle.
     try {
       const res = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) {
-        console.error('Questionnaire was rejected by the Worker', res.status);
+      const reply = (await res.text()).trim();
+      if (!res.ok || reply !== 'OK') {
+        console.error('Questionnaire was not saved', res.status, reply);
         this.isSubmitting.set(false);
         this.submitError.set(DELIVERY_FAILED_MESSAGE);
         return;

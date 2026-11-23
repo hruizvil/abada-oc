@@ -5,7 +5,7 @@ import { User } from 'firebase/auth';
 import { AuthService } from '../../core/services/auth.service';
 import { ScheduleService, ClassSlot } from '../../core/services/schedule.service';
 import { MemberService } from './member.service';
-import { Card, CardProduct, LedgerEntry, MemberProfile } from './member.model';
+import { Card, CardProduct, LedgerEntry, MemberProfile, PendingPayment } from './member.model';
 import { studioDay } from '../../shared/ui/format';
 import { environment } from '../../../environments/environment';
 
@@ -31,6 +31,8 @@ export class MemberStore {
   readonly catalog = signal<CardProduct[] | null>(null);
   readonly slots = signal<ClassSlot[] | null>(null);
   readonly history = signal<LedgerEntry[] | null>(null);
+  /** Bank payments still clearing, or recently failed. */
+  readonly payments = signal<PendingPayment[]>([]);
   /** Slot ids already checked into today. */
   readonly checkedToday = signal<Map<string, Date | null>>(new Map());
 
@@ -111,6 +113,7 @@ export class MemberStore {
     this.catalog.set(null);
     this.slots.set(null);
     this.history.set(null);
+    this.payments.set([]);
     this.checkedToday.set(new Map());
     this.showNamePrompt.set(false);
     this.accessDenied.set(false);
@@ -137,16 +140,18 @@ export class MemberStore {
       }
       if (this.isBrowser && profile && !profile.firstName) this.showNamePrompt.set(true);
 
-      const [cards, catalog, slots, history] = await Promise.all([
+      const [cards, catalog, slots, history, payments] = await Promise.all([
         this.members.getCards(user.uid),
         this.members.getCatalog(),
         this.schedule.getSlots(),
-        this.members.getHistory(user.uid)
+        this.members.getHistory(user.uid),
+        this.members.getPendingPayments(user.uid).catch(() => []) // display-only; never block the account load
       ]);
       this.cards.set(cards);
       this.catalog.set(catalog);
       this.slots.set(slots);
       this.history.set(history);
+      this.payments.set(payments);
       this.markTodaysCheckins(history);
     } catch {
       this.error.set('Could not load your account. Please refresh and try again.');
@@ -170,9 +175,33 @@ export class MemberStore {
   private async refresh(): Promise<void> {
     const user = this.auth.user();
     if (!user) return;
-    const [cards, history] = await Promise.all([this.members.getCards(user.uid), this.members.getHistory(user.uid)]);
+    const [cards, history, payments] = await Promise.all([
+      this.members.getCards(user.uid),
+      this.members.getHistory(user.uid),
+      this.members.getPendingPayments(user.uid).catch(() => []) // display-only; never block the account load
+    ]);
     this.cards.set(cards);
     this.history.set(history);
+    this.payments.set(payments);
+  }
+
+  /**
+   * The webhook usually lands within seconds of Stripe's redirect, but can lag (Apps Script cold start, a
+   * Stripe retry). Re-read every 3 s for up to a minute until the new card (or a pending payment) shows.
+   */
+  private async awaitPurchase(): Promise<void> {
+    const since = Date.now() - 15 * 60 * 1000;
+    const arrived = () =>
+      (this.cards() ?? []).some((c) => (c.purchasedAt?.toMillis?.() ?? 0) > since) ||
+      this.payments().some((p) => p.status === 'pending');
+    for (let i = 0; i < 20; i++) {
+      await new Promise((r) => setTimeout(r, 3000));
+      if (!this.auth.user()) return;
+      if (this.cards() !== null && arrived()) return;
+      try { await this.refresh(); } catch { /* next tick retries */ }
+      if (arrived()) return;
+    }
+    this.notice.set({ tone: 'info', text: "Your classes haven't shown up yet. Refresh in a minute, or let us know if they still don't appear." });
   }
 
   /** Show the outcome Stripe redirected back with, then clean it off the URL. */
@@ -181,10 +210,8 @@ export class MemberStore {
     if (!outcome) return;
     switch (outcome) {
       case 'success':
-        this.notice.set({ tone: 'ok', text: 'Payment received. Your classes are being added to your account.' });
-        // The webhook can land a few seconds after the redirect; re-read the balance shortly after.
-        setTimeout(() => void this.refresh(), 4000);
-        setTimeout(() => void this.refresh(), 10000);
+        this.notice.set({ tone: 'ok', text: 'Thanks for your purchase! Your classes usually show up here within a few seconds.' });
+        void this.awaitPurchase();
         break;
       case 'cancel':
         this.notice.set({ tone: 'info', text: "Checkout canceled. You haven't been charged." });

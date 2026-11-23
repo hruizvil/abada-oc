@@ -8,7 +8,6 @@ import { ClassesComponent } from './features/classes/classes.component';
 import { RentalComponent } from './features/rental/rental.component';
 import { EventsComponent } from './features/events/events.component';
 import { GalleryComponent } from './features/gallery/gallery.component';
-import { WaiverComponent } from './features/waiver/waiver.component';
 import { BookComponent } from './features/book/book.component';
 import { PrivacyComponent } from './features/privacy/privacy.component';
 import { TermsComponent } from './features/terms/terms.component';
@@ -94,9 +93,12 @@ export const routes: Routes = [
     data: { seo: 'rental' }
   },
   {
+    // Waivers are now collected in person on a studio device, behind the admin
+    // login (see /admin/waivers/sign). The old public page is retired, so stray
+    // links from before land on the homepage rather than an open, un-gated form.
     path: 'waiver',
-    component: WaiverComponent,
-    data: { seo: 'waiver' }
+    redirectTo: '',
+    pathMatch: 'full'
   },
   {
     // Enrolled-students-only questionnaire. Unlinked (not in navigation.json) and
@@ -171,6 +173,15 @@ export const routes: Routes = [
         path: 'waivers',
         loadComponent: () =>
           import('./features/admin/admin-waivers.component').then((m) => m.AdminWaiversComponent)
+      },
+      {
+        // In-person waiver signing on a studio device. Reuses the waiver form,
+        // gated by the shell like every other admin route; `kiosk` tells the
+        // shell to drop its sidebar and the form to drop its public hero.
+        path: 'waivers/sign',
+        loadComponent: () =>
+          import('./features/waiver/waiver.component').then((m) => m.WaiverComponent),
+        data: { kiosk: true }
       },
       {
         path: 'followups',

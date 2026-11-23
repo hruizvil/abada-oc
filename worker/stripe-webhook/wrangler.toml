@@ -1,0 +1,22 @@
+name = "abadaoc-stripe-webhook"
+main = "stripe-webhook-worker.js"
+compatibility_date = "2026-08-11"
+
+# Keep request logs (Cloudflare dashboard → Workers → abadaoc-stripe-webhook → Logs).
+[observability]
+enabled = true
+
+# Payments web app /exec URL (not a secret; mirrors the dashboard variable).
+[vars]
+APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxJBVaVZdjyVdkyMM5DDTN-fX5uFWr7mhHxVeQHGVfG907pprCa5xTEWYdo8JPCRhPNgA/exec"
+
+# Secret — never commit it. Set in the dashboard (Settings → Variables and secrets, type Secret) or:
+#
+#   npx wrangler secret put STRIPE_WEBHOOK_SECRETS   # endpoint signing secret(s), whsec_…;
+#                                                    # comma-separate test + live during the switch
+#
+# Then point the Stripe webhook destination at this Worker's URL.
+#
+# Deploy with:
+#
+#   npx wrangler deploy

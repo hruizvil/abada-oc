@@ -1,6 +1,9 @@
 @if (authorized() === null) {
   <div class="shell-checking"><p>Checking access…</p></div>
 } @else if (authorized()) {
+  @if (kiosk()) {
+    <main class="kiosk"><router-outlet /></main>
+  } @else {
   <div class="shell">
     <aside class="side">
       <nav class="nav" aria-label="Admin sections">
@@ -29,6 +32,7 @@
       <router-outlet />
     </main>
   </div>
+  }
 }
 
 <ng-template #icon let-name>

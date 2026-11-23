@@ -37,6 +37,11 @@ service cloud.firestore {
       allow read:  if isAdmin() || ownsResource();
       allow write: if false;
     }
+    // Bank payments waiting to clear (status pending/cleared/failed). Display only; no credits.
+    match /pendingPayments/{sessionId} {
+      allow read:  if isAdmin() || ownsResource();
+      allow write: if false;
+    }
     match /reservations/{resId} {
       allow read:  if isAdmin() || ownsResource();
       allow write: if false;

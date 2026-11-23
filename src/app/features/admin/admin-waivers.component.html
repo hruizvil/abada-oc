@@ -7,6 +7,9 @@
       } @else { Loading waivers… }
     </p>
   </div>
+  <div class="acts">
+    <a class="btn primary" routerLink="/admin/waivers/sign">Collect waiver</a>
+  </div>
 </div>
 
 @if (cc.error(); as e) {
@@ -33,9 +36,7 @@
             </div>
             <div class="r-right">
               <span class="pill warn">{{ trialLabel(t) }}</span>
-              <button type="button" class="btn sm" (click)="copyLink(t.when + t.name)">
-                {{ copied() === t.when + t.name ? 'Copied' : 'Copy waiver link' }}
-              </button>
+              <a class="btn sm primary" [routerLink]="['/admin/waivers/sign']" [queryParams]="signParams(t)">Sign now</a>
             </div>
           </div>
         }

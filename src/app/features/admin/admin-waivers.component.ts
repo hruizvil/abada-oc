@@ -1,5 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { AdminDataService } from './admin-data.service';
 import { IconComponent } from '../../shared/ui/icon.component';
 import { AdminTrial } from './admin-data.model';
@@ -9,7 +10,7 @@ import { initials, tone } from '../../shared/ui/format';
 @Component({
   selector: 'app-admin-waivers',
   standalone: true,
-  imports: [CommonModule, IconComponent],
+  imports: [CommonModule, IconComponent, RouterModule],
   templateUrl: './admin-waivers.component.html'
 })
 export class AdminWaiversComponent {
@@ -17,8 +18,6 @@ export class AdminWaiversComponent {
   protected readonly initials = initials;
   protected readonly tone = tone;
   protected readonly q = signal('');
-  /** Which row's "Copy waiver link" just succeeded (shows "Copied" briefly). */
-  protected readonly copied = signal<string | null>(null);
 
   protected readonly missing = computed(() => [...(this.cc.data()?.missing ?? [])].sort((a, b) => a.when - b.when));
 
@@ -33,14 +32,11 @@ export class AdminWaiversComponent {
     return `Trial ${t.today ? 'today' : t.day} ${t.time} ${t.ampm}`;
   }
 
-  /** Copy the public waiver page link so it can be pasted into a text or email. */
-  protected async copyLink(key: string): Promise<void> {
-    try {
-      await navigator.clipboard.writeText(`${location.origin}/waiver`);
-      this.copied.set(key);
-      setTimeout(() => this.copied.update((k) => (k === key ? null : k)), 1600);
-    } catch {
-      this.copied.set(null);
-    }
+  /** Prefill the in-person waiver form with this booked prospect's details. */
+  protected signParams(t: AdminTrial): Record<string, string> {
+    const p: Record<string, string> = { name: t.name };
+    if (t.phone) p['phone'] = t.phone;
+    if (t.email) p['email'] = t.email;
+    return p;
   }
 }
