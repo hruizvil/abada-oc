@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { QUESTIONNAIRE, Part, Question } from './questionnaire.questions';
 import { environment } from '../../../environments/environment';
 import { DELIVERY_FAILED_MESSAGE } from '../../core/services/turnstile.service';
+import { strictEmail } from '../../shared/validators/email.validator';
 
 /**
  * Shared state and answer logic for the questionnaire wizard.
@@ -28,7 +29,7 @@ export abstract class QuestionnaireBase {
   headerForm: FormGroup = this.fb.group({
     name:    ['', Validators.required],
     apelido: [''],
-    email:   ['', [Validators.required, Validators.email]],
+    email:   ['', [Validators.required, strictEmail]],
     age:     ['', Validators.required],
   });
 

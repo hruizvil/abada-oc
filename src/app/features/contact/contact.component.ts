@@ -7,6 +7,7 @@ import {
   VERIFICATION_UNAVAILABLE_MESSAGE,
   DELIVERY_FAILED_MESSAGE
 } from '../../core/services/turnstile.service';
+import { strictEmail } from '../../shared/validators/email.validator';
 
 @Component({
   selector: 'app-contact',
@@ -30,7 +31,7 @@ export class ContactComponent {
     this.contactForm = this.fb.group({
       name:    ['', Validators.required],
       phone:   ['', Validators.required],
-      email:   ['', [Validators.required, Validators.email]],
+      email:   ['', [Validators.required, strictEmail]],
       message: ['', Validators.required],
       // Honeypot. Hidden from people and from screen readers, so anything that
       // fills it is automated. The Worker drops those without sending an email.

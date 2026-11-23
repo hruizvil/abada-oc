@@ -7,6 +7,7 @@ import {
   VERIFICATION_UNAVAILABLE_MESSAGE,
   DELIVERY_FAILED_MESSAGE
 } from '../../core/services/turnstile.service';
+import { strictEmail } from '../../shared/validators/email.validator';
 
 interface SlotWeek {
   weekLabel: string;
@@ -50,7 +51,7 @@ export class BookComponent {
     this.registrationForm = this.fb.group({
       name:           ['', Validators.required],
       phone:          ['', Validators.required],
-      email:          ['', [Validators.required, Validators.email]],
+      email:          ['', [Validators.required, strictEmail]],
       interestedIn:   ['', Validators.required],
       firstClassSlot: ['', Validators.required],
       comments:       [''],

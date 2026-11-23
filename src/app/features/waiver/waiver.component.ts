@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
 import { DELIVERY_FAILED_MESSAGE } from '../../core/services/turnstile.service';
 import { AuthService } from '../../core/services/auth.service';
 import { AdminDataService } from '../admin/admin-data.service';
+import { strictEmail } from '../../shared/validators/email.validator';
 
 @Component({
   selector: 'app-waiver',
@@ -49,7 +50,7 @@ export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestr
       firstName:    ['', Validators.required],
       lastName:     ['', Validators.required],
       apelido:      [''],
-      email:        ['', [Validators.required, Validators.email]],
+      email:        ['', [Validators.required, strictEmail]],
       phone:        ['', Validators.required],
       dateOfBirth:           ['', Validators.required],
       emergencyName:         ['', Validators.required],
@@ -67,7 +68,7 @@ export class WaiverComponent implements AfterViewInit, AfterViewChecked, OnDestr
       const parentEmail = this.waiverForm.get('parentEmail')!;
       if (minor) {
         parentName.setValidators(Validators.required);
-        parentEmail.setValidators([Validators.required, Validators.email]);
+        parentEmail.setValidators([Validators.required, strictEmail]);
       } else {
         parentName.clearValidators();
         parentEmail.clearValidators();
