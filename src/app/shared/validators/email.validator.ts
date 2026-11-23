@@ -6,5 +6,5 @@ export function strictEmail(control: AbstractControl): ValidationErrors | null {
   if (base) return base;
   const value = String(control.value ?? '').trim();
   if (!value) return null;
-  return /@[^@\s]+\.[a-z]{2,}$/i.test(value) ? null : { email: true };
+  return /@[^@\s]+\.(?:[a-z]{2,}|xn--[a-z0-9-]+)$/i.test(value) ? null : { email: true };
 }
