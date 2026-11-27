@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 export type IconName =
   | 'search' | 'tick' | 'info' | 'phone' | 'ext' | 'chevL' | 'chevR'
   | 'cal' | 'doc' | 'star' | 'sheet' | 'folder' | 'card' | 'db' | 'globe'
-  | 'home' | 'clock' | 'user' | 'pin';
+  | 'home' | 'clock' | 'user' | 'pin' | 'pen';
 
 /** Line icons for the signed-in app (inherits size from CSS, colour from currentColor). */
 @Component({
@@ -33,6 +33,7 @@ export type IconName =
         @case ('clock') { <circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/> }
         @case ('user') { <circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/> }
         @case ('pin') { <path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/> }
+        @case ('pen') { <path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/> }
         @case ('globe') { <circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/> }
       }
     </svg>

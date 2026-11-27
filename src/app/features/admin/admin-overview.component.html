@@ -26,11 +26,10 @@
   </div>
   <div class="stat" [class.crit]="(cc.data()?.stats?.missingWaivers ?? 0) > 0">
     <div class="stat-l">Missing waivers</div>
-    <div class="stat-row">
-      <div class="stat-n">{{ cc.data()?.stats?.missingWaivers ?? '–' }}</div>
-      <a class="btn sm primary" routerLink="/admin/waivers/sign">Collect waiver</a>
-    </div>
-    <div class="stat-s">{{ (cc.data()?.stats?.missingWaivers ?? 0) > 0 ? 'Needs action' : 'All signed' }}</div>
+    <div class="stat-n">{{ cc.data()?.stats?.missingWaivers ?? '–' }}</div>
+    <a class="stat-foot" routerLink="/admin/waivers/sign">
+      <app-icon name="pen" /><span>Collect waiver</span><app-icon name="chevR" />
+    </a>
   </div>
   <div class="stat">
     <div class="stat-l">New questionnaires</div>
