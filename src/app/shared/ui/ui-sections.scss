@@ -72,6 +72,8 @@
   .stat-n { font-size: 26px; font-weight: 600; letter-spacing: -0.02em; margin-top: 6px; font-variant-numeric: tabular-nums; color: $ink; }
   .stat-s { font-size: 12px; color: $muted; margin-top: 4px; }
   .stat.crit .stat-n, .stat.crit .stat-s { color: $crit; }
+  .stat-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px 8px; margin-top: 6px; }
+  .stat-row .stat-n { margin-top: 0; }
 
   // ---- rows ----
   .rows { display: flex; flex-direction: column; }
@@ -95,6 +97,16 @@
   .dotrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: $brand; flex: 0 0 auto; }
   .dotrow .t { flex: 1; min-width: 0; color: $ink-2; overflow-wrap: anywhere; }
   .dotrow .w { color: $faint; font-size: 12.5px; white-space: nowrap; }
+
+  // ---- activity feed (filter chips + one-line typed rows) ----
+  .act-filters { margin-left: 0; padding: 12px 18px 6px; }
+  .act-list { padding-bottom: 6px; }
+  .act-row { display: flex; align-items: center; gap: 10px; padding: 8px 18px; border-top: 1px solid $line-2; font-size: 13.5px; }
+  .act-row:first-child { border-top: 0; }
+  .act-row .t { flex: 1; min-width: 0; color: $ink-2; overflow-wrap: anywhere; }
+  .act-row .w { color: $faint; font-size: 12.5px; white-space: nowrap; }
+  .act-more { display: block; padding: 4px 18px 14px; }
+  .av.sq { width: 22px; height: 22px; border-radius: 6px; app-icon { width: 13px; height: 13px; } }
 
   // ---- pills ----
   .pill {

@@ -26,7 +26,10 @@
   </div>
   <div class="stat" [class.crit]="(cc.data()?.stats?.missingWaivers ?? 0) > 0">
     <div class="stat-l">Missing waivers</div>
-    <div class="stat-n">{{ cc.data()?.stats?.missingWaivers ?? '–' }}</div>
+    <div class="stat-row">
+      <div class="stat-n">{{ cc.data()?.stats?.missingWaivers ?? '–' }}</div>
+      <a class="btn sm primary" routerLink="/admin/waivers/sign">Collect waiver</a>
+    </div>
     <div class="stat-s">{{ (cc.data()?.stats?.missingWaivers ?? 0) > 0 ? 'Needs action' : 'All signed' }}</div>
   </div>
   <div class="stat">
@@ -103,13 +106,28 @@
 
   <section class="card">
     <div class="card-h"><h2>Recent activity</h2></div>
+    <div class="chips act-filters">
+      <button type="button" class="chip" [class.on]="filter() === 'all'" (click)="setFilter('all')">All</button>
+      @for (k of kinds; track k.id) {
+        <button type="button" class="chip" [class.on]="filter() === k.id" (click)="setFilter(k.id)">{{ k.label }}</button>
+      }
+    </div>
     @if (cc.loading() && !cc.data()) {
       <p class="empty">Loading…</p>
-    } @else if (activity().length === 0) {
-      <p class="empty">Nothing recent.</p>
+    } @else if (activityRows().length === 0) {
+      <p class="empty">Nothing recent here.</p>
     } @else {
-      @for (a of activity(); track $index) {
-        <div class="dotrow"><span class="t">{{ a.text }}</span><span class="w">{{ a.when }}</span></div>
+      <div class="act-list">
+        @for (a of activityRows(); track $index) {
+          <div class="act-row">
+            <span class="av sq" [ngClass]="kindOf(a.kind).tone"><app-icon [name]="kindOf(a.kind).icon" /></span>
+            <span class="t">{{ a.text }}</span>
+            <span class="w">{{ a.when }}</span>
+          </div>
+        }
+      </div>
+      @if (hasMore()) {
+        <button type="button" class="lnk act-more" (click)="showAll.set(true)">Show more</button>
       }
     }
   </section>
